@@ -41,7 +41,9 @@ Original dataset is from: https://data.cityofnewyork.us/Transportation/2017-Gree
 
 Run command to get the data sets: Jan 2017 data is train set, Feb 2017 is test set.
 
-<pre><code> $ python clean_dataset.py </code></pre>
+```html
+$ python clean_dataset.py
+```
 
 **Output dir is：./data/**
 
@@ -211,32 +213,34 @@ With lack of linear relationship between independent and depend variables, the p
 ### 2.2.1 install Hadoop Native libraries
 
 Spark on Java program will need hadoop native libraries at run time. In case the target running time env does not have such libraries, please take below hints for reference.
-
+```html
 https://hadoop.apache.org/docs/r1.2.1/native_libraries.html
 
 http://www.myiphoneadventure.com/hardware/hadoop-build-native-library
 
- <pre><code> $ wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.0/hadoop-2.7.0.tar.gz </code></pre>
+$ wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.0/hadoop-2.7.0.tar.gz
+```
 
 ### 2.2.2 Spark On Java
 
 #### 2.2.2.1 How to Build
-
-  <pre><code> $ mvn clean install </code></pre>
-
+```html
+$ mvn clean install 
+```
 #### 2.2.2.2 How to Run
 
 Run below program to get the spark on Java implementation to such prediction. This script will call the
-
+```html
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModel.java"_, by Random Forest
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModelERF.java"_ by Ehanced Random Forest
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModelGBT.java"_ by Gradient Boosting
 
-<pre><code> $ sparkml-prediction.bat/sh </code></pre>
+$ sparkml-prediction.bat/sh
+```
 
 #### 2.2.2.3 Report
 
-- **Random Forest**
+**Random Forest**
 
 #### a) With Feature list: 
 ```html
@@ -303,7 +307,7 @@ _"trip_distance","fare_amount","tolls_amount","total_amount"_
 2019-01-25 14:06:41 INFO DAGScheduler:54 - Job 13 finished: show at TrainNycTipModel.java:131, **_took 7.746786 s_**
 ```
 
-- **Gradient Boosting**
+**Gradient Boosting**
 ```html
 With more features are added into above set of feature _"trip_distance","fare_amount","tolls_amount","total_amount"_
 
@@ -388,21 +392,21 @@ export PATH=$SPARK_HOME/bin:$PATH
 
 #### 2.2.3.1 Random Forest Model
 
-<pre><code>
+```html
 # unset PYSPARK_DRIVER_PYTHON
 # spark-submit sparkml/pyspark/train_spark_rf.py data/train_tips_only.csv
-</code></pre>
+```
 
 #### 2.2.3.3 Report
 
-<pre><code>
+```html
  *** Root Mean Squared Error (RMSE) on test data = 0.010752
  *** : RF MODEL SUMMARY :  RandomForestRegressionModel (uid=RandomForestRegressor_4339be1ffcf5da1ba16c) with 20 trees
-</code></pre>
+```
 
 #### 2.2.3.4 Using XGBoost Model
 
-TBD
+see detail in notebook
 
 # 3. Python + sklearn
 
@@ -427,7 +431,7 @@ This program uses cross validator model to evaluate the best model with optimize
 Withe degault parameters, result can be seen
 
 ```html
-> **XGBRegressor**: <pre><code>
+> **XGBRegressor**:
 > Training model #0
 > [0] validation_0-rmse:1.91461
 > Will train until validation_0-rmse hasn't improved in 10 rounds.
@@ -565,8 +569,10 @@ $ pip install h5py keras tensorflow matplotlib
     # ./dl-train-prediction.sh
 ```
 
-Model Summary is ![here](data/model_summary.png)
-
+```html
+Model Summary is 
+![here](data/model_summary.png)
+```
 ### 4.2.4 User Keras Framework
 
 ```html
@@ -586,8 +592,9 @@ dense_5 (Dense)              (None, 1024)              16384    dropout_4 (Dropo
 Total params: 672,769
 Trainable params: 672,769
 Non-trainable params: 0
-
-> Result<pre><code>
+```
+> Result
+```html
 Train on 1877973 samples, validate on 208664 samples
 Epoch 1/100
 1877973/1877973 [==============================] - 401s 214us/step - loss: 0.4506 - acc: 0.6316 - val_loss: 0.1334 - val_acc: 0.6483
