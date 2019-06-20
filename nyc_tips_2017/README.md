@@ -52,7 +52,7 @@ Run command to get the data sets: Jan 2017 data is train set, Feb 2017 is test s
 
 _DataSet Columns:_
 
-<pre><code>
+```html
 Dataset columns：
 VendorID,
 lpep_pickup_datetime,
@@ -78,7 +78,7 @@ day_of_week,
 weekend,
 speed,
 tip
- </code></pre>
+```
 
 # 2. Machine Learning Model
 
@@ -139,7 +139,7 @@ With xgb feature selection program [here](./notebook/xgb-features.ipynb), the im
 
 _**Feature list to be used**_
 
-<pre><code>
+```html
 VendorID,
 PULocationID,
 DOLocationID,
@@ -153,7 +153,7 @@ payment_type,
 duration,
 day_of_week,
 speed
-</code></pre>
+```
 
 _Note: The program only extract the first of 5000 samples to generate the above distribution of feature importance due to the memory size in the working node. And, to be fairly covrage the whole suite of data, it's recommended to shuffle the data set before randomly pick top samples_
 
@@ -180,7 +180,7 @@ In order to save time, the size of traning dataset is set 5000. The below is the
 
 Defined 9 models
 
-<pre><code>
+```html
  knn: 57.900
  svm: 59.060
  gbm: 0.200
@@ -199,7 +199,8 @@ Defined 9 models
  Name=svm, Score=59.060
  Name=knn, Score=57.900
  Name=bayes, Score=52.660
- Name=gbm, Score=0.200</code></pre>
+ Name=gbm, Score=0.200
+```
 
 From above result, we can see scores are pretty much same except the 'gdm'. In another hand, XGB is very popular in recent years, not only becuase of accuracy but its performance. In the following sections, XGB will be chosen as target model for experiements as well as Deep Learning method.
 
@@ -237,7 +238,9 @@ Run below program to get the spark on Java implementation to such prediction. Th
 
 - **Random Forest**
 
-> #### a) With Feature list: **"VendorID", "PULocationID", "DOLocationID", "passenger_count", "mta_tax", "payment_type","trip_type", "duration", "day_of_week", "weekend", "speed"**
+#### a) With Feature list: 
+```html
+**"VendorID", "PULocationID", "DOLocationID", "passenger_count", "mta_tax", "payment_type","trip_type", "duration", "day_of_week", "weekend", "speed"**
 
 | VendorID | PULocationID | DOLocationID | passenger_count | mta_tax | trip_distance | fare_amount | tolls_amount | total_amount | payment_type | trip_type | duration | day_of_week | weekend | speed              | tip_amount |     prediction     |
 | :------- | :----------- | :----------- | :-------------- | :------ | :------------ | :---------- | :----------- | :----------- | :----------- | :-------- | :------- | :---------- | :------ | :----------------- | :--------- | :----------------: |
@@ -265,8 +268,11 @@ Run below program to get the spark on Java implementation to such prediction. Th
     only showing top 20 rows
 
 **accuracy: 1.8699920222007873**, detail Prediction is [here](data/rf.log)
+```
 
-#### b) with more features are added into above set of feature _"trip_distance","fare_amount","tolls_amount","total_amount"_
+#### b) with more features are added into above set of feature 
+```html
+_"trip_distance","fare_amount","tolls_amount","total_amount"_
 
 > | VendorID | lpep_pickup_datetime | lpep_dropoff_datetime | store_and_fwd_flag | RatecodeID | PULocationID | DOLocationID | passenger_count | trip_distance | fare_amount | extra | mta_tax | tip_amount | tolls_amount | ehail_fee | improvement_surcharge | total_amount | payment_type | trip_type | duration | day_of_week | weekend | speed              | tip |       features       |
 > | :------- | :------------------- | :-------------------- | :----------------- | :--------- | :----------- | :----------- | :-------------- | :------------ | :---------- | :---- | :------ | :--------- | :----------- | :-------- | :-------------------- | :----------- | :----------- | :-------- | :------- | :---------- | :------ | :----------------- | :-- | :------------------: |
@@ -295,10 +301,11 @@ Run below program to get the spark on Java implementation to such prediction. Th
 
 2019-01-25 14:06:41 INFO DAGScheduler:54 - ResultStage 19 (show at TrainNycTipModel.java:131) finished in 7.745 s
 2019-01-25 14:06:41 INFO DAGScheduler:54 - Job 13 finished: show at TrainNycTipModel.java:131, **_took 7.746786 s_**
+```
 
 - **Gradient Boosting**
-
-> > with more features are added into above set of feature _"trip_distance","fare_amount","tolls_amount","total_amount"_
+```html
+With more features are added into above set of feature _"trip_distance","fare_amount","tolls_amount","total_amount"_
 
 | VendorID | _tip_amount_ | _prediction_       | passenger_count | mta_tax | payment_type | trip_distance | fare_amount | tolls_amount | total_amount | trip_type | duration | day_of_week | weekend |
 | -------- | :----------- | :----------------- | :-------------- | :------ | :----------- | :------------ | :---------- | :----------- | :----------- | :-------- | :------- | :---------- | :-----: |
@@ -328,7 +335,7 @@ Run below program to get the spark on Java implementation to such prediction. Th
 2019-01-25 14:07:57 INFO DAGScheduler:54 - ResultStage 285 (show at TainNycTipModelGBT.java:89) finished in 7.862 s
 2019-01-25 14:07:57 INFO DAGScheduler:54 - Job 165 finished: show at TainNycTipModelGBT.java:89, **took 7.863092 s**
 detail Prediction log is [here](data/gbt.log)
-
+```
 
 #### 2.2.2.4 Conclusion
 
@@ -344,15 +351,17 @@ In this section, **Random Forest** is used to help prediction.
 
 - install Python 2.7 on Redhat
 
-<pre><code>    # subscription-manager repos --enable rhel-server-rhscl-7-rpms
+```html
+    # subscription-manager repos --enable rhel-server-rhscl-7-rpms
     # yum install python27-python-pip -y python-matplotlib
     # pip install --upgrade setuptools
     # scl enable python27 bash
     # pip install --upgrade pip
     # pip install pyvim pyVmomi
-</code></pre>
+```
 - *Diagnostic Steps*
-<pre><code>    #  rpm -qf /bin/scl
+```html
+    #  rpm -qf /bin/scl
     scl-utils-20130529-18.el7_4.x86_64
     # scl -l
     python27
@@ -361,11 +370,11 @@ In this section, **Random Forest** is used to help prediction.
     /opt/rh/python27/root/usr/bin/pip
     # pip -V
     pip 8.1.2 from /opt/rh/python27/root/usr/lib/python2.7/site-packages (python 2.7)
-  </code></pre>
+```
 
 - Put below into ~/.bash_profile
 
-<pre><code>
+```html
 export JAVA_HOME=/usr/java/default
 export SPARK_HOME=/opt/spark-2.3.0
 export PATH=$SPARK_HOME/bin:$PATH
@@ -375,7 +384,7 @@ export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
 export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native
 export PATH=$SPARK_HOME/bin:$PATH
-</code></pre>
+```
 
 #### 2.2.3.1 Random Forest Model
 
@@ -409,7 +418,7 @@ Command line parameters that relates to behavior of CLI version of xgboost.
 
 ## 3.1 XGBoost Model
 
-<pre><code> # ./skl-predict.sh </code></pre>
+ ./skl-predict.sh
 
 This program uses cross validator model to evaluate the best model with optimized number of estimators.
 
@@ -417,6 +426,7 @@ This program uses cross validator model to evaluate the best model with optimize
 
 Withe degault parameters, result can be seen
 
+```html
 > **XGBRegressor**: <pre><code>
 > Training model #0
 > [0] validation_0-rmse:1.91461
@@ -442,16 +452,17 @@ Withe degault parameters, result can be seen
 > [225] validation_0-rmse:1.08998
 > Stopping. Best iteration:
 > [234] validation_0-rmse:1.0892
-> </code></pre>
+```
 
-> **XGBClassifier**:<pre><code>
-> Accuracy: 95.74% (8.50%) </code></pre>
+> **XGBClassifier**:
+> Accuracy: 95.74% (8.50%)
 
 ## 3.3 Parameter Tune
 
 [XGB-regession-optimization](notebook/Jason/xgb-regressor-optimization.ipynb) notebook uses a GridSeach to find out the best set of parameters for such regession problem.
 
-> xgb.XGBRegressor(<pre><code>max_depth=7,
+```html
+ xgb.XGBRegressor(max_depth=7,
     tree_method='gpu_hist',
     objective='reg:linear',
     learning_rate=0.05,
@@ -469,8 +480,10 @@ Withe degault parameters, result can be seen
     seed=9,
     missing=None,
     nthread=6)
-</code></pre>
-> *Parameters* <pre><code>
+```
+
+*Parameters*
+```html
 parameters = {'nthread':[6], #when use hyperthread, xgboost may become slower
               'objective':['reg:linear'],
               'learning_rate': [0.01, 0.02, .05], #so called `eta` value
@@ -481,9 +494,10 @@ parameters = {'nthread':[6], #when use hyperthread, xgboost may become slower
               'colsample_bytree': [0.7],
               'n_estimators': [500, 600],
               'tree_method': ['gpu_hist']}
-</code></pre>
+```
 
-> *Result* <pre><code>
+- *Result*
+```html
 [Parallel(n_jobs=5)]: [Parallel(n_jobs=8)]: Using backend LokyBackend with 8 concurrent workers.
 [Parallel(n_jobs=8)]: Done  34 tasks      | elapsed: 10.9min
 [Parallel(n_jobs=8)]: Done 184 tasks      | elapsed: 72.5min
@@ -494,23 +508,26 @@ Best Result: 0.8965054690678527
 [598]	validation_0-mae:0.000327	validation_0-error:0.003771	validation_0-rmse:0.001726	validation_1-mae:0.000333	validation_1-error:0.003811	validation_1-rmse:0.001972
 [599]	validation_0-mae:0.000327	validation_0-error:0.003771	validation_0-rmse:0.001725	validation_1-mae:0.000333	validation_1-error:0.003811	validation_1-rmse:0.001971
 
-</code></pre>
+```
 
-> *Cross validation*<pre><code>
+*Cross validation*
+```html
 Cross validation scores - "neg_mean_absolute_error": [-0.00037391 -0.00038812 -0.00038898 -0.00037234 -0.00037381]
 Mean=-0.0004, Var=0.0000
 Cross validation scores of accuracy - 'r2' [0.88126198 0.91217333 0.92780538 0.84769413 0.89836213]
-</code></pre>
+```
 
 By R2 score method, it's calculated the final r2_score for whole Feb 2017 dataset.
-> r2 score: **0.9367478125840831** <pre><code>test_dataset = pd.DataFrame()
+> r2 score: **0.9367478125840831** 
+```html
+test_dataset = pd.DataFrame()
 test_dataset['Prediction'] = np.expm1(xlf.predict(X_test_scaled))
 filename = 'tip_amount-prediction.csv'
 pd.DataFrame({'tip_amount': test_dataset.Prediction}).to_csv(filename, index=False)
 y_prediction = scalarY.inverse_transform(test_dataset['Prediction'].values.reshape(test_dataset.shape[0],1))
 r2_score(y_test, y_prediction)
+```
 
-</code></pre>
 
 
 # 4. Deep Learning Model
@@ -524,7 +541,7 @@ For regression prediction by DNN alogrithm, the loss function must be selected c
 
 _*Notes:*_
 
-<pre><code>
+```html
 > $ pip install numpy scipy
 $ pip install scikit-learn
 > $ pip install pillow pandas
@@ -538,30 +555,32 @@ $ pip install h5py keras tensorflow matplotlib
     "image_data_format": "channels_last"
 
 }
-</code></pre>
+```
 
 ## 4.2 How to Run
 
 ### 4.2.3 DNN Linear Combined Classifier/regressor
 
-<pre><code>
+```html
     # ./dl-train-prediction.sh
-</code></pre>
+```
 
 Model Summary is ![here](data/model_summary.png)
 
 ### 4.2.4 User Keras Framework
 
-<pre><code>
+```html
     # python script/keras/dl_keras.py
-</code></pre>
+```
 
 ## 4.3 Report
 
 ### 4.3.1 [Simple 3 layer] Model
 
 [Simple 3 Layers Keras](notebook/keras-dl.ipynb) model, uses
-> Model Summary<pre><code># Layer (type)                 Output Shape              Param #   
+> Model Summary
+```html
+# Layer (type)                 Output Shape              Param #   
 dense_5 (Dense)              (None, 1024)              16384    dropout_4 (Dropout)          (None, 1024)              0        dense_6 (Dense)              (None, 512)               524800   dropout_5 (Dropout)          (None, 512)               0        dense_7 (Dense)              (None, 256)               131328   dropout_6 (Dropout)          (None, 256)               0        dense_8 (Dense)              (None, 1)                 257       
 ===============================================================
 Total params: 672,769
@@ -582,14 +601,15 @@ TRAIN RESULT :
 {'val_loss': [0.13335165177867453, 0.1665850631328239, 0.14892079560473184], 'val_acc': [0.6483102020495957, 0.646306981561155, 0.6487175554982021], 'loss': [0.45060536609764407, 0.37806380543731705, 0.41068968436070125], 'acc': [0.6316209018981728, 0.6349154114571811, 0.6337167786759539]}
 ======================================================================
 Accuracy: 0.6337
-> </code></pre>
+
 > ​
 > The result looks not so good. It needs to find more DL models. 
+```
 
 ### 4.3.2 CNN Model
 
 Model Summary:
-<pre><code>
+```html
 Layer (type)                 Output Shape              Param #  
 conv1d_1 (Conv1D)            (None, 14, 128)           384       
 _________________________________________________________________
@@ -612,9 +632,10 @@ dense_3 (Dense)              (None, 1)                 257
 Total params: 591,233
 Trainable params: 591,233
 Non-trainable params: 0
-</code></pre>
+```
 
-> Result<pre><code>
+> Result
+```html
 Epoch 1/10
 2086637/2086637 [==============================] - 991s 475us/step - loss: 1.9198 - acc: 0.6008
 Epoch 2/10
@@ -628,7 +649,7 @@ Epoch 00004: early stopping
 >#1: 60.447
 [60.44703233600577]
 Accuracy: 60.447% (+/-0.000)
-</code></pre>
+```
 
 ## 5. Conclusion and Future Work
 
