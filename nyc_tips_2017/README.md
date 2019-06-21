@@ -40,9 +40,9 @@ Based on above figure, our problem can be concluded as "Regression" problem.
 Original dataset is from: https://data.cityofnewyork.us/Transportation/2017-Green-Taxi-Trip-Data/5gj9-2kzx
 
 Run command to get the data sets: Jan 2017 data is train set, Feb 2017 is test set.
-
-<pre><code> $ python clean_dataset.py </code></pre>
-
+```html
+$ python clean_dataset.py
+```
 **Output dir is：./data/**
 
 - test.csv
@@ -216,13 +216,17 @@ https://hadoop.apache.org/docs/r1.2.1/native_libraries.html
 
 http://www.myiphoneadventure.com/hardware/hadoop-build-native-library
 
- <pre><code> $ wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.0/hadoop-2.7.0.tar.gz </code></pre>
+```html
+$ wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.0/hadoop-2.7.0.tar.gz
+```
 
 ### 2.2.2 Spark On Java
 
 #### 2.2.2.1 How to Build
 
-  <pre><code> $ mvn clean install </code></pre>
+```html
+$ mvn clean install
+```
 
 #### 2.2.2.2 How to Run
 
@@ -232,8 +236,9 @@ Run below program to get the spark on Java implementation to such prediction. Th
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModelERF.java"_ by Ehanced Random Forest
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModelGBT.java"_ by Gradient Boosting
 
-<pre><code> $ sparkml-prediction.bat/sh </code></pre>
-
+```html
+$ sparkml-prediction.bat/sh 
+```
 #### 2.2.2.3 Report
 
 - **Random Forest**
@@ -388,21 +393,21 @@ export PATH=$SPARK_HOME/bin:$PATH
 
 #### 2.2.3.1 Random Forest Model
 
-<pre><code>
+```html
 # unset PYSPARK_DRIVER_PYTHON
 # spark-submit sparkml/pyspark/train_spark_rf.py data/train_tips_only.csv
-</code></pre>
+```
 
 #### 2.2.3.3 Report
 
-<pre><code>
+```html
  *** Root Mean Squared Error (RMSE) on test data = 0.010752
  *** : RF MODEL SUMMARY :  RandomForestRegressionModel (uid=RandomForestRegressor_4339be1ffcf5da1ba16c) with 20 trees
-</code></pre>
+```
 
 #### 2.2.3.4 Using XGBoost Model
 
-TBD
+Refer the detail in Notebook
 
 # 3. Python + sklearn
 
@@ -587,7 +592,8 @@ Total params: 672,769
 Trainable params: 672,769
 Non-trainable params: 0
 
-> Result<pre><code>
+> Result
+
 Train on 1877973 samples, validate on 208664 samples
 Epoch 1/100
 1877973/1877973 [==============================] - 401s 214us/step - loss: 0.4506 - acc: 0.6316 - val_loss: 0.1334 - val_acc: 0.6483
