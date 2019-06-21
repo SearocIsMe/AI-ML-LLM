@@ -432,7 +432,7 @@ This program uses cross validator model to evaluate the best model with optimize
 Withe degault parameters, result can be seen
 
 ```html
-> **XGBRegressor**: <pre><code>
+> **XGBRegressor**: 
 > Training model #0
 > [0] validation_0-rmse:1.91461
 > Will train until validation_0-rmse hasn't improved in 10 rounds.
