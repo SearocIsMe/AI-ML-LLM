@@ -40,11 +40,17 @@ Based on above figure, our problem can be concluded as "Regression" problem.
 Original dataset is from: https://data.cityofnewyork.us/Transportation/2017-Green-Taxi-Trip-Data/5gj9-2kzx
 
 Run command to get the data sets: Jan 2017 data is train set, Feb 2017 is test set.
+<<<<<<< HEAD
 
 ```html
 $ python clean_dataset.py
 ```
 
+=======
+```html
+$ python clean_dataset.py
+```
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 **Output dir is：./data/**
 
 - test.csv
@@ -218,15 +224,27 @@ https://hadoop.apache.org/docs/r1.2.1/native_libraries.html
 
 http://www.myiphoneadventure.com/hardware/hadoop-build-native-library
 
+<<<<<<< HEAD
+=======
+```html
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 $ wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.0/hadoop-2.7.0.tar.gz
 ```
 
 ### 2.2.2 Spark On Java
 
 #### 2.2.2.1 How to Build
+<<<<<<< HEAD
 ```html
 $ mvn clean install 
 ```
+=======
+
+```html
+$ mvn clean install
+```
+
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 #### 2.2.2.2 How to Run
 
 Run below program to get the spark on Java implementation to such prediction. This script will call the
@@ -235,9 +253,15 @@ Run below program to get the spark on Java implementation to such prediction. Th
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModelERF.java"_ by Ehanced Random Forest
 - _"sparkml\src\main\java\com\ml\nyc\TrainNycTipModelGBT.java"_ by Gradient Boosting
 
+<<<<<<< HEAD
 $ sparkml-prediction.bat/sh
 ```
 
+=======
+```html
+$ sparkml-prediction.bat/sh 
+```
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 #### 2.2.2.3 Report
 
 **Random Forest**
@@ -406,7 +430,11 @@ export PATH=$SPARK_HOME/bin:$PATH
 
 #### 2.2.3.4 Using XGBoost Model
 
+<<<<<<< HEAD
 see detail in notebook
+=======
+Refer the detail in Notebook
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 
 # 3. Python + sklearn
 
@@ -431,7 +459,11 @@ This program uses cross validator model to evaluate the best model with optimize
 Withe degault parameters, result can be seen
 
 ```html
+<<<<<<< HEAD
 > **XGBRegressor**:
+=======
+> **XGBRegressor**: 
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 > Training model #0
 > [0] validation_0-rmse:1.91461
 > Will train until validation_0-rmse hasn't improved in 10 rounds.
@@ -592,9 +624,15 @@ dense_5 (Dense)              (None, 1024)              16384    dropout_4 (Dropo
 Total params: 672,769
 Trainable params: 672,769
 Non-trainable params: 0
+<<<<<<< HEAD
 ```
 > Result
 ```html
+=======
+
+> Result
+
+>>>>>>> 0db46f03d56a87c130fffa53a18b33bc2662b3f6
 Train on 1877973 samples, validate on 208664 samples
 Epoch 1/100
 1877973/1877973 [==============================] - 401s 214us/step - loss: 0.4506 - acc: 0.6316 - val_loss: 0.1334 - val_acc: 0.6483
