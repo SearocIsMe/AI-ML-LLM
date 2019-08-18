@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import csv
-import urllib2
 import os
 import sys
 import math
@@ -52,13 +51,20 @@ def clean_passenger_count(row):
     else:
         return row['passenger_count']
 
+def converter(num):
+	try:
+		return np.float(num)
+	except:
+		return np.nan
 
 def main():
     print("Reading data, jumping over bad lines with error")
     # don't know why cannot use , parse_dates=['lpep_pickup_datetime', 'lpep_dropoff_datetime']?
     if os.path.exists(INPUT_PATH):
         print('csv file is from: %s' % INPUT_PATH)
-        df = pd.read_csv(INPUT_PATH, error_bad_lines=False,  delimiter=",")
+        df = pd.read_csv(INPUT_PATH,
+		 error_bad_lines=False,  
+		 delimiter=",", converters={"fare_amount": converter, "tolls_amount": converter, "total_amount": converter})
     # else:
     #    df = pd.read_csv(URL_PATH, error_bad_lines=False,  delimiter=",")
 
