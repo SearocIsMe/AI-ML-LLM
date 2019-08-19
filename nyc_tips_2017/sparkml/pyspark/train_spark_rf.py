@@ -51,9 +51,9 @@ conf = SparkConf().setAppName("NYC Tips Prediction 2017")
 
 sqlCtx = SQLContext(sc)
 
-print "=================="
-print sc
-print "=================="
+print("============================================================================")
+print(sc)
+print("============================================================================")
 # ---------------------------------
 
 '''Dataset columns：
@@ -87,7 +87,7 @@ print "=================="
 if __name__ == '__main__':
     filename = sys.argv[1]
     # load data with spark way
-    print '1. read dataset from file: ', filename
+    print('1. read dataset from file: ', filename)
 
     trainNYC = sc.textFile(filename).map(lambda line: line.split(","))
     headers = trainNYC.first()
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                                                           'day_of_week', 'weekend', 'speed', 'tip_amount'])
     dataFrame.take(2)
     # convert string to float in  PYSPARK
-    print "2. transform data type"
+    print("2. transform data type")
     # https://stackoverflow.com/questions/46956026/how-to-convert-column-with-string-type-to-int-form-in-pyspark-data-frame
     dataFrame = dataFrame.withColumn(
         "VendorID", dataFrame["VendorID"].cast("float"))
@@ -162,9 +162,9 @@ if __name__ == '__main__':
                         weekend,
                         speed
                         FROM temp_sql_table """)
-    print spark_sql_output.take(10)
+    print(spark_sql_output.take(10))
 
-    print "3. prepare feature data"
+    print("3. prepare feature data")
     trainingData = spark_sql_output.rdd.map(lambda x: (
         Vectors.dense(x[0:-1]), x[-1])).toDF(["features", "label"])
     trainingData.show()
@@ -172,7 +172,7 @@ if __name__ == '__main__':
         VectorIndexer(inputCol="features", outputCol="indexedFeatures",
                       maxCategories=4).fit(trainingData)
 
-    print "4. train model"
+    print("4. train model")
     (trainingData, testData) = trainingData.randomSplit([0.7, 0.3])
     # Train a RandomForest model.
     rf = RandomForestRegressor(featuresCol="indexedFeatures")
@@ -184,21 +184,21 @@ if __name__ == '__main__':
     model = pipeline.fit(trainingData)
 
     # Make predictions.
-    print "5. Make predictions"
+    print("5. Make predictions")
     predictions = model.transform(testData)
 
     # Select example rows to display.
     predictions.select("prediction", "label", "features").show(30)
 
     # Select (prediction, true label) and compute test error
-    print "6. evaluate the result"
+    print("6. evaluate the result")
     evaluator = RegressionEvaluator(
         labelCol="label", predictionCol="prediction", metricName="rmse")
-    print '='*100
-    print '*** OUTCOME :'
+    print('='*100)
+    print('*** OUTCOME :')
     rmse = evaluator.evaluate(predictions)
-    print " *** Root Mean Squared Error (RMSE) on test data = %g" % rmse
+    print(" *** Root Mean Squared Error (RMSE) on test data = %g" % rmse)
 
     rfModel = model.stages[1]
-    print ' *** : RF MODEL SUMMARY : ', rfModel  # summary only
-    print '='*100
+    print(' *** : RF MODEL SUMMARY : ', rfModel)  # summary only
+    print('='*100)
