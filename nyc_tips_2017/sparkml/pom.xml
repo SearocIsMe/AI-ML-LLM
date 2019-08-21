@@ -21,6 +21,13 @@
 		sparkml
 	</name>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.python/jython-standalone -->
+		<dependency>
+			<groupId>org.python</groupId>
+			<artifactId>jython-standalone</artifactId>
+			<version>2.5.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>
 				org.apache.spark
