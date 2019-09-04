@@ -6,13 +6,12 @@ public class LuanchPythonWithArguments {
 	public static void main(String[] args) {
 		try {
 			String strPythonFile = args[0];
+			String dataFile = args[1];
 			System.out.println("Java side, call python: " + strPythonFile);
-			System.out.println("args[0]: " + strPythonFile);
-			System.out.println("args[1]: " + args[1].toString());
-			System.out.println("args[2]: " + args[2].toString());
+			System.out.println("args aize: " + args.length);
+			System.out.println("Java side, data file: " + dataFile);
 
-			String arrParas[] = { args[1], args[2] };
-			PythonInterpreter.initialize(System.getProperties(), System.getProperties(), arrParas);
+			PythonInterpreter.initialize(System.getProperties(), System.getProperties(), new String[0]);
 			PythonInterpreter interp = new PythonInterpreter();
 			interp.execfile(strPythonFile);
 		} catch (Exception e) {
