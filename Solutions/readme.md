@@ -1,4 +1,4 @@
-# No DataSet Streaming e2e, Standlone mode
+# Standlone mode, without DataSet Streaming e2e, 
 
 ## 1. Assumptions:
 
