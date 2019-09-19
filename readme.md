@@ -1,15 +1,10 @@
 # Machine Learning Practice
 
-## Author: Searoc Jiang
-
-# NYC Tips Prediction According To 2017 Dataset
-
-Detail refers into the [readme](nyc_tips_2017/README.md)
+## Author: Searoc Haipeng Jiang
 
 # Solutions to Wellknown Problems in Python
-
-This section will discuss the wellknown Python Machine Learning practice, and how to leaverage it.
-Before we start to list options, lets breakdown the problem a bit. When the classification data is “too large”, it could mean that one or more of the following is true:
+[Detail](solutions/readme.md) depiects the objective of Solving wellknown problems in industry. 
+There are many constrains on Solutioning Architecture in terms of problems in below. When the classification data is “too large”, it could mean that one or more of the following is true:
 
 - The entire raw dataset cannot be loaded into memory, or
 - The entire dataset of processed feature vectors cannot be loaded into memory, or
@@ -18,3 +13,14 @@ Before we start to list options, lets breakdown the problem a bit. When the clas
 
 This kind of combined complex problems usually happen in some tradional company without morden and fasional infrastructure, which NOT ALLOW data streaming from end A to another end B in company backbone network.
 Even with data streaming, splitting dataset into small job tasks by spark cluster model, how to train the model written in pyspark by distruted way and consolidate them together still lack one-stop solution.
+
+# Handbook
+[Handbooks](handbook/readme.md) documents the tips/summary during trouble-shooting and techinical exploration.
+
+# Innovation to Machine Learning Platform
+[The review](innovation/readme.md) has pointed the roadmap of transformation from traditional Big-data Hadoop analytics toolset to Cloud-Native Based Analytics platform.
+
+# NYC Tips Prediction According To 2017 Dataset
+
+Detail refers into the [readme](nyc_tips_2017/README.md)
+
