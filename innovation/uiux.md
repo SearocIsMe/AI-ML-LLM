@@ -1,0 +1,2 @@
+This section present the wired-framed web pages to streanline the thoughts based-on AI/ML common Use-cases.
+Apart of the way to achieve the end-user's expected product/platform, the logic Model training, registry, govenance, and production API monitoring, are pretty much same among different industry.
