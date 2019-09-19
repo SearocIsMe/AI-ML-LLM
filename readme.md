@@ -3,7 +3,7 @@
 ## Author: Searoc Haipeng Jiang
 
 # Solutions to Wellknown Problems in Python-based AI/ML 
-[Technical Exploration](solutions/readme.md) depiects the objective of Solving wellknown problems in industry. 
+[Technical Exploration](Solutions/readme.md) depiects the objective of Solving wellknown problems in industry. 
 There are many constrains on Solutioning Architecture in terms of problems in below. When the classification data is “too large”, it could mean that one or more of the following is true:
 
 - The entire raw dataset cannot be loaded into memory, or
