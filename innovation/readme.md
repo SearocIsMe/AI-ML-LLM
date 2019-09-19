@@ -12,21 +12,17 @@ On This page:
   - [2. What Pipeline Looks like](#2-What-Pipeline-Looks-like) 
   
     - [2.1 Benefits from Cloud-Native Architecture](#21-Benefits-from-Cloud-Native-Architecture) 
-    
     - [2.2 Principles of "Cloud-Native"](#22-Principles-of-%22Cloud-Native%22) 
-    
     - [2.3 Cloud-Native Applications Attributes](#23-Cloud-Native-Applications-Attributes) 
     
   - [3. Big Data or Fast Data](#3-Big-Data-or-Fast-Data) 
   
   - [4. Pipeline Orchestration](#4-Pipeline-Orchestration) 
-  
     - [RBAC vs Kerberos](#RBAC-vs-Kerberos) 
     - [Orchestrating Multiple Models](#Orchestrating-Multiple-Models) 
     - [Multitask Inside of Pipelines](#Multitask-Inside-of-Pipelines) 
     - [Feature Mart](#Feature-Mart) 
   - [5. Why not need Hadoop and Yarn?](#5-Why-not-need-Hadoop-and-Yarn) 
-  
     - [5.1 How Hadoop Ecosystem Help Daily Work of Data Scince?](#51-How-Hadoop-Ecosystem-Help-Daily-Work-of-Data-Scince) 
     - [5.2 Missing Marks for Complex Analytics](#52-Missing-Marks-for-Complex-Analytics) 
     - [5.3 What Hadoop Said?](#53-What-Hadoop-Said) 
@@ -39,20 +35,6 @@ On This page:
       - [5.6.1 Flink is not Ready for Model Serving](#561-Flink-is-not-Ready-for-Model-Serving)
   - [6. Stateless Stream Processing](#6-Stateless-Stream-Processing)
     - [6.1 How To Achieve the Stateless](#61-How-To-Achieve-the-Stateless)
-
-- [Solution](#Solution)
-  - [1. Stateless Sinkable Stream Processing](#1-Stateless-Sinkable-Stream-Processing)
-    - [Resilent and Scaling](#Resilent-and-Scaling)
-    - [Non-blocking Pipeline Pool](#Non-blocking-Pipeline-Pool)
-    - [Elastic Pipeline](#Elastic-Pipeline)
-  - [2. Foundamental Components](#2-Foundamental-Components)
-  - [3. Architecture and Design Views](#3-Architecture-and-Design-Views)
-  - [4. Put All Above Togehter](#4-Put-All-Above-Togehter)
-  - [5. Software Engineering](#5-Software-Engineering)
-    - [Development](#Development)
-    - [Deployment](#Deployment-1)
-    - [Monitoring/Operation](#MonitoringOperation)
-
 
 ## 1. Outline
 [Semi Koen][3] suggested good practice in "Architecting a Machine Learning Pipeline", which summary the main process and phased in machine learning engineering architecting and development.
@@ -80,6 +62,7 @@ Before designing an application, it's important to put the principles of "Cloud-
 Design of an application with adopting Cloud-Native Architecture is not a matter of buzzword compliance, but the advantages being beneficial to business and organizations.
 
 [Article][10] summarise those 6 benefits,
+
 - Faster release pace
 - Superior customer experiences
 - Ease of management
@@ -89,6 +72,7 @@ Design of an application with adopting Cloud-Native Architecture is not a matter
 
 ### 2.2 Principles of "Cloud-Native"
 Google has [documented][1] 5 principles of "Cloud-Native"
+
 - Principle 1: Design for automation
 - Principle 2: Be smart with state
       "design components to be stateless" will make the components and applications easily to "scale", "repair", "Roll-Back", "Load-balance across"
@@ -98,6 +82,7 @@ Google has [documented][1] 5 principles of "Cloud-Native"
   
 ### 2.3 Cloud-Native Applications Attributes
 Following the principles mentioned-above, most Cloud-Native applications has below [attritutes][2]
+
 - Packaged as lightweight containers
 - Developed with best-of-breed languages and frameworks
 - Designed as loosely coupled microservices
@@ -151,10 +136,12 @@ In another hand, when we develope a machine learning analytics platform, some of
 
 ### 5.2 Missing Marks for Complex Analytics
 In below two areas, 
+
 - Involving Machine Learning
 - [principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis)
   
 Hadoop might be unworkable for data science when,
+
 - There are millions of products and customers for recommendations, multi-tenancy for multiple session based data pipelines
 - It requires processing genetic sequencing data (Time-serieas, historical) on huge arrays, aggregation, joins between/among tables
 - The business use case requires gleaning **real-time** insights from sensor(transactions) or **graphical data** through powerful noise reduction algorithms
@@ -162,12 +149,14 @@ Hadoop might be unworkable for data science when,
 ### 5.3 What Hadoop Said?
 
 ["Hortonworks unveils roadmap to make Hadoop cloud-native"][8] summarizes that "Hadoop is not currently a platform that fully exploits the capabilities of the cloud. Aside from slotting in S3 or other cloud storage in place of HDFS, Hadoop does not fully take advantage of the cloud architecture. Making Hadoop cloud-native is not a matter of buzzword compliance, but making it more fleet-footed". Meanwhile, this article announced 3 steps to transform Hadoop into Cloud-Native Platfrom, 3 Steps are:
+
 - 1) Rearchitect all the components of Hadoop as containers
 - 2) Encompass separating compute from data, not really rely on HDFS, but S3 or Azure Blob Store
 - 3) Involves support of Kubernetes
 
 Step 1) and Step 2) are well progressed, since now we can see the Yarn spawn new resource as docker containers of application and launch them in cluster.
 however, questions come subsequently,
+
     - do those containerization application (whatever is spark related or not) from Yarn are managed with traffice egress?
     - do those containerization application is replicated each other?
   
@@ -179,6 +168,7 @@ In short, Hortonwork roadmap become a dose of placebo for exisiting users.
 
 Now, problem is we should wait Hadoop Cloud-Native to be happened this year or next year, since Architecture change will introduce huge effort to put in product ionization. 
 Another problem is, "Does Clould-Native Hadoop can help us fulfill this domain specific requirement and solve current headache without introduce another headache? " Right now, Hadoop and Yarn ecosystem looks not necessaries in contrast with Cloud-Native centric Applications since there are many alternative means, utilities tools helping in compliance to those principles of Cloud-Native and therefore get benefits from.
+
 - Faster release pace
 - Superior customer experiences
 - Ease of management
@@ -240,6 +230,7 @@ Flink is thought slower 1.7x than Spark when processing batch based large scale 
 
 #### 5.6.1 Flink is not Ready for Model Serving
 For the general case the user runs N models. There might be more than one instance per model for performance reasons. It is often true that a model is fed with a pre-processed stream of data and then the output. Now within the same pipeline it is also possible to run multiple models:
+
 a) Model Segmentation
 b) Model Ensemble
 c) Model Chaining
