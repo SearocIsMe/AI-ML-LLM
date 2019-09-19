@@ -54,6 +54,7 @@ On This page:
     - [Deployment](#Deployment-1)
     - [Monitoring/Operation](#MonitoringOperation)
 
+
 ## 1. Outline
 [Semi Koen][3] suggested good practice in "Architecting a Machine Learning Pipeline", which summary the main process and phased in machine learning engineering architecting and development.
 <img src="./pic/pipeline-mle.png" alt="drawing" width="1000" align="middle">
