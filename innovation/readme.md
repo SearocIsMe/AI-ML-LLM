@@ -5,19 +5,28 @@ Here is the repo for proving the concept of Implementing MLE platform by "Elasti
 
 
 On This page:
-- [Machine Learning Engineering Platform](#Machine-Learning-Engineering-Platform) 
+- [Machine Learning Engineering Platform](#Machine-Learning-Engineering-Platform)
+
   - [1. Outline](#1-Outline) 
+  
   - [2. What Pipeline Looks like](#2-What-Pipeline-Looks-like) 
+  
     - [2.1 Benefits from Cloud-Native Architecture](#21-Benefits-from-Cloud-Native-Architecture) 
+    
     - [2.2 Principles of "Cloud-Native"](#22-Principles-of-%22Cloud-Native%22) 
+    
     - [2.3 Cloud-Native Applications Attributes](#23-Cloud-Native-Applications-Attributes) 
+    
   - [3. Big Data or Fast Data](#3-Big-Data-or-Fast-Data) 
+  
   - [4. Pipeline Orchestration](#4-Pipeline-Orchestration) 
+  
     - [RBAC vs Kerberos](#RBAC-vs-Kerberos) 
     - [Orchestrating Multiple Models](#Orchestrating-Multiple-Models) 
     - [Multitask Inside of Pipelines](#Multitask-Inside-of-Pipelines) 
     - [Feature Mart](#Feature-Mart) 
   - [5. Why not need Hadoop and Yarn?](#5-Why-not-need-Hadoop-and-Yarn) 
+  
     - [5.1 How Hadoop Ecosystem Help Daily Work of Data Scince?](#51-How-Hadoop-Ecosystem-Help-Daily-Work-of-Data-Scince) 
     - [5.2 Missing Marks for Complex Analytics](#52-Missing-Marks-for-Complex-Analytics) 
     - [5.3 What Hadoop Said?](#53-What-Hadoop-Said) 
@@ -30,6 +39,7 @@ On This page:
       - [5.6.1 Flink is not Ready for Model Serving](#561-Flink-is-not-Ready-for-Model-Serving)
   - [6. Stateless Stream Processing](#6-Stateless-Stream-Processing)
     - [6.1 How To Achieve the Stateless](#61-How-To-Achieve-the-Stateless)
+    
 - [UI/UX Use Cases](#UIUX-Use-Cases)
   - [Login](#Login)
   - [Home Dashboard](#Home-Dashboard)
