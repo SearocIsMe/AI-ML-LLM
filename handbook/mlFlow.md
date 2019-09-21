@@ -1,7 +1,9 @@
-## mlFlow is a framework that supports the machine learning lifecycle .It allows us to build models, track the performance metrics and parameters of all the models built and allows us to store models which can be loaded in production code.It has the following 3 components:
+# Summary
+mlFlow is a framework that supports the machine learning lifecycle .It allows us to build models, track the performance metrics and parameters of all the models built and allows us to store models which can be loaded in production code.It has the following 3 components:
 
 ### Tracking-The python module used for tracking is mlflow.tracking. Every time we train a model, the output of the model is saved in artifacts.The tarcking system uses a file structure like the one shown below : 
-mlruns
+
+mlruns 
 └── 0
     ├── 7003d550294e4755a65569dd846a7ca6
     │   ├── artifacts
