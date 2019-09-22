@@ -12,3 +12,13 @@ Apart of the way to achieve the end-user's expected product/platform, the logic 
   - [Contral Panel](#Contral-Panel)
   - [Matrics and Monitoring DashBoard](#Matrics-and-Monitoring-DashBoard)
   - [ACL and RBAC](#ACL-and-RBAC)
+
+## Login
+
+<img src="./pic/login.png" alt="drawing" width="800" align="middle">
+
+## Home Dashboard
+
+<img src="./pic/Layout Main.png" alt="drawing" width="800" align="middle">
+
+## Data Appliance(Elastic Pipelines)
