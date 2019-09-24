@@ -24,3 +24,4 @@ Even with data streaming, splitting the dataset into small job tasks by spark cl
 
 Detail refers into the [readme](nyc_tips_2017/README.md)
 
+<a href="https://www.duplichecker.com/website-visitor-hit-counter.php" rel="nofollow noopener"  target="_blank" title="https://www.duplichecker.com/website-visitor-hit-counter.php"><img src="https://www.duplichecker.com/counterDisplay?code=eeae853342a2eb4cfc9dbb2e36fd649e&style=0010&pad=7&type=page&initCount=1"  alt="https://www.duplichecker.com/website-visitor-hit-counter.php"  border="0"></a>
