@@ -21,3 +21,4 @@
 [5]: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
 [6]: https://gotocon.com/dl/goto-berlin-2015/slides/MatthiasLbken_PatternsInAContainerizedWorld.pdf
 [7]: https://docs.openshift.com/enterprise/3.0/creating_images/guidelines.html
+[8]: https://github.com/k8spatterns
