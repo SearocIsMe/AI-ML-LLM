@@ -9,7 +9,7 @@ Apart of the way to achieve the end-user's expected product/platform, the logic 
   - [Notebook](#Notebook)
   - [Model Management](#Model-Management)
   - [Deployment](#Deployment)
-  - [Contral Panel](#Contral-Panel)
+  - [Control Panel](#Control-Panel)
   - [Matrics and Monitoring DashBoard](#Matrics-and-Monitoring-DashBoard)
   - [ACL and RBAC](#ACL-and-RBAC)
 
@@ -22,3 +22,38 @@ Apart of the way to achieve the end-user's expected product/platform, the logic 
 <img src="./pic/Layout Main.png" alt="drawing" width="800" align="middle">
 
 ## Data Appliance(Elastic Pipelines)
+<img src="./pic/Appliance.png" alt="drawing" width="800" align="middle">
+
+<img src="./pic/Appliance Asset.png" alt="drawing" width="800" align="middle">
+
+## Experiments
+<img src="./pic/Experiments.png" alt="drawing" width="800" align="middle">
+
+<img src="./pic/Experiments Dashboard.png" alt="drawing" width="800" align="middle">
+
+<img src="./pic/Experiments-instance.png" alt="drawing" width="800" align="middle">
+
+## Notebook
+<img src="./pic/Notesbook Dashboard.png" alt="drawing" width="800" align="middle">
+
+<img src="./pic/Notesbook Edit.png" alt="drawing" width="800" align="middle">
+
+## Model Management
+
+<img src="./pic/Model Management register.png" alt="drawing" width="800" align="middle">
+
+## Deployment
+
+<img src="./pic/Job Management.png" alt="drawing" width="800" align="middle">
+
+## Control Panel
+
+<img src="./pic/Control Panel-ACL.png" alt="drawing" width="800" align="middle">
+
+<img src="./pic/Control Panel-ACL - User.png" alt="drawing" width="800" align="middle">
+
+## Matrics and Monitoring DashBoard
+
+<img src="./pic/Control Panel-cluster.png" alt="drawing" width="800" align="middle">
+
+## ACL and RBAC
