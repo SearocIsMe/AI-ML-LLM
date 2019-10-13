@@ -116,10 +116,10 @@ Model Service will be equipped specific machine learning back-end service.
 
 ### Feature Mart
 
-## 5. Why not need Hadoop and Yarn?
-
+## 5. Why need Hadoop and Yarn?
+```html
 <img src="./pic/becomeDataScientist.png" alt="drawing" width="600" align="middle">
-
+```
 > Questions: "Why we should use Hadoop and Spark?"
 
 Above [snapshot]("https://data-flair.training/blogs/hadoop-for-data-science") answers most common question implicitly.
