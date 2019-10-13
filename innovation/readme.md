@@ -38,7 +38,8 @@ On This page:
 ## 1. Outline
 
 [Semi Koen][3] suggested good practice in "Architecting a Machine Learning Pipeline", which summary the main process and phases in machine learning engineering architecting and development.
-<img src="./pic/pipeline-mle.png" alt="drawing" width="1000" align="middle">
+
+<img src="./pic/pipeline-mle.png" alt="drawing" width="1000" align="middle" />
 
 1. Resource Management, Yarn alternative --- ["ManageEngine"](https://www.manageengine.com), which can mointor anything in cluster 24\*7, not only for the CPU, memorys, but microservices.
 2. Scheduling, Can keep using Airflow, but K8s has its own schedueler
@@ -116,7 +117,7 @@ Model Service will be equipped specific machine learning back-end service.
 
 ### Feature Mart
 
-## 5. Why not need Hadoop and Yarn?
+## 5. Why need Hadoop and Yarn?
 
 <img src="./pic/becomeDataScientist.png" alt="drawing" width="600" align="middle">
 
@@ -279,8 +280,6 @@ In terms different storage, the stateful problems look different. In [Article](1
 ### 6.1 How To Achieve the Stateless
 
 By any means, making the statefull data set to be replica to any application instances, is the foundamental theory.
-
-
 
 [1]: https://cloud.google.com/blog/products/application-development/5-principles-for-cloud-native-architecture-what-it-is-and-how-to-master-it "Principles of Cloud-Native"
 [2]: https://thenewstack.io/10-key-attributes-of-cloud-native-applications "10 Key Attributes of Cloud-Native Applications"
