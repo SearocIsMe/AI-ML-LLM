@@ -37,3 +37,9 @@ MTU is the root cause?
 $ kubectl edit daemonsets weave-net -n kube-system
 append WEAVE_MTU env varible inside of deamonset
 ```
+
+## Reference
+
+https://github.com/kubernetes/kops/issues/2600, 
+https://www.weave.works/docs/net/latest/concepts/fastdp-how-it-works/ 
+https://www.weave.works/docs/net/latest/using-weave/fastdp/, 
