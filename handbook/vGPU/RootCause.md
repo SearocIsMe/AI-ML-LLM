@@ -8,7 +8,8 @@
 
 
 I found the root case here, from CDSW container -> connecting to the working ports 55001~55100 range
- 
+
+```html
 cdsw@q4ohm497ulxvrl8g:~/.bitfusionio$ more bf_Global.q4ohm497ulxvrl8g.log
 [ INFO] 2019-11-13T03:10:27.076929Z, 233, "Statistics capture disabled."
 [ INFO] 2019-11-13T03:10:27.077036Z, 233, "Loading server list from config file '/tmp/flexdirect487561532'"
@@ -23,4 +24,4 @@ d"
 [ INFO] 2019-11-13T03:16:06.593108Z, 233, "Network config not specified, using enabled transports 1"
 [ INFO] 2019-11-13T03:16:06.593128Z, 233, "Using direct connection from client to server"
 [ERROR] 2019-11-13T03:16:06.593312Z, 233, "Unable to connect to server, the initial handshake failed"
- 
+```html
