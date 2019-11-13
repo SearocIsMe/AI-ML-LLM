@@ -25,3 +25,15 @@ d"
 [ INFO] 2019-11-13T03:16:06.593128Z, 233, "Using direct connection from client to server"
 [ERROR] 2019-11-13T03:16:06.593312Z, 233, "Unable to connect to server, the initial handshake failed"
 ```
+
+## Solution
+
+MTU is the root cause?
+
+1. Increase the MTU setting on Bitfusion Server
+2. Increase the MTU size for "weave-net" deamonsets, 
+
+```bash
+$ kubectl edit daemonsets weave-net -n kube-system
+append WEAVE_MTU env varible inside of deamonset
+```
