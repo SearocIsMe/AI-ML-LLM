@@ -51,3 +51,5 @@ The three most popular methods for combining the predictions from different mode
 https://www.datacamp.com/community/tutorials/ensemble-learning-python
 
 https://machinelearningmastery.com/ensemble-machine-learning-algorithms-python-scikit-learn/
+
+https://medium.com/cloudzone/xgboost-distributed-training-and-predicting-with-apache-spark-1127cdfb31ae
