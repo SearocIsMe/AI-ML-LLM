@@ -14,6 +14,9 @@ Distributed Ensemble actually take care of
 
  
 Back to Spark, I don’t see any documentation about how to do “Distributed Ensemble” from , however, a bit of Model Ensemble in one Executor’s worker process, rather than in multiple workers.
+SPIP shows progress of "Parallel Model Evaluation for ML Tuning"
+- https://issues.apache.org/jira/browse/SPARK-22126
+- https://issues.apache.org/jira/browse/SPARK-19357
 
 __Purely working on Spark and Spark cluster__,
 
