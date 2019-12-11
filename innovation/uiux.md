@@ -14,46 +14,38 @@ Apart of the way to achieve the end-user's expected product/platform, the logic 
   - [ACL and RBAC](#ACL-and-RBAC)
 
 ## Login
-
-<img src="./pic/login.png" alt="drawing" width="800" align="middle">
+![picture](./pic/login.png)
 
 ## Home Dashboard
-
-<img src="./pic/Layout Main.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Layout Main.png)
 
 ## Data Appliance(Elastic Pipelines)
-<img src="./pic/Appliance.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Appliance.png)
 
-<img src="./pic/Appliance Asset.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Appliance Asset.png)
 
 ## Experiments
-<img src="./pic/Experiments.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Experiments.png)
 
-<img src="./pic/Experiments Dashboard.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Experiments Dashboard.png)
 
-<img src="./pic/Experiments-instance.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Experiments-instance.png)
 
 ## Notebook
-<img src="./pic/Notesbook Dashboard.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Notesbook Dashboard.png)
 
-<img src="./pic/Notesbook Edit.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Notesbook Edit.png)
 
 ## Model Management
-
-<img src="./pic/Model Management register.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Model Management register.png)
 
 ## Deployment
-
-<img src="./pic/Job Management.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Job Management.png)
 
 ## Control Panel
-
-<img src="./pic/Control Panel-ACL.png" alt="drawing" width="800" align="middle">
-
-<img src="./pic/Control Panel-ACL - User.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Control Panel-ACL - User.png)
 
 ## Matrics and Monitoring DashBoard
-
-<img src="./pic/Control Panel-cluster.png" alt="drawing" width="800" align="middle">
+![picture](./pic/Control Panel-cluster.png)
 
 ## ACL and RBAC
