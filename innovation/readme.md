@@ -34,7 +34,7 @@ On This page:
 ## 1. Outline
 
 [Semi Koen][3] suggested good practice in "Architecting a Machine Learning Pipeline", which summary the main process and phases in machine learning engineering architecting and development.
-
+![picture](./pic/pipeline-mle.png)
 <img src="./pic/pipeline-mle.png" alt="drawing" width="1000" align="middle" />
 
 1. Resource Management, Yarn alternative --- ["ManageEngine"](https://www.manageengine.com), which can mointor anything in cluster 24\*7, not only for the CPU, memorys, but microservices.
