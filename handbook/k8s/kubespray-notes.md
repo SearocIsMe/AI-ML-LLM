@@ -7,6 +7,29 @@ Following basic procedure of kubespray, other commands are good to take notes.
 findmnt -n -o SOURCE --target /opt
 ```
 
+## Debug Command
+
+### The connection to the server lb-apiserver.kubernetes.local:8443 was refused
+```
+sudo cp /etc/kubernetes/admin.conf $HOME/ && sudo chown $(id -u):$(id -g) $HOME/admin.conf && export KUBECONFIG=$HOME/admin.conf
+export KUBECONFIG=/etc/kubernetes/kubelet.conf
+
+sudo -i
+swapoff -a
+exit
+strace -eopenat kubectl version
+
+```
+
+### netstat command
+
+```
+$ netstat -tulpn | grep LISTEN
+$ sudo lsof -i -P -n
+$ sudo lsof -i -P -n | grep LISTEN
+$ doas lsof -i -P -n | grep LISTEN ### [OpenBSD] ###
+```
+
 ## Reset cluster and Remove-node
 But you can also reset the entire cluster for fresh installation:
 ```bash
