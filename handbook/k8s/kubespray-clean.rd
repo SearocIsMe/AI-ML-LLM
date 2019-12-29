@@ -4,6 +4,56 @@
 
 https://o-my-chenjian.com/2017/05/11/Clear-The-Cluster-Of-K8s/
 
+## host.yaml
+
+```
+all:
+  hosts:
+    node1:
+      ansible_host: 10.0.0.9
+      ip: 10.0.0.9
+      access_ip: 10.0.0.9
+    node2:
+      ansible_host: 10.0.0.5
+      ip: 10.0.0.5
+      access_ip: 10.0.0.5
+    node3:
+      ansible_host: 10.0.0.6
+      ip: 10.0.0.6
+      access_ip: 10.0.0.6
+    node4:
+      ansible_host: 10.0.0.7
+      ip: 10.0.0.7
+      access_ip: 10.0.0.7
+    node5:
+      ansible_host: 10.0.0.8
+      ip: 10.0.0.8
+      access_ip: 10.0.0.8
+  children:
+    __kube-master__:
+      hosts:
+        node1:
+        node2:
+    __kube-node__:
+      hosts:
+        node1:
+        node2:
+        node3:
+        node4:
+        node5:
+    __etcd__:
+      hosts:
+        node1:
+        node2:
+        node3:
+    k8s-cluster:
+      children:
+        kube-master:
+        kube-node:
+    calico-rr:
+      hosts: {}
+```
+
 ## Scripts by Ansible
 ```
 
