@@ -30,18 +30,18 @@ all:
       ip: 10.0.0.8
       access_ip: 10.0.0.8
   children:
-    __kube-master__:
+    kube-master:
       hosts:
         node1:
         node2:
-    __kube-node__:
+    kube-node:
       hosts:
         node1:
         node2:
         node3:
         node4:
         node5:
-    __etcd__:
+    etcd:
       hosts:
         node1:
         node2:
