@@ -143,6 +143,47 @@ inventory/devopscluster/group_vars/k8s-cluster/addons.yml
 
 ```
 
+### 创建管理员账号
+
+```
+    kubectl create -f admin-role.yaml
+    # 找到admin-token开头的token名字
+    kubectl  -n kube-system get secret
+    # 获取相应的token
+    kubectl -n kube-system get secret admin-token-tmh9v -o jsonpath={.data.token}|base64 -d
+    # 也可以直接运行 kubectl -n kube-system describe secret admin-token-tmh9v 获取token
+
+    # 访问网址: https://<first_master>:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
+    # 选择以token方式登录, 输入上一步获取的token
+    # 登录成功
+```
+
+```
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: admin
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: admin
+  namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin
+  namespace: kube-system
+  labels:
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+```
+
 
 ### ETCD
 
