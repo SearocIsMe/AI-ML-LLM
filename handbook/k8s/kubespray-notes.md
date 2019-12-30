@@ -17,6 +17,30 @@ CONFIG_FILE=inventory/mycluster/hosts.yml python3 contrib/inventory_builder/inve
 ansible-playbook -i inventory/mycluster/hosts.yml --become --become-user=root cluster.yml
 ```
 
+## Before Install
+
+### Disable Swapoff
+```
+遇到的问题wait for the apiserver to be running
+$ ansible-playbook -i inventory/mycluster/hosts.yml all -m raw -a "swapoff -a && free -m"
+```
+
+### Modify yaml according to Swapoff
+```
+vim roles/download/tasks/download_container.yml
+ 75 - name: Stop if swap enabled
+ 76   assert:
+ 77     that: ansible_swaptotal_mb == 0         
+ 78   when: kubelet_fail_swap_on|default(false)
+```
+
+### Modify Cert Period
+```
+vim kubespray/roles/kubernetes/secrets/files/make-ssl.sh
+```
+
+
+
 ## Debug Command
 
 ### The connection to the server lb-apiserver.kubernetes.local:8443 was refused
