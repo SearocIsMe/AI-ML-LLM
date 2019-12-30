@@ -183,7 +183,10 @@ metadata:
     kubernetes.io/cluster-service: "true"
     addonmanager.kubernetes.io/mode: Reconcile
 ```
+### Solve the problem of timeout
+Error trying to reach service: 'dial tcp 10.233.70.1:8443: 
 
+sudo route add -net <kubernetes-dashboard_Endpoints_ip> netmask 255.255.255.255 gw <worker_node_ip>
 
 ### ETCD
 
