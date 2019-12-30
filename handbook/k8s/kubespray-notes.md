@@ -14,7 +14,7 @@ declare -a IPS=(10.0.0.9 10.0.0.5 10.0.0.6 10.0.0.7 10.0.0.8)
 
 CONFIG_FILE=inventory/mycluster/hosts.yml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
-ansible-playbook -i inventory/mycluster/hosts.yml --become --become-user=root cluster.yml
+ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml
 ```
 
 ## Before Install
