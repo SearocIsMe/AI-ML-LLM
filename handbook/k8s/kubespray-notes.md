@@ -75,13 +75,13 @@ $ doas lsof -i -P -n | grep LISTEN ### [OpenBSD] ###
 ## Reset cluster and Remove-node
 But you can also reset the entire cluster for fresh installation:
 ```bash
-$  ansible-playbook -i inventory/devopscluster/hosts.yml reset.yml
+$  ansible-playbook -i inventory/devopscluster/hosts.yaml reset.yml
 ```
 Remember to keep the “hosts.ini” updated properly.
 
 You can remove node by node from your cluster simply adding specific node do section [kube-node] in inventory/mycluster/hosts.ini file (your hosts file) and run command:
 ```shell
-$ ansible-playbook -i inventory/devopscluster/hosts.yml remove-node.yml
+$ ansible-playbook -i inventory/devopscluster/hosts.yaml remove-node.yml
 ```
 
 ## Install with Debug
