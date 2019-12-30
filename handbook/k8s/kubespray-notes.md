@@ -22,7 +22,7 @@ ansible-playbook -i inventory/mycluster/hosts.yml --become --become-user=root cl
 ### Disable Swapoff
 ```
 遇到的问题wait for the apiserver to be running
-$ ansible-playbook -i inventory/mycluster/hosts.yml all -m raw -a "swapoff -a && free -m"
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "swapoff -a && free -m"
 ```
 
 ### Modify yaml according to Swapoff
@@ -39,7 +39,15 @@ vim roles/download/tasks/download_container.yml
 vim kubespray/roles/kubernetes/secrets/files/make-ssl.sh
 ```
 
+### Network Settings
+```
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl stop firewalld && systemctl disable firewalld"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "setenforce 0"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux"
 
+ipv4网络设置
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "modprobe br_netfilter && echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables && sysctl -w net.ipv4.ip_forward=1"
+```
 
 ## Debug Command
 
