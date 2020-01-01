@@ -3,8 +3,8 @@
 Following basic procedure of kubespray, other commands are good to take notes.
 
 ## Reference
-https://ottodeng.io/post/kubespray/
-https://www.jianshu.com/p/45b9707b4567
+- https://ottodeng.io/post/kubespray/
+- https://www.jianshu.com/p/45b9707b4567
 
 ## Find a bigger disk space
 ```
@@ -22,6 +22,18 @@ ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root c
 ```
 
 ## Before Install
+
+### yml File Modificatio
+
+Not Using the nodellocalDns
+```
+# Set manual server if using a custom cluster DNS server
+# manual_dns_server: 10.x.x.x
+# Enable nodelocal dns cache
+enable_nodelocaldns: false
+#nodelocaldns_ip: 169.254.25.10
+
+```
 
 ### Disable Swapoff
 ```
