@@ -109,6 +109,24 @@ $ ansible-playbook -i inventory/devopscluster/hosts.yaml remove-node.yml
  
  https://github.com/wiselyman/kubespray/blob/master/docs/vars.md
  
+ 
+## kube-apiserver 高可用
+
+```
+yum install -y haproxy keepalived
+vim /etc/haproxy/haproxy.cfg 
+listen kubernetes-apiserver-https
+  bind *:8443
+  option ssl-hello-chk
+  mode tcp
+  timeout client 3h
+  timeout server 3h
+  server master1 192.168.10.81:6443
+  server master2 192.168.10.82:6443
+  server master3 192.168.10.83:6443
+  balance roundrobin
+```
+ 
 ### User accounts
 Kubespray sets up two Kubernetes accounts by default: __root__ and __kube__. Their passwords default to changeme. You can set this by changing __kube_api_pwd__.
 ```
