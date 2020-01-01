@@ -23,7 +23,7 @@ ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root c
 
 ## Before Install
 
-### yml File Modificatio
+### yml File Modification
 
 Not Using the nodellocalDns
 ```
@@ -82,6 +82,8 @@ strace -eopenat kubectl version
 ### netstat command
 
 ```
+$ ipvsadm -L -n
+
 $ netstat -tulpn | grep LISTEN
 $ sudo lsof -i -P -n
 $ sudo lsof -i -P -n | grep LISTEN
