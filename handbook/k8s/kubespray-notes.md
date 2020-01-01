@@ -68,8 +68,10 @@ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "modprobe br_netfilter &
 ## Debug Command
 
 ### The connection to the server lb-apiserver.kubernetes.local:8443 was refused
+### The connection to the server localhost:8080 was refused - did you specify the right host or port?
 ```
 sudo cp /etc/kubernetes/admin.conf $HOME/ && sudo chown $(id -u):$(id -g) $HOME/admin.conf && export KUBECONFIG=$HOME/admin.conf
+
 export KUBECONFIG=/etc/kubernetes/kubelet.conf
 
 sudo -i
