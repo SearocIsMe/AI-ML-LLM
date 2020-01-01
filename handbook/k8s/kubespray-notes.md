@@ -2,6 +2,10 @@
 
 Following basic procedure of kubespray, other commands are good to take notes.
 
+## Reference
+https://ottodeng.io/post/kubespray/
+https://www.jianshu.com/p/45b9707b4567
+
 ## Find a bigger disk space
 ```
 findmnt -n -o SOURCE --target /opt
