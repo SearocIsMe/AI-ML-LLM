@@ -81,6 +81,15 @@ strace -eopenat kubectl version
 
 ```
 
+### K8s Dashboard Version > v2.0
+
+Due to the version conflict problem with k8s 1.16, the Dashboard version must > v2.0.0-beta5
+
+```
+dashboard_image_repo: "{{ gcr_image_repo }}/google_containers/kubernetes-dashboard-{{ image_arch }}"
+dashboard_image_tag: "v2.0.0-beta6"
+```
+
 ### netstat command
 
 ```
