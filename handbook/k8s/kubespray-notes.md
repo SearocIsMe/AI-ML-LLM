@@ -154,10 +154,10 @@ inventory/devopscluster/group_vars/all/all.yml
 inventory/devopscluster/group_vars/all/all.yml
    |-> kube_read_only_port: 10255
 ```
-### Boostrap OS
+### Bootstrap OS
 ```
 inventory/devopscluster/group_vars/all/all.yml
-   |-> Boostrap-os: centos
+   |-> bootstrap-os: centos
 ```
 
 
