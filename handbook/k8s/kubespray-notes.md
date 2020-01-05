@@ -232,6 +232,20 @@ metadata:
     kubernetes.io/cluster-service: "true"
     addonmanager.kubernetes.io/mode: Reconcile
 ```
+
+### Export the Certificate
+
+scp devop@ip:~/.kube/kubecfg.p12 .
+```
+cd .kube/
+   83  grep 'client-certificate-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d >> kubecfg.crt
+
+   85  grep 'client-key-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d >> kubecfg.key
+   87  openssl pkcs12 -export -clcerts -inkey kubecfg.key -in kubecfg.crt -out kubecfg.p12
+
+   type the password fpr the certificate
+```
+
 ### Solve the problem of timeout
 Error trying to reach service: 'dial tcp 10.233.70.1:8443: 
 
