@@ -17,3 +17,17 @@ http://13.76.152.47:8001/api/v1/namespaces/kube-system/services/https:kubernetes
 https://13.76.152.47:30917/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
 
 https://13.76.152.47:30917/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy/#!/login
+
+## Kubeflow UI enable:
+
+### Get kubeflow services:
+kubectl get svc -n kubeflow
+### Edit this service
+kubectl -n kubeflow edit svc ml-pipeline-ui
+change to LoadBalancer, and put externalIPs:
+
+### Modify the IngressGatway
+ kubectl get -w -n istio-system svc/istio-ingressgateway
+ kubectl get svc istio-ingressgateway -n istio-system
+ kubectl edit svc istio-ingressgateway -n istio-system
+ 
