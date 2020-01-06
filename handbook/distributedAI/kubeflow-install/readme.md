@@ -18,7 +18,8 @@ In order to get kubeflow 0.7 version, we must focus on ** k8s 1.14 **
 From Kubespray ** v2.10.0 ** stats to support the k8s 1.14, according to the kubespray release notes v2.10.0
 
 ### Component versions:
-__ Kubernetes v1.14.1 __
+```
+**Kubernetes v1.14.1**
 Etcd 3.2.26
 Docker 18.06
 Cri-O 1.11.5
@@ -33,5 +34,5 @@ CoreDNS 1.5.0
 Helm 2.13.1
 Kubernetes Dashboard v1.10.1
 Oracle OCI: v0.7.0
-
+```
 
