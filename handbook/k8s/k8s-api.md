@@ -10,6 +10,7 @@ worker 10.0.0.12
 worker 10.0.0.13
 
 https://13.76.152.47:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy/#!/login
+
 https://13.76.152.47:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
 
 http://13.76.152.47:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
