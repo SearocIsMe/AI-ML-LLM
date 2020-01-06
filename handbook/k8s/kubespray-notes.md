@@ -14,9 +14,15 @@ findmnt -n -o SOURCE --target /opt
 ## Install Commands
 
 ```
-declare -a IPS=(10.0.0.9 10.0.0.5 10.0.0.6 10.0.0.7 10.0.0.8)
+# Install dependencies from ``requirements.txt``
+sudo pip install -r requirements.txt
 
-CONFIG_FILE=inventory/mycluster/hosts.yml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+# Copy ``inventory/sample`` as ``inventory/mycluster``
+cp -rfp inventory/sample inventory/mycluster
+
+# Update Ansible inventory file with inventory builder
+declare -a IPS=(10.10.1.3 10.10.1.4 10.10.1.5)
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
 ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml
 ```
