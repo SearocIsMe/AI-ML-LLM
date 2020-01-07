@@ -36,3 +36,10 @@ Kubernetes Dashboard v1.10.1
 Oracle OCI: v0.7.0
 ```
 
+## Install KF
+
+
+## Create the PVCs
+
+### Install NFS
+Refers from https://www.howtoforge.com/nfs-server-and-client-on-centos-7
