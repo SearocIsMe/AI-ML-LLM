@@ -254,8 +254,20 @@ cd .kube/
 
 ### Solve the problem of timeout
 Error trying to reach service: 'dial tcp 10.233.70.1:8443: 
-
+```
 sudo route add -net <kubernetes-dashboard_Endpoints_ip> netmask 255.255.255.255 gw <worker_node_ip>
+```
+
+### Create the PVCs
+
+```
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y nfs-utils"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "chmod -R 755 /var/nfsshare && chown nfsnobody:nfsnobody /var/nfsshare"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl enable rpcbind && systemctl enable nfs-server && systemctl enable nfs-lock && systemctl enable nfs-idmap"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start rpcbind && systemctl start nfs-server && systemctl start nfs-lock && systemctl start nfs-idmap"
+```
+
+https://www.kubeflow.org/docs/other-guides/kubeflow-on-multinode-cluster/#in-case-of-existing-kubeflow-installation
 
 ### ETCD
 
