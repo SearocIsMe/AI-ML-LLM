@@ -1,4 +1,8 @@
 
+## Dashboard
+
+![Kubeflow](./pic/kf-dashboard.png)
+
 ## K8s Version <=> KubeFlow version
 According to https://www.kubeflow.org/docs/started/k8s/overview/
 In order to get kubeflow 0.7 version, we must focus on ** k8s 1.14 **
@@ -43,3 +47,110 @@ Oracle OCI: v0.7.0
 
 ### Install NFS
 Refers from https://www.howtoforge.com/nfs-server-and-client-on-centos-7
+
+
+### Instal Helm
+```
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+```
+
+### Install Nfs-client-provisioner
+```
+ helm install --set nfs.server=10.0.0.6 --set nfs.path=/nfsroot stable/nfs-client-provisioner --generate-name
+```
+#### Install nfs-client-provisioner n K8s
+
+10.0.0.6 should be replaced by real IP
+
+```
+helm install nfs-client-provisioner --set nfs.server=10.0.0.6 --set nfs.path=/nfsroot --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
+```
+
+#### Get the list of storageclass
+```
+[root@node1 ~]# kubectl get storageclass -n kubeflow
+NAME            PROVISIONER                                       AGE
+nfs (default)   cluster.local/nfs-client-provisioner              51s
+nfs-client      cluster.local/nfs-client-provisioner-1578379646   15m
+```
+
+#### Change the Deployment settings to use NFS
+
+- Check NFS version
+```
+nfsstat –s
+
+[root@node1 ~]# nfsstat -s
+Server rpc stats:
+calls      badcalls   badclnt    badauth    xdrcall
+13979      0          0          0          0
+
+Server nfs v4:
+null         compound
+2         0% 13977    99%
+
+Server nfs v4 operations:
+op0-unused   op1-unused   op2-future   access       close        commit
+0         0% 0         0% 0         0% 1485      2% 975       1% 218       0%
+create       delegpurge   delegreturn  getattr      getfh        link
+35        0% 0         0% 161       0% 10283    20% 741       1% 0         0%
+lock         lockt        locku        lookup       lookup_root  nverify
+266       0% 0         0% 213       0% 1561      3% 0         0% 0         0%
+open         openattr     open_conf    open_dgrd    putfh        putpubfh
+1077      2% 0         0% 0         0% 0         0% 13767    26% 0         0%
+putrootfh    read         readdir      readlink     remove       rename
+13        0% 968       1% 30        0% 0         0% 110       0% 36        0%
+renew        restorefh    savefh       secinfo      setattr      setcltid
+0         0% 0         0% 36        0% 0         0% 138       0% 0         0%
+setcltidconf verify       write        rellockowner bc_ctl       bind_conn
+0         0% 0         0% 4856      9% 0         0% 0         0% 0         0%
+exchange_id  create_ses   destroy_ses  free_stateid getdirdeleg  getdevinfo
+3         0% 4         0% 2         0% 213       0% 0         0% 0         0%
+getdevlist   layoutcommit layoutget    layoutreturn secinfononam sequence
+0         0% 0         0% 0         0% 0         0% 6         0% 13967    27%
+set_ssv      test_stateid want_deleg   destroy_clid reclaim_comp
+0         0% 0         0% 0         0% 1         0% 3         0%
+
+```
+
+- list down the existing pvc, and try to change their Storagaeclass to nfs
+```
+[root@node1 ~]# kubectl get pvc --all-namespaces
+NAMESPACE   NAME             STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+kubeflow    katib-mysql      Pending                                                     22h
+kubeflow    metadata-mysql   Pending                                                     22h
+kubeflow    minio-pv-claim   Pending                                                     22h
+kubeflow    mysql-pv-claim   Pending                                      nfs            4h16m
+```
+
+- Command being used:
+```
+[root@node1 devops]# kubectl get pvc mysql-pv-claim -n kubeflow -o yaml > mysql-pv-claim.yaml
+[root@node1 devops]# kubectl get pvc katib-mysql -n kubeflow -o yaml > katib-mysql.yaml
+[root@node1 devops]# kubectl get pvc metadata-mysql -n kubeflow -o yaml >  metadata-mysql.yaml
+[root@node1 devops]# kubectl get pvc minio-pv-claim -n kubeflow -o yaml >  minio-pv-claim.yaml
+
+```
+
+- And then modify the YAML files to add the right storageClassName under the spec section. For example:
+```
+# mysql-pv-claim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  namespace: kubeflow
+  ...
+spec:
+  storageClassName: nfs
+  ...
+```
+
+- Delete old Deployment and Apply the changed version
+
+```
+kubectl delete -f <PVC-NAME>.yaml
+kubectl apply -f <PVC-NAME>.yaml
+```
