@@ -4,7 +4,7 @@
       - [1.1 Reference](#11-reference)        
       - [1.2 Linux command](#12-linux-command)               
       - [1.3 Antivirus ClamAV setup](#13-antivirus-clamav-setup)        
-      - [1.4 SSH Tunnel Setup](#14 ssh-tunnel-setup)        
+      - [1.4 SSH Tunnel Setup](#14-ssh-tunnel-setup)        
     - [2. Start Install](#2-start-install)       
       - [2.1 Use The standard Procedures](#21-use-the-standard-procedures)        
       - [2.2 Use Automation Deployment onto Cloud, e.g. Azure](#22-use-mation-deployment-onto-cloud-eg-azure)        
@@ -33,7 +33,6 @@
       - [6.3 Addressing variables](#63-addressing-variables)
 
 # The useful commands for kubespray on Centos
-
 
 Following basic procedure of kubespray, other commands are good to take notes.
 
@@ -68,7 +67,9 @@ findmnt -n -o SOURCE --target /opt
 ### 1.3 Antivirus ClamAV setup
 
 ```
-https://github.com/geerlingguy/ansible-role-clamav
+git clone https://github.com/geerlingguy/ansible-role-clamav
+
+modify the tasks and vars files to support Centos
 ```
 
 ### 1.4 SSH Tunnel Setup
@@ -96,7 +97,8 @@ https://github.com/geerlingguy/ansible-role-clamav
 ### 2.1 Use The standard Procedures
 
 - Prepare the Hosts.yaml
-  ```
+ 
+```
   # Install dependencies from ``requirements.txt``
   sudo pip install -r requirements.txt
 
@@ -106,54 +108,64 @@ https://github.com/geerlingguy/ansible-role-clamav
   # Update Ansible inventory file with inventory builder
   declare -a IPS=(10.10.1.3 10.10.1.4 10.10.1.5)
   CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-  ```
+```
 
 **Ensure Disable Some  Settings for K8s cluster**
 
   __Disable Swapoff__
-  ```
+```
   遇到的问题wait for the apiserver to be running
   $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "swapoff -a && free -m"
-  ```
+```
   __Network Settings__
-  ```
+```
   ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl stop firewalld && systemctl disable firewalld"
   ansible -i inventory/mycluster/hosts.yaml all -m raw -a "setenforce 0"
   ansible -i inventory/mycluster/hosts.yaml all -m raw -a "sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux"
 
   ipv4网络设置
   ansible -i inventory/mycluster/hosts.yaml all -m raw -a "modprobe br_netfilter && echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables && sysctl -w net.ipv4.ip_forward=1"
-  ```
+```
 
 - Clean Install
 
-  ```
+```
   ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml
-  ```
+```
 
 - Reset and Uninstall All 
 
   But you can also reset the entire cluster for fresh installation:
 
-  ```
+```
   $  ansible-playbook -i inventory/devopscluster/hosts.yaml reset.yml
 
   # Run clean command for files are removing from nodes.
   $ k8s-uninstall.sh
-  ```
+```
   Remember to keep the “hosts.ini” updated properly.
 
 - Remove Nodes
   You can remove node by node from your cluster simply adding specific node do section [kube-node] in inventory/mycluster/hosts.ini file (your hosts file) and run command:
-  ```
+
+```
   $ ansible-playbook -i inventory/devopscluster/hosts.yaml remove-node.yml
-  ```
+```
 
  **Install with Debug**
  use –b (become), -i (inventory) and –v (verbose)
- ```
+
+```
  $ ansible-playbook -v -b -i inventory/devopscluster/hosts.ini cluster.yml
- ```
+```
+**Install with Azure Automation scritps**
+
+```
+https://github.com/kubernetes-sigs/kubespray/tree/master/contrib/azurerm
+
+$ ansible-playbook -i contrib/azurerm/inventory -u devops --become -e "@inventory/sample/group_vars/all.yml" cluster.yml
+```
+
 
 ### 2.2 Use Automation Deployment onto Cloud, e.g. Azure
 
