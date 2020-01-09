@@ -74,7 +74,7 @@ modify the tasks and vars files to support Centos
 
 ### 1.4 SSH Tunnel Setup
 
-  ```
+```
   sudo groupadd devops-group
   sudo useradd -G devops-group devops
   chmod +w /etc/sudoers && echo "devops ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers && chmod -w /etc/sudoers
@@ -89,8 +89,7 @@ modify the tasks and vars files to support Centos
   [devops@Redhat-Ansible ]$ chmod 644 .ssh/known_hosts
 
   [devops@Redhat-Ansible ]$ ssh-copy-id -i ~/.ssh/id_rsa.pub devops@10.0.0.5
-
-  ```
+```
 
 ## 2. Start Install
 
