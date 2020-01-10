@@ -1,8 +1,12 @@
-## External LB example config
-apiserver_loadbalancer_domain_name: kf-demo-api.southeastasia.cloudapp.azure.com
-loadbalancer_apiserver:
-  address: 52.230.9.118
-  port: 6443
 
-## Internal loadbalancers for apiservers
-loadbalancer_apiserver_localhost: false
+
+master000 10.0.0.12
+master001 10.0.0.13
+
+
+etcd000 10.0.0.14
+etcd001 10.0.0.15
+etcd002 10.0.0.16
+
+nodes000   10.0.0.17
+nodes000   10.0.0.18

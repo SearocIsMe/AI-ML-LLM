@@ -66,10 +66,56 @@ findmnt -n -o SOURCE --target /opt
 
 ### 1.3 Antivirus ClamAV setup
 
+https://hostpresto.com/community/tutorials/how-to-install-clamav-on-centos-7/
 ```
 git clone https://github.com/geerlingguy/ansible-role-clamav
 
 modify the tasks and vars files to support Centos
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum -y update && yum -y install epel-release && yum -y update && yum clean all && yum -y install clamav-server clamav-data clamav-update clamav-filesystem clamav clamav-scanner-systemd clamav-devel clamav-lib clamav-server-systemd"
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "setsebool -P antivirus_can_scan_system 1 && setsebool -P clamd_use_jit 1"
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "cp /etc/clamd.d/scan.conf /etc/clamd.d/scan.conf.backup && sed -i -e "s/^Example/#Example/" /etc/clamd.d/scan.conf"
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "cat /etc/passwd | grep clam"
+$ EDIT  vim /etc/clamd.d/scan.conf,,, default User clamscan
+```
+Uncomment the line #LocalSocket **/var/run/clamd.scan/clamd.sock** to 
+```
+LocalSocket /var/run/clamd.scan/clamd.sock
+```
+
+Freshclam is used to update the database of virus definitions into the server.
+```
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "cp /etc/freshclam.conf /etc/freshclam.conf.bakup && sed -i -e "s/^Example/#Example/" /etc/freshclam.conf"
+
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "freshclam"
+```
+
+Create a new file /usr/lib/systemd/system/freshclam.service
+```
+# Run the freshclam as daemon
+[Unit]
+Description = freshclam scanner
+After = network.target
+
+[Service]
+Type = forking
+ExecStart = /usr/bin/freshclam -d -c 4
+Restart = on-failure
+PrivateTmp = true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Execute those service command to start
+```
+systemctl enable freshclam.service
+systemctl start freshclam.service
+
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start clamd@scan &&  systemctl enable clamd@scan && systemctl status clamd@scan"
+
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl daemon-reload"
+
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected --remove --recursive /home /root"
 ```
 
 ### 1.4 SSH Tunnel Setup
@@ -89,6 +135,9 @@ modify the tasks and vars files to support Centos
   [devops@Redhat-Ansible ]$ chmod 644 .ssh/known_hosts
 
   [devops@Redhat-Ansible ]$ ssh-copy-id -i ~/.ssh/id_rsa.pub devops@10.0.0.5
+
+
+  service sshd restart
 ```
 
 ## 2. Start Install
