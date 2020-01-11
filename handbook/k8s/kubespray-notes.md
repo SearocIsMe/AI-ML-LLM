@@ -156,6 +156,7 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected -
   yum install python36-devel
   yum install python36-setuptools
   easy_install-3.6 pip
+  pip install ruamel.yaml
   
   # Install dependencies from ``requirements.txt``
   sudo pip install -r requirements.txt
