@@ -14,6 +14,9 @@
 ## [General Container Image Guidelines][7]
 
 
+## installation
+https://www.cnblogs.com/fan-gx/p/11108276.html
+
 [1]: https://www.redhat.com/en/resources/cloud-native-container-design-whitepaper
 [2]: https://12factor.net/
 [3]: https://dddcommunity.org/book/evans_2003/

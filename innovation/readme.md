@@ -34,8 +34,8 @@ On This page:
 ## 1. Outline
 
 [Semi Koen][3] suggested good practice in "Architecting a Machine Learning Pipeline", which summary the main process and phases in machine learning engineering architecting and development.
+![picture](./pic/pipeline-mle.png)
 
-<img src="./pic/pipeline-mle.png" alt="drawing" width="1000" align="middle" />
 
 1. Resource Management, Yarn alternative --- ["ManageEngine"](https://www.manageengine.com), which can mointor anything in cluster 24\*7, not only for the CPU, memorys, but microservices.
 2. Scheduling, Can keep using Airflow, but K8s has its own schedueler
@@ -114,8 +114,7 @@ Model Service will be equipped specific machine learning back-end service.
 ### Feature Mart
 
 ## 5. Why need Hadoop and Yarn?
-
-<img src="./pic/becomeDataScientist.png" alt="drawing" width="600" align="middle">
+![picture](./pic/becomeDataScientist.png)
 
 > Questions: "Why we should use Hadoop and Spark?"
 
@@ -179,23 +178,20 @@ Another problem is, "Does Clould-Native Hadoop can help us fulfill this domain s
 #### 5.3.1 Hadoop Yarn vs Kuberneters
 
 The fundamental idea of YARN is to split up the functionalities of resource management and job scheduling/monitoring into separate daemons. [Diagram](./pic/yarn.png) shows the overall collaborations within cluster.
-
-<img src="./pic/yarn.png" alt="drawing" width="600" align="middle">
+![picture](./pic/yarn.png)
 
 Kuberneters has broader capability on scheduling/monitoring the resource for PODs(container pool) and Nodes (host of the PODSs). Herein, the resource consists of only the CPU, Memory of the PODs, but nodes to be previoned.
 
 **kube-scheduler**
 Component on the master that watches newly created pods that have no node assigned, and selects a node for them to run on. Factors taken into account for scheduling decisions include individual and collective resource requirements, hardware/software/policy constraints, affinity and anti-affinity specifications, data locality, inter-workload interference and deadlines. In short, kube-scheduler does the job of "Horizontal Pod Autoscaler work", see below diagram
-
-<img src="./pic/pod-horizontal-autoscaler.png" alt="drawing" width="600" align="middle">
+![picture](./pic/pod-horizontal-autoscaler.png)
 
 Kubernetes scheduler doesn't succeed to allocate new pods that may be created with Spark's dynamic resource allocation in the future (not implemented yet), it's able to mount necessary nodes dynamically (e.g. through https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler#introduction).
 
 **kube Cluster Autoscaling**
 Clusters are how Kubernetes groups machines. They are comprised of Nodes (individual machines, oftentimes virtual) which run Pods. Pods have containers that request resources such as CPU, Memory, and GPU. The Cluster Autoscaler adds or removes Nodes in a Cluster based on resource requests from Pods.
 [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler#introduction) automatically adjusts the size of the Kubernetes cluster. See below diagram for test phases of process.
-
-<img src="./pic/vertical-autoscale.png" alt="drawing" width="600" align="middle">
+![picture](./pic/vertical-autoscale.png)
 
 With full features autoscale in both vertical and horizontal autiscaler, kubernetes left Hadoop new component "DataPlane Services (DPS)" far behind.
 
