@@ -147,6 +147,17 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected -
 - Prepare the Hosts.yaml
  
 ```
+  # Install pip and pip3
+  yum -y update && yum -y install python-pip
+  curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+  python get-pip.py
+  
+  yum install python36
+  yum install python36-devel
+  yum install python36-setuptools
+  easy_install-3.6 pip
+  pip install ruamel.yaml
+  
   # Install dependencies from ``requirements.txt``
   sudo pip install -r requirements.txt
 
