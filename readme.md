@@ -1,6 +1,6 @@
 # Machine Learning Practice
 
-## Author: Searoc Haipeng Jiang
+## Author: Searoc Jiang
 
 # Solutions to Wellknown Problems in Python-based AI/ML 
 [Technical Exploration](Solutions/readme.md) depicts the objective of Solving well-known problems in the industry. 
