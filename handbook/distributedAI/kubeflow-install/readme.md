@@ -177,3 +177,14 @@ spec:
 kubectl delete -f <PVC-NAME>.yaml
 kubectl apply -f <PVC-NAME>.yaml
 ```
+
+
+## KubeFlow On OpenShift
+
+### OC 3.11
+Red Hat OpenShift Container Platform 3.11  This release is based on OKD 3.11, 
+and it uses Kubernetes 1.11, including CRI-O 1.11 and Docker 1.13. 
+It is also supported on Atomic Host 7.5 and later.
+
+### OC 4.2
+This release uses Kubernetes 1.14 with CRI-O runtime.
