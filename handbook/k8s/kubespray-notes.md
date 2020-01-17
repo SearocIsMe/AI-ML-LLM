@@ -87,6 +87,9 @@ Freshclam is used to update the database of virus definitions into the server.
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "cp /etc/freshclam.conf /etc/freshclam.conf.bakup && sed -i -e "s/^Example/#Example/" /etc/freshclam.conf"
 
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "freshclam"
+
+# scan disk and kill virus
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected --remove --recursive /"
 ```
 
 Create a new file /usr/lib/systemd/system/freshclam.service
@@ -147,17 +150,6 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected -
 - Prepare the Hosts.yaml
  
 ```
-  # Install pip and pip3
-  yum -y update && yum -y install python-pip
-  curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-  python get-pip.py
-  
-  yum install python36
-  yum install python36-devel
-  yum install python36-setuptools
-  easy_install-3.6 pip
-  pip install ruamel.yaml
-  
   # Install dependencies from ``requirements.txt``
   sudo pip install -r requirements.txt
 
@@ -232,7 +224,7 @@ $ ansible-playbook -i contrib/azurerm/inventory -u devops --become -e "@inventor
 ### 2.3 Create the PVCs
 
 ```
-ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y nfs-utils"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y nfs-utils && mkdir /var/nfsshare"
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "chmod -R 755 /var/nfsshare && chown nfsnobody:nfsnobody /var/nfsshare"
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl enable rpcbind && systemctl enable nfs-server && systemctl enable nfs-lock && systemctl enable nfs-idmap"
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start rpcbind && systemctl start nfs-server && systemctl start nfs-lock && systemctl start nfs-idmap"

@@ -2,7 +2,7 @@ kf-ansible.southeastasia.cloudapp.azure.com 13.76.135.169 10.0.0.5, Jhp@1975!Q@W
 kube-master000.southeastasia.cloudapp.azure.com 13.76.152.47 10.0.0.6 Passw0rd!Q@W
 kube-master001.southeastasia.cloudapp.azure.com 13.76.155.0 10.0.0.7  Passw0rd!Q@W
 	
-https://13.76.221.160:443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
+https://13.76.221.160:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
 
 
 etcd000 10.0.0.8

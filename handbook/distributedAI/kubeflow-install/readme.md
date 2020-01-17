@@ -42,6 +42,13 @@ Oracle OCI: v0.7.0
 
 ## Install KF
 
+```
+delete .cache/ and kustomize/ folders in the kf app folder.
+Change uri field in .yaml file to point to the downloaded tar.gz file.
+uri: file:/path-to-file/manifests-0.7-branch.tar.gz
+Build
+Apply
+```
 
 ## Create the PVCs
 
@@ -55,17 +62,33 @@ $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/s
 $ chmod 700 get_helm.sh
 $ ./get_helm.sh
 ```
+### Install CLient NFS
+```
+$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home && mkdir -p /mnt/nfs/var/nfsshare"
+# Verify the mount is correct
+df -kh
+
+# use command:
+mount -t nfs 10.0.0.12:/home /mnt/nfs/home/
+```
+#### Permernantly Added into Mount system
+```
+vim /etc/fstab
+10.0.0.12:/home    /mnt/nfs/home   nfs defaults 0 0
+10.0.0.12:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
+```
 
 ### Install Nfs-client-provisioner
 ```
- helm install --set nfs.server=10.0.0.6 --set nfs.path=/nfsroot stable/nfs-client-provisioner --generate-name
+ helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-~~name~~
 ```
+
 #### Install nfs-client-provisioner n K8s
 
-10.0.0.6 should be replaced by real IP
+10.0.0.12 should be replaced by real IP
 
 ```
-helm install nfs-client-provisioner --set nfs.server=10.0.0.6 --set nfs.path=/nfsroot --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
+helm install nfs-client-provisioner --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
 ```
 
 #### Get the list of storageclass
@@ -154,3 +177,14 @@ spec:
 kubectl delete -f <PVC-NAME>.yaml
 kubectl apply -f <PVC-NAME>.yaml
 ```
+
+
+## KubeFlow On OpenShift
+
+### OC 3.11
+Red Hat OpenShift Container Platform 3.11  This release is based on OKD 3.11, 
+and it uses Kubernetes 1.11, including CRI-O 1.11 and Docker 1.13. 
+It is also supported on Atomic Host 7.5 and later.
+
+### OC 4.2
+This release uses Kubernetes 1.14 with CRI-O runtime.
