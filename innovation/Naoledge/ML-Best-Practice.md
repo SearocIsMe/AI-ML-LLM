@@ -145,16 +145,43 @@ Typical machine learning solutions include the following:
 Most of the time, a machine learning project makes use of multiple datasets. Multiple tables need to be integrated and certain filters need to be applied to get the modelling population. It is important to have a clear overview of how different datasets are combined, and what are under consideration and what are out of scope.
 
 ### 7.1 Best Practice
-Request for data dictionary
-Access and refer to the established and maintained master data catalogue if available
-Identify subject matter expert for the data used in the project
-Draw an ER (entity-relationship) Diagram of the data to document the high-level understanding of the data
-Identify key columns in tables
-Validate the join keys. Check their cardinality (e.g. one-to-one, one-to-many, many-to-many, etc.) between the related data sets
-Join method: be aware of the impact of different join method (e.g., left, inner, outer). Make sure the modelling population does not change after join. Otherwise check the impact is intended.
-Name conflict: different tables may have the same column name. Be aware of which column you are referring to.
-If certain filters are applied, understand why they are applied and how it is linked to population definition.
-Find out from when the various datasets are available. This will impact how the datasets can be joined together. For example, if Finacle data is available from 2015 but another data set is only available from 2016, then the model should only take data from 2016 and beyond.
-If real time data stream is used in the project, understand data stream velocity and latency.
-For unstructured data, understand data file naming convention, file type (e.g., binary or text).
-Maintain a workflow diagram capturing: input datasets (or tables), high level process steps, e.g., joins and filters, intermediate datasets, datasets for feature creation.
+* Request for data dictionary
+* Access and refer to the established and maintained master data catalogue if available
+* Identify subject matter expert for the data used in the project
+* Draw an ER (entity-relationship) Diagram of the data to document the high-level understanding of the data
+* Identify key columns in tables
+* Validate the join keys. Check their cardinality (e.g. one-to-one, one-to-many, many-to-many, etc.) between the related data sets
+* Join method: be aware of the impact of different join method (e.g., left, inner, outer). Make sure the modelling population does not change after join. Otherwise check the impact is intended.
+* Name conflict: different tables may have the same column name. Be aware of which column you are referring to.
+* If certain filters are applied, understand why they are applied and how it is linked to population definition.
+* Find out from when the various datasets are available. This will impact how the datasets can be joined together. For example, if Finacle data is available from 2015 but another data set is only available from 2016, then the model should only take data from 2016 and beyond.
+* If real time data stream is used in the project, understand data stream velocity and latency.
+* For unstructured data, understand data file naming convention, file type (e.g., binary or text).
+* Maintain a workflow diagram capturing: input datasets (or tables), high level process steps, e.g., joins and filters, intermediate datasets, datasets for feature creation.
+
+## 8. Data Profiling and Validation
+After getting enough clarity on how the datasets can be joined and filtered for the project use, the team should do data profiling to validate the understanding and assumptions (if any). In particular, the team should confirm the modelling population size is correct and distribution on key measurements are aligned with business’ understanding of the population.
+### 8.1 Best Practice
+* Conduct EDA (explorative data analysis) on the datasets to assess data quality and understand the distribution of data
+  -- Measure data sparsity. Find out whether the data sparsity is expected or due to data extraction issue.
+  -- Check on missing data: find out why they are missing, if there is any way to impute missing data or if there is any other data to be used as a proxy
+  -- Check on duplicates: remove duplicated data. If there are conflicts, check with business to understand the reason and take necessary action
+  -- Check on invalid data: e.g. age is negative, number of digits in phone number, etc.
+  -- Check of the cardinality (e.g. one-to-one, one-to-many, many-to-many, etc.) between the related data sets
+  -- For categorical data, check its distribution and align with business analyst or data SME.
+  -- For text data: pay attention to encodings, special characters, leading/trailing/extra white spaces, letter cases, misspellings, etc.
+  -- For date/time: make sure the datetime conversion is correct (check if the datetime format is consistent, any extreme values that may cause overflow, etc.)
+  -- For amount data, find out the currency and exchange rate if available
+* Understand the distribution of the data from visualization and descriptive statistics:
+  -- Datatype, min, max, mean, median, count, unique count, percentile, standard deviation, variance, proportion of missing values etc.
+  -- Use cross table, bar chart, histograms, box plots, scatter plots to see distribution of data
+* If data from multiple sources are used, check the consistency between data sources
+  -- Check correlation between key columns
+  -- Outliers: check if it is due to data error
+  -- Review the results from EDA with business
+  -- Confirm the understanding of the data is correct
+* Produce key statistics and verify with business, examples:
+ - Number of customers observed in the data period
+ - Number of transactions, total amount
+ - Number of events
+ - Other key metrics
