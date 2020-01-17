@@ -140,3 +140,21 @@ Typical machine learning solutions include the following:
 * Estimate the compute requirement (e.g., number of CPU cores and size of RAM needed)
 * Estimate storage requirement (e.g., size of raw data, intermediate data etc)
 * Document the server/cluster used in the project, tech stack, packages and libraries information.
+
+## 7. Understand Data
+Most of the time, a machine learning project makes use of multiple datasets. Multiple tables need to be integrated and certain filters need to be applied to get the modelling population. It is important to have a clear overview of how different datasets are combined, and what are under consideration and what are out of scope.
+
+### 7.1 Best Practice
+Request for data dictionary
+Access and refer to the established and maintained master data catalogue if available
+Identify subject matter expert for the data used in the project
+Draw an ER (entity-relationship) Diagram of the data to document the high-level understanding of the data
+Identify key columns in tables
+Validate the join keys. Check their cardinality (e.g. one-to-one, one-to-many, many-to-many, etc.) between the related data sets
+Join method: be aware of the impact of different join method (e.g., left, inner, outer). Make sure the modelling population does not change after join. Otherwise check the impact is intended.
+Name conflict: different tables may have the same column name. Be aware of which column you are referring to.
+If certain filters are applied, understand why they are applied and how it is linked to population definition.
+Find out from when the various datasets are available. This will impact how the datasets can be joined together. For example, if Finacle data is available from 2015 but another data set is only available from 2016, then the model should only take data from 2016 and beyond.
+If real time data stream is used in the project, understand data stream velocity and latency.
+For unstructured data, understand data file naming convention, file type (e.g., binary or text).
+Maintain a workflow diagram capturing: input datasets (or tables), high level process steps, e.g., joins and filters, intermediate datasets, datasets for feature creation.
