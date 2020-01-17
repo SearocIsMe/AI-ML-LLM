@@ -1,0 +1,8 @@
+2019-09-06 21:29:16 WARN  Utils:66 - Your hostname, searoc-B360M-D3H resolves to a loopback address: 127.0.1.1; using 192.168.1.200 instead (on interface eno1)
+2019-09-06 21:29:16 WARN  Utils:66 - Set SPARK_LOCAL_IP if you need to bind to another address
+2019-09-06 21:29:18 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Java side, call python: /home/searoc/00-code/ai-ml/Solutions/sparkml/pyspark/train_spark_rf.py
+args aize: 2
+Java side, data file: /home/searoc/00-code/ai-ml/Solutions/data/train_tips_only.csv
+2019-09-06 21:29:20 INFO  ShutdownHookManager:54 - Shutdown hook called
+2019-09-06 21:29:20 INFO  ShutdownHookManager:54 - Deleting directory /tmp/spark-c74e5a04-e11f-47da-b635-703bc2235a20

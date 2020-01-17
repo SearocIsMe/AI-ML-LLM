@@ -1,27 +1,27 @@
-
 ## Dashboard
 
 ![Kubeflow](./pic/kf-dashboard.png)
 
 ## K8s Version <=> KubeFlow version
+
 According to https://www.kubeflow.org/docs/started/k8s/overview/
 In order to get kubeflow 0.7 version, we must focus on ** k8s 1.14 **
 
-
-| k8s version   | kubeflow 0.4 |  kubeflow 0.5 |  kubeflow 0.6 |  kubeflow 0.7 |
-| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| 1.11	        | compatible	| compatible	| incompatible	| incompatible  |
-| 1.12	        | compatible	| compatible	| incompatible	| incompatible  |
-| 1.13	        | compatible	| compatible	| incompatible	| incompatible  |
-| __1.14__	        | __compatible__	| ** compatible **	| ** compatible **	| __compatible__    |
-| 1.15	        | incompatible	| compatible	| compatible	| compatible    |
-| 1.16	        | incompatible	| incompatible	| incompatible	| incompatible  |
+| k8s version |  kubeflow 0.4  |   kubeflow 0.5   |   kubeflow 0.6   |  kubeflow 0.7  |
+| ----------- | :------------: | :--------------: | :--------------: | :------------: |
+| 1.11        |   compatible   |    compatible    |   incompatible   |  incompatible  |
+| 1.12        |   compatible   |    compatible    |   incompatible   |  incompatible  |
+| 1.13        |   compatible   |    compatible    |   incompatible   |  incompatible  |
+| **1.14**    | **compatible** | ** compatible ** | ** compatible ** | **compatible** |
+| 1.15        |  incompatible  |    compatible    |    compatible    |   compatible   |
+| 1.16        |  incompatible  |   incompatible   |   incompatible   |  incompatible  |
 
 ## K8s Version <=> kubeSpray version
 
 From Kubespray ** v2.10.0 ** stats to support the k8s 1.14, according to the kubespray release notes v2.10.0
 
 ### Component versions:
+
 ```
 **Kubernetes v1.14.1**
 Etcd 3.2.26
@@ -53,16 +53,19 @@ Apply
 ## Create the PVCs
 
 ### Install NFS
+
 Refers from https://www.howtoforge.com/nfs-server-and-client-on-centos-7
 
-
 ### Instal Helm
+
 ```
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 $ chmod 700 get_helm.sh
 $ ./get_helm.sh
 ```
+
 ### Install CLient NFS
+
 ```
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home && mkdir -p /mnt/nfs/var/nfsshare"
 # Verify the mount is correct
@@ -71,7 +74,9 @@ df -kh
 # use command:
 mount -t nfs 10.0.0.12:/home /mnt/nfs/home/
 ```
+
 #### Permernantly Added into Mount system
+
 ```
 vim /etc/fstab
 10.0.0.12:/home    /mnt/nfs/home   nfs defaults 0 0
@@ -79,6 +84,7 @@ vim /etc/fstab
 ```
 
 ### Install Nfs-client-provisioner
+
 ```
  helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-~~name~~
 ```
@@ -92,6 +98,7 @@ helm install nfs-client-provisioner --set nfs.server=10.0.0.12 --set nfs.path=/v
 ```
 
 #### Get the list of storageclass
+
 ```
 [root@node1 ~]# kubectl get storageclass -n kubeflow
 NAME            PROVISIONER                                       AGE
@@ -102,6 +109,7 @@ nfs-client      cluster.local/nfs-client-provisioner-1578379646   15m
 #### Change the Deployment settings to use NFS
 
 - Check NFS version
+
 ```
 nfsstat –s
 
@@ -139,6 +147,7 @@ set_ssv      test_stateid want_deleg   destroy_clid reclaim_comp
 ```
 
 - list down the existing pvc, and try to change their Storagaeclass to nfs
+
 ```
 [root@node1 ~]# kubectl get pvc --all-namespaces
 NAMESPACE   NAME             STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
@@ -149,6 +158,7 @@ kubeflow    mysql-pv-claim   Pending                                      nfs   
 ```
 
 - Command being used:
+
 ```
 [root@node1 devops]# kubectl get pvc mysql-pv-claim -n kubeflow -o yaml > mysql-pv-claim.yaml
 [root@node1 devops]# kubectl get pvc katib-mysql -n kubeflow -o yaml > katib-mysql.yaml
@@ -158,6 +168,7 @@ kubeflow    mysql-pv-claim   Pending                                      nfs   
 ```
 
 - And then modify the YAML files to add the right storageClassName under the spec section. For example:
+
 ```
 # mysql-pv-claim.yaml
 apiVersion: v1
@@ -178,13 +189,30 @@ kubectl delete -f <PVC-NAME>.yaml
 kubectl apply -f <PVC-NAME>.yaml
 ```
 
-
 ## KubeFlow On OpenShift
 
 ### OC 3.11
-Red Hat OpenShift Container Platform 3.11  This release is based on OKD 3.11, 
-and it uses Kubernetes 1.11, including CRI-O 1.11 and Docker 1.13. 
+
+Red Hat OpenShift Container Platform 3.11 This release is based on OKD 3.11,
+and it uses Kubernetes 1.11, including CRI-O 1.11 and Docker 1.13.
 It is also supported on Atomic Host 7.5 and later.
 
 ### OC 4.2
+
 This release uses Kubernetes 1.14 with CRI-O runtime.
+
+### KF 0.6 Main Update
+
+Multitenancy, Multiuser
+
+### KF 0.7 Main Update
+
+Model serving and management via KFServing
+KFServing enables Serverless Inferencing on Kubernetes and provides performant, high abstraction interfaces for common ML frameworks like Tensorflow, XGBoost, ScikitLearn, PyTorch, and ONNX to solve production model serving use cases.
+
+KFServing:
+
+- Provides a Kubernetes Custom Resource Definition (CRD) for serving ML models on arbitrary frameworks.
+- Encapsulates the complexity of autoscaling, networking, health checking, and server configuration to bring cutting edge serving features like GPU autoscaling, scale to zero, and canary rollouts to your ML deployments
+- Enables a simple, pluggable, and complete story for your production ML inference server by providing prediction, pre-processing, post-processing and explainability out of the box.
+- Is evolving with strong community contributions, and has a Technical Steering Committee driven by Google, IBM, Microsoft, Seldon, and Bloomberg
