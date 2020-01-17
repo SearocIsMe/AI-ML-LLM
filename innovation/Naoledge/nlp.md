@@ -61,3 +61,5 @@ Task: Given a voice conversation transcript, classify conversation intent Module
 Topic Modelling Task: Identify latent topics from DBS articles/voice transcript data Module used: Latent Dirichlet Allocation (LDA), Non-Negative Matrix Factorization (NMF)
 Text Summarization Task: Summarize long text into short sentence by capturing important words Module used: Gensim summarizer
 Question Answering Building Chatbot based on customer and service agent conversations Module - seq2seq module
+
+## Standard NLP Workflow
