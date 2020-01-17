@@ -23,9 +23,9 @@ For our walk through of how an NLP pipeline works, we’re going to use the foll
 Amazon.com, Inc., doing business as Amazon, is an American electronic commerce and cloud computing company based in Seattle, Washington, that was founded by Jeff Bezos on July 5, 1994. The tech giant is the largest Internet retailer in the world as measured by revenue and market capitalization, and second largest after Alibaba Group in terms of total sales. The amazon.com website started as an online bookstore and later diversified to sell video downloads/streaming, MP3 downloads/streaming, audiobook downloads/streaming, software, video games, electronics, apparel, furniture, food, toys, and jewelry. The company also produces consumer electronics — Kindle e-readers, Fire tablets, Fire TV, and Echo — and is the world’s largest provider of cloud infrastructure services (IaaS and PaaS). Amazon also sells certain low-end products under its in-house brand AmazonBasics.
 A few dependencies
 First we’ll install a few useful Python NLP libraries that will aid us in analysing this text.
-### Installing spaCy, general Python NLP lib pip3 install spacy
-### Downloading the English dictionary model for spaCy python3 -m spacy download en_core_web_lg
-### Installing textacy, basically a useful add-on to spaCy pip3 install textacy
+ - Installing spaCy, general Python NLP lib pip3 install spacy
+ - Downloading the English dictionary model for spaCy python3 -m spacy download en_core_web_lg
+ - Installing textacy, basically a useful add-on to spaCy pip3 install textacy
 Entity Analysis
 Now that everything is installed, we can do a quick entity analysis of our text. Entity analysis will go through your text and identify all of the important words or “entities” in the text. When we say “important” what we really mean is words that have some kind of real-world semantic meaning or significance.
 Check out the code below which does all of the entity analysis for us:
@@ -44,25 +44,20 @@ The library the we installed previously textacy implements several common NLP in
 One of the algorithms it implements is called Semi-structured Statement Extraction. This algorithm essentially parses some of the information that spaCy’s NLP model was able to extract and based on that we can grab some more specific information about certain entities! In a nutshell, we can extract certain “facts” about the entity of our choice.
 Let’s see what that looks like in code. For this one, we’re going to take the entire summary of Washington D.C’s Wikipedia page.
 
-**** Information from Washington's Wikipedia page **** 1 - Statement: (Washington, is, the capital of the United States of America.[4) 1 - Fact: the capital of the United States of America.[4 2 - Statement: (Washington, is, the principal city of the Washington metropolitan area, which has a population of 6,131,977.[6) 2 - Fact: the principal city of the Washington metropolitan area, which has a population of 6,131,977.[6 3 - Statement: (Washington, is, home to many national monuments and museums, which are primarily situated on or around the National Mall) 3 - Fact: home to many national monuments and museums, which are primarily situated on or around the National Mall
+## Common Applications of NLP
+### Text Matching
+Article Recommendation Task: Given a trade commodity, find similar articles to be recommended to user Module used: word2vec
+Name Standardization Task: Standardize DBS brand names from card generated free text information, as brand name free text may not be same for a particular merchant. How can we utilize string matching to find similar brands.  Module used: String similarity functions like Edit Distance, Greatest Common Prefix
+Name Matching Task: Identify if particular customer (free text) is a DBS customer by doing fuzzy name matching/string matching against a list of names
+Module used: regex_fuzzy_matching
+Document similarity Given an article / document based on a product, find similar articles. 
 
-Our NLP model found 3 useful facts about Washington D.C from that text:
-(1) Washington is the capital of the USA
-(2) Washington’s population and the fact that it is metropolitan
-(3) Many national monuments and museums
-The best part about this is that those are all really the most important pieces of information within that block of text!
-Going deeper with NLP
-This concludes our easy introduction to NLP! We’ve learned a ton, but this was only a small taste…
-There are many more great applications of NLP out there like language translation, chat bots, and more specific and intricate analyses of text documents. Much of this today is done using deep learning, specifically Recurrent Neural Networks (RNNs) and Long-Short Term Memory (LSTMs) networks.
-If you’d like to play around with more NLP yourself, looking through the spaCy docs and textacy docs, is a great place to start! You’ll see lots of examples of the ways you can work with parsed text and extraction very useful information from it. Everything with spaCy is quick and easy and you can get some really great value out of it. Once you’d got that down, it’s time to do bigger and better things with deep learning!
-NLP 101
-What is NLP?
+### Supervised Learning
 
-NLP Applications and Tasks
+Text Classification Task: Classify if given email (sent to external email address) is suspicious Module used: bag of words, Tf-Idf, word clustering module
+Task: Given a voice conversation transcript, classify conversation intent Module: 
 
-Standard worflow for NLP
-
-Word embedding
-
-Annotation Tools for NLP
-
+### Unsupervised Learning
+Topic Modelling Task: Identify latent topics from DBS articles/voice transcript data Module used: Latent Dirichlet Allocation (LDA), Non-Negative Matrix Factorization (NMF)
+Text Summarization Task: Summarize long text into short sentence by capturing important words Module used: Gensim summarizer
+Question Answering Building Chatbot based on customer and service agent conversations Module - seq2seq module
