@@ -111,3 +111,32 @@ Typical machine learning solutions include the following:
 * Clarify how the solution can be deployed into production environment
 * Find out whether the required data will be available in the model deployment environment
 * Clarify how the model performance and benefits realised/business impact can be monitored
+
+## 5. Identify Relevant Data
+
+### 5.1 Best Practice
+* Talk to business and data steward to understand data landscape
+* Figure out data period, storage system, and access control policies
+* Find out how to check sanity of the data, e.g., number of customers, total transaction count and amount etc.
+* Read data from storage system with the sufficient view/table access, or copy data into the approved analytics environment;
+* Do not modify the original data.
+* Sensitivity of data: use sensitive data only when necessary
+* Always keep the data in a safe environment.
+* Responsible use of data
+* Clearly document what data are used in this project and why they are needed
+* Maintain a document on source of the datasets, the location of the datasets, period of the datasets, and how the data will be accessed etc.
+* Keep a high-level view of data that will be used in this project. Examples of data sets: customer profile, transaction, call centre records, emails, etc.
+
+## 6. Analytics Environment
+### 6.1 Best Practice
+* Validate if all necessary tools are available before starting projects. If new tools need to be installed, contact system admin as early as possible.
+* Choose suitable analytics tools based on the project type, such as data heavy or modelling heavy projects.
+* Use only tools that will be available in production environment or can be installed in that environment.
+* Pick a programming language that is available in deployment environment.
+* Document the versions of tools and libraries used in the project.
+* Make sure data are accessible in the environment, particularly in regard to privacy regulations on sensitive data.
+* Make sure there is enough storage space allocated to the project.
+* If multiple platforms are involved, sharing of data and result between the platforms should follow bank’s regulations, such as sensitive data handling.
+* Estimate the compute requirement (e.g., number of CPU cores and size of RAM needed)
+* Estimate storage requirement (e.g., size of raw data, intermediate data etc)
+* Document the server/cluster used in the project, tech stack, packages and libraries information.
