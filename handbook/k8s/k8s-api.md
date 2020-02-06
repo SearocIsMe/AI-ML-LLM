@@ -31,7 +31,11 @@ kubectl -n kubeflow edit svc ml-pipeline-ui
 change to LoadBalancer, and put externalIPs:
 
 ### Modify the IngressGatway
- kubectl get -w -n istio-system svc/istio-ingressgateway
+```
+kubectl get -w -n istio-system svc/istio-ingressgateway
+ 
  kubectl get svc istio-ingressgateway -n istio-system
+ 
  kubectl edit svc istio-ingressgateway -n istio-system
+```
  
