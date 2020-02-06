@@ -83,10 +83,15 @@ vim /etc/fstab
 10.0.0.12:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
 ```
 
+### update Helm repo
+```
+$ helm repo add stable https://kubernetes-charts.storage.googleapis.com
+$ helm repo update
+```
 ### Install Nfs-client-provisioner
 
 ```
- helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-~~name~~
+ helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
 ```
 
 #### Install nfs-client-provisioner n K8s
