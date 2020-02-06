@@ -9,6 +9,10 @@ https://developers.redhat.com/blog/2019/12/16/ai-ml-pipelines-using-open-data-hu
 
 ## Security Concern
 
+### OAuth2.0
+https://journal.arrikto.com/kubeflow-authentication-with-istio-dex-5eafdfac4782
+https://github.com/marcredhat/crcdemos/tree/master/kubeflow
+
 ### Image Valunerability
 gcr.io/kubeflow-images-public/admission-webhook:v20190520-v0-139-gcee39dbc-dirty-0d8f4c
 nvidia/k8s-device-plugin:1.0.0-beta
