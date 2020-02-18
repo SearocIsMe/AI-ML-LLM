@@ -34,3 +34,23 @@ https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/
 
 Openshift 4.2 from RHat: http://console-openshift-console.apps.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com
 
+### Get oc login URL from existing 
+
+./oc login --token=QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU --server=https://api.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com:6443
+The server uses a certificate signed by an unknown authority.
+You can bypass the certificate check, but any data you send to the server could be intercepted by others.
+Use insecure connections? (y/n): y
+
+Logged into "https://api.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com:6443" as "opentlc-mgr" using the token provided.
+
+You have access to 53 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "default".
+Welcome! See 'oc help' to get started.
+
+Your API token is
+QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU
+Log in with this token
+oc login --token=QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU --server=https://api.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com:6443
+Use this token directly against the API
+curl -H "Authorization: Bearer QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU" "https://api.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com:6443/apis/user.openshift.io/v1/users/~"
