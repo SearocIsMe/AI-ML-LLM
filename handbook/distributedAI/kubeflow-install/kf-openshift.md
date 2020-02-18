@@ -29,5 +29,8 @@ gcr.io/ml-pipeline/visualization-server
 gcr.io/kubeflow-images-public/centraldashboard
 gcr.io/cloud-solutions-group/cloud-endpoints-controller:0.2.1
 
+### Download oc client
+https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/
+
 Openshift 4.2 from RHat: http://console-openshift-console.apps.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com
 
