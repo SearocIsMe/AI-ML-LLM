@@ -28,3 +28,6 @@ vertaaiofficial/modeldb-frontend:kubeflow
 gcr.io/ml-pipeline/visualization-server
 gcr.io/kubeflow-images-public/centraldashboard
 gcr.io/cloud-solutions-group/cloud-endpoints-controller:0.2.1
+
+Openshift 4.2 from RHat: http://console-openshift-console.apps.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com
+
