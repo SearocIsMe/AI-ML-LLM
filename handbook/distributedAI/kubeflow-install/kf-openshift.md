@@ -54,3 +54,7 @@ Log in with this token
 oc login --token=QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU --server=https://api.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com:6443
 Use this token directly against the API
 curl -H "Authorization: Bearer QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU" "https://api.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com:6443/apis/user.openshift.io/v1/users/~"
+
+
+### Ingress-gatway
+http://istio-ingressgateway-istio-system.apps.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com/(base)
