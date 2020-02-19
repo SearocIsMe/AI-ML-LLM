@@ -60,3 +60,11 @@ curl -H "Authorization: Bearer QrDzTHM5im6ZEF36S88uw-fOWwea9pIYH8lscLUCOFU" "htt
 http://istio-ingressgateway-istio-system.apps.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com
 Seldon API
 curl -X POST -H 'Content-Type: application/json' -d '{"strData": "0.365194527642578,0.819750231339882,-0.5927999453145171,-0.619484351930421,-2.84752569239798,1.48432160780265,0.499518887687186,72.98"}' http://istio-ingressgateway-istio-system.apps.cluster-dbs2-3cb2.dbs2-3cb2.example.opentlc.com/seldon/kubeflow/modelfull/api/v0.1/predictions
+
+
+$ sed -i 's#uri: .*#uri: '$PWD'#' ./kfdef/kfctl_openshift.yaml
+$ kfctl build --file=kfdef/kfctl_openshift.yaml
+$ kfctl apply --file=./kfdef/kfctl_openshift.yaml
+
+$ oc get routes -n istio-system istio-ingressgateway -o jsonpath='http://{.spec.host}/'
+http://<istio ingress route>/
