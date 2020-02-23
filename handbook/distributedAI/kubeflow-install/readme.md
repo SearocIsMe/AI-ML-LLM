@@ -64,7 +64,7 @@ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl enable rpcbin
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start rpcbind && systemctl start nfs-server && systemctl start nfs-lock && systemctl start nfs-idmap"
 ```
 
-#### on Server 172.31.51.143, install server config
+#### on Server 172.31.51.143, install server config on all client box
 
 ```
 vim /etc/exports 
@@ -80,6 +80,8 @@ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl restart nfs-s
 ```
 mkdir -p /mnt/nfs/home
 mkdir -p /mnt/nfs/var/nfsshare
+mkdir -p /var/nfsshare
+chmod -R 755 /var/nfsshare
 mount -t nfs 172.31.51.143:/home /mnt/nfs/home/
 mount -t nfs 172.31.51.143:/var/nfsshare /mnt/nfs/var/nfsshare/
 ```
@@ -132,6 +134,8 @@ $ helm repo update
 
 ```
  helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
+ or 
+ helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
 ```
 
 #### Install nfs-client-provisioner n K8s
@@ -139,7 +143,9 @@ $ helm repo update
 10.0.0.12 should be replaced by real IP
 
 ```
-helm install nfs-client-provisioner --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
+helm install nfs-client-provisioner --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner
+or
+helm install nfs-client-provisioner --set nfs.server=172.31.51.143 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
 ```
 
 #### Get the list of storageclass
