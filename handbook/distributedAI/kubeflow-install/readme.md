@@ -56,6 +56,46 @@ Apply
 
 Refers from https://www.howtoforge.com/nfs-server-and-client-on-centos-7
 
+#### Install NFS software for server and client
+
+```
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y nfs-utils"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl enable rpcbind && systemctl enable nfs-server && systemctl enable nfs-lock && systemctl enable nfs-idmap"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start rpcbind && systemctl start nfs-server && systemctl start nfs-lock && systemctl start nfs-idmap"
+```
+
+#### on Server 172.31.51.143, install server config
+
+```
+vim /etc/exports 
+
+/var/nfsshare    172.31.51.143(rw,sync,no_root_squash,no_all_squash)
+/home            172.31.51.143(rw,sync,no_root_squash,no_all_squash)
+```
+```
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl restart nfs-server"
+```
+#### Test Mount on Server/Client
+
+```
+mkdir -p /mnt/nfs/home
+mkdir -p /mnt/nfs/var/nfsshare
+mount -t nfs 172.31.51.143:/home /mnt/nfs/home/
+mount -t nfs 172.31.51.143:/var/nfsshare /mnt/nfs/var/nfsshare/
+```
+by Ansible
+```
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home && mkdir -p /mnt/nfs/var/nfsshare"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mount -t nfs 172.31.51.143:/home /mnt/nfs/home/ && mount -t nfs 172.31.51.143:/var/nfsshare /mnt/nfs/var/nfsshare/"
+```
+
+#### Permanent NFS mounting
+By Default modify the /etc/fstab,
+```
+172.31.51.143:/home    /mnt/nfs/home   nfs defaults 0 0
+172.31.51.143:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
+```
+
 ### Instal Helm
 
 ```
