@@ -33,3 +33,22 @@ You’ll want to do something like forward chaining where you’ll be able to mo
 - fold 3 : training [1 2 3], test [4]
 - fold 4 : training [1 2 3 4], test [5]
 - fold 5 : training [1 2 3 4 5], test [6]
+
+# Q20- When should you use classification over regression?
+
+More reading: Regression vs Classification (Math StackExchange)
+
+Classification produces discrete values and dataset to strict categories, while regression gives you continuous results that allow you to better distinguish differences between individual points. 
+You would use classification over regression if you wanted your results to reflect the belongingness of data points in your dataset to certain explicit categories 
+(ex: If you wanted to know whether a name was male or female rather than just how correlated they were with male and female names.)
+
+# Q21- Name an example where ensemble techniques might be useful.
+
+More reading: [Ensemble learning](https://en.wikipedia.org/wiki/Ensemble_learning)
+
+Ensemble techniques use a combination of learning algorithms to optimize better predictive performance. 
+They typically reduce overfitting in models and make the model more robust 
+(unlikely to be influenced by small changes in the training data). 
+
+You could list some examples of ensemble methods, from bagging to boosting to a “bucket of models” method 
+and demonstrate how they could increase predictive power.
