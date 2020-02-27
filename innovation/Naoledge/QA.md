@@ -18,3 +18,18 @@ More reading: Deep learning (Wikipedia)
 Deep learning is a subset of machine learning that is concerned with neural networks: 
 how to use backpropagation and certain principles from neuroscience to more accurately model large sets of unlabelled or semi-structured data. 
 In that sense, deep learning represents an unsupervised learning algorithm that learns representations of data through the use of neural nets.
+
+
+# Q15- What cross-validation technique would you use on a time series dataset?
+
+More reading: Using k-fold cross-validation for time-series model selection [CrossValidated](https://stats.stackexchange.com/questions/14099/using-k-fold-cross-validation-for-time-series-model-selection)
+
+Instead of using standard k-folds cross-validation, you have to pay attention to the fact that a time series is not randomly distributed data — it is inherently ordered by chronological order. If a pattern emerges in later time periods for example, your model may still pick up on it even if that effect doesn’t hold in earlier years!
+
+You’ll want to do something like forward chaining where you’ll be able to model on past data then look at forward-facing data.
+
+- fold 1 : training [1], test [2]
+- fold 2 : training [1 2], test [3]
+- fold 3 : training [1 2 3], test [4]
+- fold 4 : training [1 2 3 4], test [5]
+- fold 5 : training [1 2 3 4 5], test [6]
