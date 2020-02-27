@@ -31,6 +31,11 @@ On This page:
   - [6. Stateless Stream Processing](#6-Stateless-Stream-Processing)
     - [6.1 How To Achieve the Stateless](#61-How-To-Achieve-the-Stateless)
 
+  - [Solutions](./solution.md)
+  - [UI/UX](./uiux.md)
+  - [Feature Engineering](./Naoledge/readme.md)
+  
+  
 ## 1. Outline
 
 [Semi Koen][3] suggested good practice in "Architecting a Machine Learning Pipeline", which summary the main process and phases in machine learning engineering architecting and development.
