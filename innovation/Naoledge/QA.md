@@ -63,8 +63,9 @@ thereby providing inaccurate generalizations.
 
 There are three main methods to avoid overfitting:
 
-- 1. Keep the model simpler: reduce variance by taking into account fewer variables and parameters, thereby removing some of the noise in the training data.
+- 1 Keep the model simpler: reduce variance by taking into account fewer variables and parameters, thereby removing some of the noise in the training data.
 
-- 2.Use cross-validation techniques such as k-folds cross-validation.
+- 2 Use cross-validation techniques such as k-folds cross-validation.
 
-- 3.Use regularization techniques such as LASSO that penalize certain
+- 3 Use regularization techniques such as LASSO that penalize certain
+    lasso (least absolute shrinkage and selection operator; also Lasso or LASSO) is a regression analysis method that performs both variable selection and regularization in order to enhance the prediction accuracy and interpretability of the statistical model it produces.
