@@ -16,7 +16,7 @@ in particular how to program computers to process and analyze large amounts of n
 ## Feature Engineering
 ### 数据分析
 
-- Feature 工程/Mart -
+__Feature 工程/Mart__
 特征工程是使用数据的领域知识来创建使机器学习算法起作用的特征的过程。特征工程是机器学习应用程序的基础，既困难又昂贵。可以通过自动特征学习来消除对手动特征工程的需求。
 
 The feature engineering process is:[6]
