@@ -10,3 +10,11 @@ A clever way to think about this is to think of
 
 * _Type I error as telling a man he is pregnant_
 * _while Type II error means you tell a pregnant woman she isn’t carrying a baby_
+
+# Q13- What is deep learning, and how does it contrast with other machine learning algorithms?
+
+More reading: Deep learning (Wikipedia)
+
+Deep learning is a subset of machine learning that is concerned with neural networks: 
+how to use backpropagation and certain principles from neuroscience to more accurately model large sets of unlabelled or semi-structured data. 
+In that sense, deep learning represents an unsupervised learning algorithm that learns representations of data through the use of neural nets.
