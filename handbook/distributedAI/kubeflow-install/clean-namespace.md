@@ -52,5 +52,5 @@ curl -sk -d "{\"username\":\"$USERNAME\",\"password\":\"$PASSWORD\"}" https://${
 ### Reset the Namesapce
 
 ```
-curl -k -H "Content-Type: application/json" -H "authorization: Bearer $(cat ./auth-token)" -X PUT --data-binary @auth.json https://172.31.51.143:6443/api/v1/namespaces/auth/finalize
+curl -k -H "Content-Type: application/json" -H "authorization: Bearer $(cat ./auth-token)" -X PUT --data-binary @${NAMESPACE}.json https://172.31.51.143:6443/api/v1/namespaces/${NAMESPACE}/finalize
 ```
