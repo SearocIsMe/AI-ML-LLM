@@ -1,0 +1,17 @@
+
+Linux Jump Server	119.81.221.197	r/HvQ8tDL9
+bastion host	10.116.5.132	a/oV_bPr^9Q0!
+
+master0	192.168.133.10	 
+master1	192.168.133.11	 
+master2	192.168.133.12	 
+worker0	192.168.133.20	 
+worker1	192.168.133.21	 
+worker2	192.168.133.22
+
+Application IP address	10.116.5.130	 
+ 	10.116.5.130	console-openshift-console.apps.ocp.oc42dbs.oc42dbs.local oauth-openshift.apps.ocp.oc42dbs.oc42dbs.local
+ 	10.116.26.2	oc42dbs-vc.oc42dbs.local
+ 	 	kubeadmin/s6jXh-hR3nj-ILDst-yEcKT
+        
+From Bastion Host to login	 	oc login --token=t1zAb31EGUvt-dztQ7iaZYLpkVtRycSbE74pUsXjsKY --server=https://api.ocp.oc42dbs.oc42dbs.local:6443
