@@ -346,8 +346,8 @@ In another hand, to simplify the login process, importing cert locally also can 
 
 ### 4.1 Create Admin Account
   - admin-role.yaml
-
-  ```
+  
+```
   kind: ClusterRoleBinding
   apiVersion: rbac.authorization.k8s.io/v1beta1
   metadata:
@@ -371,9 +371,10 @@ In another hand, to simplify the login process, importing cert locally also can 
     labels:
       kubernetes.io/cluster-service: "true"
       addonmanager.kubernetes.io/mode: Reconcile
-  ```
+```
+  
   - Commands to get token
-  ```
+```
       # Create the admin role.
       kubectl create -f admin-role.yaml
      
@@ -387,25 +388,25 @@ In another hand, to simplify the login process, importing cert locally also can 
       # Dashboard URL: https://<first_master>:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
       # use above token to login this web URL
       # succeed.
-  ```
+```
 
 ### 4.2 Export the Certificate
 
-    ```
+```
     cd .kube/
       # export the ppk
       $ grep 'client-certificate-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d >> kubecfg.crt
 
       # export the public key
       $ grep 'client-key-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d >> kubecfg.key
-      
+
       # Generate into p12 format cert.
       $ openssl pkcs12 -export -clcerts -inkey kubecfg.key -in kubecfg.crt -out kubecfg.p12
       # type the password fpr the certificate
 
       # copy certs back to machine will visit the dashboard
       scp devop@ip:~/.kube/kubecfg.p12 .~~~~
-    ```
+```
 
 ## 5. kube-apiserver HA
 
