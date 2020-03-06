@@ -348,29 +348,30 @@ In another hand, to simplify the login process, importing cert locally also can 
   - admin-role.yaml
   
 ```
-  kind: ClusterRoleBinding
-  apiVersion: rbac.authorization.k8s.io/v1beta1
-  metadata:
-    name: admin
-    annotations:
-      rbac.authorization.kubernetes.io/update: "true"
-  roleRef:
-    kind: ClusterRole
-    name: cluster-admin
-    apiGroup: rbac.authorization.k8s.io
-  subjects:
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: admin
+  annotations:
+    rbac.authorization.kubernetes.io/update: "true"
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+subjects:
   - kind: ServiceAccount
     name: admin
     namespace: kube-system
-  ---
-  apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    name: admin
-    namespace: kube-system
-    labels:
-      kubernetes.io/cluster-service: "true"
-      addonmanager.kubernetes.io/mode: Reconcile
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin
+  namespace: kube-system
+  labels:
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+
 ```
   
   - Commands to get token
