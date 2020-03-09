@@ -54,3 +54,5 @@ curl -sk -d "{\"username\":\"$USERNAME\",\"password\":\"$PASSWORD\"}" https://${
 ```
 curl -k -H "Content-Type: application/json" -H "authorization: Bearer $(cat ./auth-token)" -X PUT --data-binary @${NAMESPACE}.json https://172.31.51.143:6443/api/v1/namespaces/${NAMESPACE}/finalize
 ```
+
+curl -H "Authorization: Bearer T9M86T0U32BCwffSRVGem0dx9rQE4nLKV1pTIrCsV3s" -X PUT --data-binary @${NAMESPACE}.json "https://api.cluster-dbs4-8494.dbs4-8494.example.opentlc.com:6443/api/v1/namespaces/${NAMESPACE}/finalize"
