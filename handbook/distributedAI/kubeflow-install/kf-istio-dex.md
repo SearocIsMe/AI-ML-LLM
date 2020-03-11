@@ -3,6 +3,7 @@ https://github.com/kubeflow/manifests/blob/v1.0-branch/kfdef/kfctl_istio_dex.v1.
 
 ```
 https://kubernetes.io/docs/concepts/storage/volumes/#projected
+https://kubernetes.io/docs/reference/access-authn-authz/authentication/?fireglass_rsn=true#service-account-tokens
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/?fireglass_rsn=true
 https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
 ```
