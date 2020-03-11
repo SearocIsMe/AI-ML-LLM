@@ -1,3 +1,12 @@
+## Bug fix "istio-token" is not found
+https://github.com/kubeflow/manifests/blob/v1.0-branch/kfdef/kfctl_istio_dex.v1.0.1.yaml
+
+```
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/?fireglass_rsn=true
+https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
+```
+
+
 ## "raw.githubusercontent.com" connection Refused
 ```
 修改hosts
