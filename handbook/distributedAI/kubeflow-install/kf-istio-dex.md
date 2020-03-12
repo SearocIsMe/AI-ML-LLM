@@ -7,6 +7,47 @@ https://kubernetes.io/docs/reference/access-authn-authz/authentication/?fireglas
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/?fireglass_rsn=true
 https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
 ```
+example:
+```
+kubectl get serviceaccounts/build-robot -o yaml
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: 2015-06-16T00:12:59Z
+  name: build-robot
+  namespace: default
+  resourceVersion: "272500"
+  uid: 721ab723-13bc-11e5-aec2-42010af0021e
+secrets:
+- name: build-robot-token-bvbk5
+
+```
+
+Then for Deployment:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    volumeMounts:
+    - mountPath: /var/run/secrets/tokens
+      name: vault-token
+  **serviceAccountName: build-robot**
+  volumes:
+  - name: vault-token
+    projected:
+      sources:
+      - serviceAccountToken:
+          path: vault-token
+          expirationSeconds: 7200
+          audience: vault
+```
+
 
 
 ## "raw.githubusercontent.com" connection Refused
