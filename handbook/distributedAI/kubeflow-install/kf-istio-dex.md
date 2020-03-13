@@ -104,3 +104,25 @@ internal error occurred: failed calling webhook "config.webhook.serving.knative.
 kubectl get svc -n knative-serving webhook -oyaml? The target port should be 8443, but may be changed to 443 accidentally.
 
 Solution: Reinstall with other yaml file.
+
+# Install the Istio soley
+```
+curl -L https://git.io/getLatestIstio | sh -
+ISTIO_VERSION=$(ls | grep istio- )
+cd $ISTIO_VERSION
+
+echo Install the istio-init 
+helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+
+echo Install the istio
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set pilot.traceSampling=100 --set tracing.enabled=true
+
+echo listing cruds
+
+kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+
+kubectl delete svc -n istio-system grafana
+kubectl delete svc -n istio-system prometheus
+kubectl delete deployment -n istio-system grafana
+kubectl delete deployment -n istio-system prometheus
+```
