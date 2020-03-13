@@ -216,7 +216,13 @@ https://github.com/kubernetes-sigs/kubespray/tree/master/contrib/azurerm
 
 $ ansible-playbook -i contrib/azurerm/inventory -u devops --become -e "@inventory/sample/group_vars/all.yml" cluster.yml
 ```
+**Upgrade K8s version Gracefully**
+```
+https://github.com/kubernetes-sigs/kubespray/blob/master/docs/upgrades.md
 
+ansible-playbook upgrade-cluster.yml -b -i inventory/sample/hosts.ini -e kube_version=v1.5.0
+
+```
 
 ### 2.2 Use Automation Deployment onto Cloud, e.g. Azure
 
