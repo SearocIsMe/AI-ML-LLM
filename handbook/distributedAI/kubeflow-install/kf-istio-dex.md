@@ -11,6 +11,28 @@ https://kubernetes.io/docs/reference/access-authn-authz/authentication/?fireglas
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/?fireglass_rsn=true
 https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
 ```
+
+
+### MountVolume.SetUp failed for volume "istio-token" : failed to fetch token: the server could not find the requested resource
+``` 
+remove below from deployment
+      {
+        "name": "istio-token",
+        "projected": {
+          "sources": [
+            {
+              "serviceAccountToken": {
+                "audience": "istio-ca",
+                "expirationSeconds": 43200,
+                "path": "istio-token"
+              }
+            }
+          ],
+          "defaultMode": 420
+        }
+      },
+```
+
 example:
 ```
 kubectl get serviceaccounts/build-robot -o yaml
@@ -52,7 +74,7 @@ spec:
           audience: vault
 ```
 
-
+# Connection Problem, Increase Download speed
 
 ## "raw.githubusercontent.com" connection Refused
 ```
@@ -65,25 +87,6 @@ sudo vi /etc/hosts
 199.232.4.133 raw.githubusercontent.com
 ```
 
-## MountVolume.SetUp failed for volume "istio-token" : failed to fetch token: the server could not find the requested resource
-``` 
-remove below from deployment
-      {
-        "name": "istio-token",
-        "projected": {
-          "sources": [
-            {
-              "serviceAccountToken": {
-                "audience": "istio-ca",
-                "expirationSeconds": 43200,
-                "path": "istio-token"
-              }
-            }
-          ],
-          "defaultMode": 420
-        }
-      },
-```
 ## Get Ingress URL
 ```
 [root@node1 ~]# echo $INGRESS_HOST:$INGRESS_PORT
@@ -97,7 +100,7 @@ remove below from deployment
 why 443 not 8443?
 
 https://webhook.knative-serving.svc:443/config-validation?timeout=30s
-
-
 internal error occurred: failed calling webhook "config.webhook.serving.knative.dev": Post https://webhook.knative-serving.svc:443/config-validation?timeout=30s: dial tcp 10.233.41.252:443: connect: connection refused
 kubectl get svc -n knative-serving webhook -oyaml? The target port should be 8443, but may be changed to 443 accidentally.
+
+Solution: Reinstall with other yaml file.
