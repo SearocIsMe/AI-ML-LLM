@@ -1,6 +1,10 @@
 ## Bug fix "istio-token" is not found
 https://github.com/kubeflow/manifests/blob/v1.0-branch/kfdef/kfctl_istio_dex.v1.0.1.yaml
 
+__Solution:__
+
+Remove those Istio-token seciton in deployment yaml
+
 ```
 https://kubernetes.io/docs/concepts/storage/volumes/#projected
 https://kubernetes.io/docs/reference/access-authn-authz/authentication/?fireglass_rsn=true#service-account-tokens
