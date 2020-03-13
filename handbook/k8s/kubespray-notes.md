@@ -224,6 +224,17 @@ ansible-playbook upgrade-cluster.yml -b -i inventory/sample/hosts.ini -e kube_ve
 
 ```
 
+or 
+If you wanted to upgrade just kube_version from v1.4.3 to v1.4.6, you could deploy the following way:
+```
+ansible-playbook cluster.yml -i inventory/sample/hosts.ini -e kube_version=v1.4.3 -e upgrade_cluster_setup=true
+```
+And then repeat with v1.4.6 as kube_version:
+```
+ansible-playbook cluster.yml -i inventory/sample/hosts.ini -e kube_version=v1.4.6 -e upgrade_cluster_setup=true
+```
+The var -e upgrade_cluster_setup=true is needed to be set in order to migrate the deploys of e.g kube-apiserver inside the cluster immediately which is usually only done in the graceful upgrade. (Refer to #4139 and #4736)
+
 ### 2.2 Use Automation Deployment onto Cloud, e.g. Azure
 
 
