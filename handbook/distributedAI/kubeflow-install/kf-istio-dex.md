@@ -50,6 +50,8 @@ helm template --namespace=istio-system \
 
 kubectl apply -f istio.yaml
 ```
+Replace External IP with NodePort
+https://stackoverflow.com/questions/59077975/how-to-assign-an-ip-to-istio-ingressgateway-on-localhost
 
 ## Bug fix "istio-token" is not found
 https://github.com/kubeflow/manifests/blob/v1.0-branch/kfdef/kfctl_istio_dex.v1.0.1.yaml
