@@ -1,3 +1,9 @@
+## Install SDS Istio in Knative point of view
+```
+https://knative.dev/docs/install/installing-istio/
+
+```
+
 ## Bug fix "istio-token" is not found
 https://github.com/kubeflow/manifests/blob/v1.0-branch/kfdef/kfctl_istio_dex.v1.0.1.yaml
 
