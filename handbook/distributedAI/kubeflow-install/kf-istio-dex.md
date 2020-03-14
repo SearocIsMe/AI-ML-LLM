@@ -2,6 +2,53 @@
 ```
 https://knative.dev/docs/install/installing-istio/
 
+Step 1-
+# Download and unpack Istio
+export ISTIO_VERSION=1.3.6
+curl -L https://git.io/getLatestIstio | sh -
+cd istio-${ISTIO_VERSION}
+
+Step-2
+Enter the following command to install the Istio CRDs first:
+for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+
+Step-3
+Create istio-system namespace
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+  labels:
+    istio-injection: disabled
+EOF
+
+Step-4
+Installing Istio with sidecar injection, SDS enabled
+# A template with sidecar injection enabled.
+helm template --namespace=istio-system \
+  --set sidecarInjectorWebhook.enabled=true \
+  --set sidecarInjectorWebhook.enableNamespacesByDefault=true \
+  --set global.proxy.autoInject=disabled \
+  --set global.disablePolicyChecks=true \
+  --set prometheus.enabled=false \
+  `# Disable mixer prometheus adapter to remove istio default metrics.` \
+  --set mixer.adapters.prometheus.enabled=false \
+  `# Disable mixer policy check, since in our template we set no policy.` \
+  --set global.disablePolicyChecks=true \
+  --set gateways.istio-ingressgateway.autoscaleMin=1 \
+  --set gateways.istio-ingressgateway.autoscaleMax=2 \
+  --set gateways.istio-ingressgateway.resources.requests.cpu=500m \
+  --set gateways.istio-ingressgateway.resources.requests.memory=256Mi \
+  `# More pilot replicas for better scale` \
+  --set pilot.autoscaleMin=2 \
+  `# Set pilot trace sampling to 100%` \
+  --set pilot.traceSampling=100 \
+  install/kubernetes/helm/istio \
+  > ./istio.yaml
+
+kubectl apply -f istio.yaml
 ```
 
 ## Bug fix "istio-token" is not found
