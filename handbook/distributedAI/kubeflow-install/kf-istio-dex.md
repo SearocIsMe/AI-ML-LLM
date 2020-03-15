@@ -57,8 +57,14 @@ helm template --namespace=istio-system \
 
 kubectl apply -f istio.yaml
 ```
+
+Step-5
 Replace External IP with NodePort
 https://stackoverflow.com/questions/59077975/how-to-assign-an-ip-to-istio-ingressgateway-on-localhost
+```
+INGRESSGATEWAY=istio-ingressgateway
+kubectl patch svc $INGRESSGATEWAY --namespace istio-system --patch '{"spec": { "loadBalancerIP": "<your-reserved-static-ip>" }}'
+```
 
 ## Install KNative
 
