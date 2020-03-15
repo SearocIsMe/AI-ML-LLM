@@ -1,20 +1,25 @@
 ## Install SDS Istio in Knative point of view
 ```
 https://knative.dev/docs/install/installing-istio/
+```
 
-Step 1-
+Step 1
+```
 # Download and unpack Istio
 export ISTIO_VERSION=1.3.6
 curl -L https://git.io/getLatestIstio | sh -
 cd istio-${ISTIO_VERSION}
-
+```
 Step-2
+
 Enter the following command to install the Istio CRDs first:
+```
 for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+```
 
 Step-3
 Create istio-system namespace
-
+```
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Namespace
@@ -23,10 +28,12 @@ metadata:
   labels:
     istio-injection: disabled
 EOF
-
+```
 Step-4
+
 Installing Istio with sidecar injection, SDS enabled
 # A template with sidecar injection enabled.
+```
 helm template --namespace=istio-system \
   --set sidecarInjectorWebhook.enabled=true \
   --set sidecarInjectorWebhook.enableNamespacesByDefault=true \
