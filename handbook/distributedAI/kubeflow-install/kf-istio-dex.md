@@ -74,7 +74,7 @@ Knative Serving release v0.12.0: Kubernetes minimum version increased to 1.15
 
 Knative v0.11 and below can work with k8s 1.14
 
-
+https://knative.dev/docs/install/knative-with-operators/
 
 
 
