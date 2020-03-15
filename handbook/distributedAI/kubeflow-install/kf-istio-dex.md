@@ -60,6 +60,18 @@ kubectl apply -f istio.yaml
 Replace External IP with NodePort
 https://stackoverflow.com/questions/59077975/how-to-assign-an-ip-to-istio-ingressgateway-on-localhost
 
+## Install KNative
+
+Knative v0.13.0 requires a Kubernetes cluster v1.15 or newer, as well as a compatible kubectl
+Knative Serving release v0.12.0: Kubernetes minimum version increased to 1.15
+
+
+Knative v0.11 and below can work with k8s 1.14
+
+
+
+
+
 ## Bug fix "istio-token" is not found
 https://github.com/kubeflow/manifests/blob/v1.0-branch/kfdef/kfctl_istio_dex.v1.0.1.yaml
 
