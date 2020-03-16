@@ -119,6 +119,7 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start clamd
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl daemon-reload"
 
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected --remove --recursive /home /root"
+
 ```
 
 ### 1.4 SSH Tunnel Setup
@@ -177,6 +178,9 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected -
   
   ipv4网络设置
   ansible -i inventory/mycluster/hosts.yaml all -m raw -a "modprobe br_netfilter && echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables && sysctl -w net.ipv4.ip_forward=1"
+
+  # Repo
+  ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
 ```
 
 - Clean Install
