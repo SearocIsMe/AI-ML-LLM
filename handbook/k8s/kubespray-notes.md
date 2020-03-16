@@ -487,3 +487,26 @@ Kubernetes needs some parameters in order to get deployed. These are the followi
 - ansible_default_ipv4.address - Not Kubespray-specific, but it is used if ip and access_ip are undefined
 - loadbalancer_apiserver - If defined, all hosts will connect to this address instead of localhost for kube-masters and kube-master[0] for kube-nodes. See more details in the HA guide.
 - loadbalancer_apiserver_localhost - makes all hosts to connect to the apiserver internally load balanced endpoint. Mutual exclusive to the loadbalancer_apiserver. See more details in the HA guide.
+
+
+## Problem of 
+Shutting down dockerproject.org APT and YUM repos 2020-03-31 
+```
+[root@cpu-node0 ~]# cat /etc/yum.repos.d/docker.repo 
+[docker-ce]
+name=Docker-CE Repository
+baseurl=https://download.docker.com/linux/centos/7/$basearch/stable
+enabled=1
+gpgcheck=1
+keepcache=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-engine]
+name=Docker-Engine Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7
+enabled=0
+gpgcheck=1
+keepcache=1
+gpgkey=https://yum.dockerproject.org/gpg
+[root@cpu-node0 ~]#
+```
