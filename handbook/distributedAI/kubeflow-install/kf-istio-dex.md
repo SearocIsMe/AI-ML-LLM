@@ -48,6 +48,8 @@ helm template --namespace=istio-system \
   --set gateways.istio-ingressgateway.autoscaleMax=2 \
   --set gateways.istio-ingressgateway.resources.requests.cpu=500m \
   --set gateways.istio-ingressgateway.resources.requests.memory=256Mi \
+  `# Enable SDS in the gateway to allow dynamically configuring TLS of gateway.` \
+  --set gateways.istio-ingressgateway.sds.enabled=true \
   `# More pilot replicas for better scale` \
   --set pilot.autoscaleMin=2 \
   `# Set pilot trace sampling to 100%` \
@@ -55,7 +57,8 @@ helm template --namespace=istio-system \
   install/kubernetes/helm/istio \
   > ./istio.yaml
 
-kubectl apply -f istio.yaml
+  kubectl apply -f istio.yaml
+
 ```
 
 Step-5
