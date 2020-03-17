@@ -4,3 +4,11 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiw
 
 ## 2-cluster
 eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi10b2tlbi1kYjhsbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjU5YzBlODFlLTIzYWMtNDg3OS05NDU4LTQyNjMxNzE1MTk3OSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTphZG1pbiJ9.M_fwja-V7msuDQxKLY37G4Tu7u4CdTfGL6dVjxe-qmyOqIDMvjc1sXWSKk1UjJOWYl1bgt24zWQIbBXAJNi23tj95qOU92ZOuvi5f3H0lwvj-xKpxWE72NaRHjsJ5wbyiVmK3UO4O4ip9QVMYO98Cy94hfiTH6YFFoOVnjCF-6MdcEjenv_GTwBFAL1kmVsaKSZGVw14MgKh2Vd7q7zcyNw7uU2OtIbcXCBkEJH5umnkk7IsPMd2k_Hpal5CxKZh2Oc_7TvrUE7LRP8fE_iyhoJ6yMaMLSuHMNroxH5aR-w0JiYv_1XP0whJQa_cOOXQT9TcOfKwdowaVHAJwLQjAQ
+
+```
+https://<first_master>:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
+Kubernetes master is running at https://10.0.0.7:6443
+coredns is running at https://10.0.0.7:6443/api/v1/namespaces/kube-system/services/coredns:dns/proxy
+kubernetes-dashboard is running at https://10.0.0.7:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy
+metrics-server is running at https://10.0.0.7:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+```
