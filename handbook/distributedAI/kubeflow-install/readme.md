@@ -288,6 +288,51 @@ spec:
     server: 172.31.51.151
 ```
 
+### 5.6.2 minio-pv-claim
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: minio
+    app.kubernetes.io/component: minio
+    app.kubernetes.io/instance: minio-0.2.0
+    app.kubernetes.io/managed-by: kfctl
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/part-of: kubeflow
+    app.kubernetes.io/version: 0.2.0
+  name: minio-pv-claim
+  namespace: kubeflow
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ""
+
+---
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-minio
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: kubeflow
+    name: minio-pv-claim
+  nfs:
+    path: /var/nfsshare
+    server: 172.31.51.151
+```
+
 ## Get the Dashboard URL
 
 ```
