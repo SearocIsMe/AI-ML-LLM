@@ -1,8 +1,8 @@
-## Dashboard
+## 1 Dashboard
 
 ![Kubeflow](./pic/kf-dashboard.png)
 
-## K8s Version <=> KubeFlow version
+## 2 K8s Version <=> KubeFlow version
 
 According to https://www.kubeflow.org/docs/started/k8s/overview/
 In order to get kubeflow 0.7 version, we must focus on ** k8s 1.14 **
@@ -16,11 +16,11 @@ In order to get kubeflow 0.7 version, we must focus on ** k8s 1.14 **
 | 1.15        |  incompatible  |    compatible    |    compatible    |   compatible   |
 | 1.16        |  incompatible  |   incompatible   |   incompatible   |  incompatible  |
 
-## K8s Version <=> kubeSpray version
+## 3 K8s Version <=> kubeSpray version
 
 From Kubespray ** v2.10.0 ** stats to support the k8s 1.14, according to the kubespray release notes v2.10.0
 
-### Component versions:
+### 3.1 Component versions:
 
 ```
 **Kubernetes v1.14.1**
@@ -40,7 +40,7 @@ Kubernetes Dashboard v1.10.1
 Oracle OCI: v0.7.0
 ```
 
-## Install KF
+## 4 Install KF
 
 ```
 delete .cache/ and kustomize/ folders in the kf app folder.
@@ -50,13 +50,13 @@ Build
 Apply
 ```
 
-## Create the PVCs
+## 5 Create the PVCs
 
-### Install NFS
+### 5.1 Install NFS
 
 Refers from https://www.howtoforge.com/nfs-server-and-client-on-centos-7
 
-#### Install NFS software for server and client
+#### 5.1.1 Install NFS software for server and client
 
 ```
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y nfs-utils"
@@ -64,7 +64,7 @@ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl enable rpcbin
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start rpcbind && systemctl start nfs-server && systemctl start nfs-lock && systemctl start nfs-idmap"
 ```
 
-#### on Server 172.31.51.143, install server config on all client box
+#### 5.1.2 on Server 172.31.51.143, install server config on all client box
 
 ```
 vim /etc/exports 
@@ -75,7 +75,7 @@ vim /etc/exports
 ```
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl restart nfs-server"
 ```
-#### Test Mount on Server/Client
+#### 5.1.3 Test Mount on Server/Client
 
 ```
 mkdir -p /mnt/nfs/home
@@ -91,14 +91,14 @@ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home 
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mount -t nfs 172.31.51.143:/home /mnt/nfs/home/ && mount -t nfs 172.31.51.143:/var/nfsshare /mnt/nfs/var/nfsshare/"
 ```
 
-#### Permanent NFS mounting
+#### 5.1.4 Permanent NFS mounting
 By Default modify the /etc/fstab,
 ```
 172.31.51.143:/home    /mnt/nfs/home   nfs defaults 0 0
 172.31.51.143:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
 ```
 
-### Instal Helm
+### 5.2 Instal Helm
 
 ```
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -106,7 +106,7 @@ $ chmod 700 get_helm.sh
 $ ./get_helm.sh
 ```
 
-### Install CLient NFS
+### 5.3 Install CLient NFS
 
 ```
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home && mkdir -p /mnt/nfs/var/nfsshare"
@@ -117,7 +117,7 @@ df -kh
 mount -t nfs 10.0.0.12:/home /mnt/nfs/home/
 ```
 
-#### Permernantly Added into Mount system
+#### 5.3.1 Permernantly Added into Mount system
 
 ```
 vim /etc/fstab
@@ -125,12 +125,12 @@ vim /etc/fstab
 10.0.0.12:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
 ```
 
-### update Helm repo
+### 5.4 update Helm repo
 ```
 $ helm repo add stable https://kubernetes-charts.storage.googleapis.com
 $ helm repo update
 ```
-### Install Nfs-client-provisioner
+### 5.5 Install Nfs-client-provisioner
 
 ```
  helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
@@ -138,7 +138,7 @@ $ helm repo update
  helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
 ```
 
-#### Install nfs-client-provisioner n K8s
+#### 5.5.1 Install nfs-client-provisioner n K8s
 
 10.0.0.12 should be replaced by real IP
 
@@ -148,7 +148,7 @@ or
 helm install nfs-client-provisioner --set nfs.server=172.31.51.143 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
 ```
 
-#### Get the list of storageclass
+#### 5.5.2 Get the list of storageclass
 
 ```
 [root@node1 ~]# kubectl get storageclass -n kubeflow
@@ -157,7 +157,7 @@ nfs (default)   cluster.local/nfs-client-provisioner              51s
 nfs-client      cluster.local/nfs-client-provisioner-1578379646   15m
 ```
 
-#### Change the Deployment settings to use NFS
+#### 5.5.3 Change the Deployment settings to use NFS
 
 - Check NFS version
 
@@ -240,8 +240,11 @@ kubectl delete -f <PVC-NAME>.yaml
 kubectl apply -f <PVC-NAME>.yaml
 ```
 
-## Creart PV to PVC of Kubeflow in case of them are not binding automatically
-### mysql-pv-claim
+### 5.6 Creart PV to PVC of Kubeflow in case of them are not binding automatically
+
+https://stackoverflow.com/questions/34282704/can-a-pvc-be-bound-to-a-specific-pv
+
+#### 5.6.1 mysql-pv-claim
 ```
 apiVersion: v1
 kind: PersistentVolumeClaim
