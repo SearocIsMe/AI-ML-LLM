@@ -240,6 +240,51 @@ kubectl delete -f <PVC-NAME>.yaml
 kubectl apply -f <PVC-NAME>.yaml
 ```
 
+## Creart PV to PVC of Kubeflow in case of them are not binding automatically
+### mysql-pv-claim
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: mysql
+    app.kubernetes.io/component: mysql
+    app.kubernetes.io/instance: mysql-0.2.0
+    app.kubernetes.io/managed-by: kfctl
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/part-of: kubeflow
+    app.kubernetes.io/version: 0.2.0
+  name: mysql-pv-claim
+  namespace: kubeflow
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ""
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-mysql
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: kubeflow
+    name: mysql-pv-claim
+  nfs:
+    path: /var/nfsshare
+    server: 172.31.51.151
+```
+
 ## Get the Dashboard URL
 
 ```
