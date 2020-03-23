@@ -333,6 +333,94 @@ spec:
     server: 172.31.51.151
 ```
 
+### 5.6.3 Metadata.yaml
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/component: metadata
+    app.kubernetes.io/instance: metadata-0.2.1
+    app.kubernetes.io/managed-by: kfctl
+    app.kubernetes.io/name: metadata
+    app.kubernetes.io/part-of: kubeflow
+    app.kubernetes.io/version: 0.2.1
+    kustomize.component: metadata
+  name: metadata-mysql
+  namespace: kubeflow
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-metadata
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: kubeflow
+    name: metadata-mysql
+  nfs:
+    path: /var/nfsshare
+    server: 172.31.51.151
+```
+
+### 5.6.4 katib-mysql.yaml
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/component: katib
+    app.kubernetes.io/instance: katib-controller-0.8.0
+    app.kubernetes.io/managed-by: kfctl
+    app.kubernetes.io/name: katib-controller
+    app.kubernetes.io/part-of: kubeflow
+    app.kubernetes.io/version: 0.8.0
+  name: katib-mysql
+  namespace: kubeflow
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-katib
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: kubeflow
+    name: katib-mysql
+  nfs:
+    path: /var/nfsshare
+    server: 172.31.51.151
+```
+
 ## Get the Dashboard URL
 
 ```
