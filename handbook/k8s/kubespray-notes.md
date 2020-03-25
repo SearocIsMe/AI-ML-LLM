@@ -431,6 +431,29 @@ metadata:
       scp devop@ip:~/.kube/kubecfg.p12 .~~~~
 ```
 
+### 4.3 Solve the problem of Kube dashboard
+
+if install k8s 1.16, default dashboard is too old to use and pop error after login.
+Syntom:
+```
+Unknown Server Error (404)
+the server could not find the requested resource
+Redirecting to previous state in 3 seconds...
+```
+
+__Solution__:
+```
+Workaround:
+Delete 1.10.1 dashboard
+kubectl delete deployments kubernetes-dashboard -n kube-system
+
+Install v2.0.0-rc2 dashboard
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-rc2/aio/deploy/recommended.yaml
+
+URL:
+https://x.x.x.x:6443/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
+```
+
 ## 5. kube-apiserver HA
 
 ```
