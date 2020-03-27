@@ -1,3 +1,19 @@
+## Add Extra Args into kube-apiserver yaml
+vim  /etc/kubernetes/manifests/kube-apiserver.yaml
+```
+    - --service-account-issuer=kubernetes.default.svc
+    - --service-account-key-file=/etc/kubernetes/ssl/sa.pub
+    - --service-account-signing-key-file=/etc/kubernetes/ssl/sa.key
+    - --service-cluster-ip-range=10.233.0.0/18
+    - --service-node-port-range=30000-32767
+    - --storage-backend=etcd3
+    - --tls-cert-file=/etc/kubernetes/ssl/apiserver.crt
+    - --tls-private-key-file=/etc/kubernetes/ssl/apiserver.key
+    - --feature-gates=TokenRequest=true
+```
+k8s cluster will update automatically once it's changed
+
+
 ## Install SDS Istio in Knative point of view
 ```
 https://knative.dev/docs/install/installing-istio/
