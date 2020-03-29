@@ -41,8 +41,8 @@
 # Pre-condition and Assumptions
 
 1. at least 5 VMs are allozated.
-2. each VM has Centos 7.7 above and update its software. if no see section 
-3. ssh tunnel are setup alreay. 
+2. each VM has Centos 7.7 above and update its software, refers to [install antivirus](#antivirus-clamav-setup) 
+3. ssh tunnel are setup alreay, refers to [ssh tunnel](#ssh-tunnel-setup)
 
 ## kubespray on Centos
 
@@ -64,6 +64,7 @@ gcr.azk8s.cn/google-containers -> k8s.gcr.io
 those replacement must be done before installing k8s by kubespray and kubeflow.
 For China Env, use below source code for installation.
 - kubespray repo: https://github.com/jia57196/kubespray.git
+
 - kubeflow install: https://github.com/jia57196/manifests.git
 
 
@@ -73,6 +74,7 @@ Read those articles for knowledge updating.
 
 ### Reference
 - https://ottodeng.io/post/kubespray/
+
 - https://www.jianshu.com/p/45b9707b4567
 
 
@@ -112,10 +114,8 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "cp /etc/clamd.d/scan.
 $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "cat /etc/passwd | grep clam"
 $ EDIT  vim /etc/clamd.d/scan.conf,,, default User clamscan
 ```
-Uncomment the line #LocalSocket **/var/run/clamd.scan/clamd.sock** to 
-```
-LocalSocket /var/run/clamd.scan/clamd.sock
-```
+Uncomment the line #LocalSocket **/var/run/clamd.scan/clamd.sock** to "LocalSocket /var/run/clamd.scan/clamd.sock"
+
 
 Freshclam is used to update the database of virus definitions into the server.
 ```
@@ -128,6 +128,7 @@ $ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "clamscan --infected -
 ```
 
 Create a new file /usr/lib/systemd/system/freshclam.service
+
 ```
 # Run the freshclam as daemon
 [Unit]
@@ -200,7 +201,8 @@ git checkout 2.12-cn
   cp -rfp inventory/sample inventory/mycluster
 
   # Update Ansible inventory file with inventory builder
-  declare -a IPS=(10.10.1.3 10.10.1.4 10.10.1.5)
+  # IP range 10.0.0.3 ~ 10.0.0.7 is the VMs' internal IPs 
+  declare -a IPS=(10.0.0.3 10.0.0.4 10.0.0.5 10.0.0.6 10.0.0.7)
   CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 ```
 
@@ -292,11 +294,15 @@ The documentation of kubeflow install will describe in detail.
 
   Not Using the nodellocalDns
 ```
+
 # Set manual server if using a custom cluster DNS server
+
 # manual_dns_server: 10.x.x.x
+
 # Enable nodelocal dns cache
 enable_nodelocaldns: false
-#nodelocaldns_ip: 169.254.25.10
+
+# nodelocaldns_ip: 169.254.25.10
 
 ```
 
