@@ -1,3 +1,37 @@
+
+
+
+## KubeFlow On OpenShift
+
+Detail steps is [here](./kf-openshift.md)
+
+### OC 3.11
+
+Red Hat OpenShift Container Platform 3.11 This release is based on OKD 3.11,
+and it uses Kubernetes 1.11, including CRI-O 1.11 and Docker 1.13.
+It is also supported on Atomic Host 7.5 and later.
+
+### OC 4.2
+
+This release uses Kubernetes 1.14 with CRI-O runtime.
+
+### KF 0.6 Main Update
+
+Multitenancy, Multiuser
+
+### KF 0.7 Main Update
+
+Model serving and management via KFServing
+KFServing enables Serverless Inferencing on Kubernetes and provides performant, high abstraction interfaces for common ML frameworks like Tensorflow, XGBoost, ScikitLearn, PyTorch, and ONNX to solve production model serving use cases.
+
+KFServing:
+
+- Provides a Kubernetes Custom Resource Definition (CRD) for serving ML models on arbitrary frameworks.
+- Encapsulates the complexity of autoscaling, networking, health checking, and server configuration to bring cutting edge serving features like GPU autoscaling, scale to zero, and canary rollouts to your ML deployments
+- Enables a simple, pluggable, and complete story for your production ML inference server by providing prediction, pre-processing, post-processing and explainability out of the box.
+- Is evolving with strong community contributions, and has a Technical Steering Committee driven by Google, IBM, Microsoft, Seldon, and Bloomberg
+
+
 ## Installation by Open DataHub
 https://opendatahub.io/docs/kubeflow/installation.html
 

@@ -371,6 +371,8 @@ inventory/devopscluster/group_vars/all/all.yml
 #### do not choose other parameters if not understand them very well
 
 Do not choose, Load balancer, nginx, and pvc paramters.
+After install k8s, and namespaces are listed in the picture here
+![namespace](./res/mdImg/default-namespace.png)
 
 ## Debug Command
 

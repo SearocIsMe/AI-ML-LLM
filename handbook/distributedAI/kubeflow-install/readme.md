@@ -1,82 +1,110 @@
-## 1 Dashboard
+
+
+
+## 1 Overview
 
 ![Kubeflow](./pic/kf-dashboard.png)
 
 ## 2 K8s Version <=> KubeFlow version
+![Version Matics](./pic/kf-version.png)shows the relatioship between K8s and Kubeflow, detail is from https://www.kubeflow.org/docs/started/k8s/overview/. 
+__But, this matrics has wrongly documented the kubeflow 1.0 over k8s 1.16, which is intercompitale. 
+In fact, the developent of Kubeflow are mainly based on k8s 1.16.
 
-According to https://www.kubeflow.org/docs/started/k8s/overview/
-In order to get kubeflow 0.7 version, we must focus on ** k8s 1.14 **
+In order to get kubeflow 1.0.1 version, we must focus on ** k8s 1.16 **
 
-| k8s version |  kubeflow 0.4  |   kubeflow 0.5   |   kubeflow 0.6   |  kubeflow 0.7  |
-| ----------- | :------------: | :--------------: | :--------------: | :------------: |
-| 1.11        |   compatible   |    compatible    |   incompatible   |  incompatible  |
-| 1.12        |   compatible   |    compatible    |   incompatible   |  incompatible  |
-| 1.13        |   compatible   |    compatible    |   incompatible   |  incompatible  |
-| **1.14**    | **compatible** | ** compatible ** | ** compatible ** | **compatible** |
-| 1.15        |  incompatible  |    compatible    |    compatible    |   compatible   |
-| 1.16        |  incompatible  |   incompatible   |   incompatible   |  incompatible  |
+From Kubespray ** v2.12.0 ** starts to support the k8s 1.16;
 
-## 3 K8s Version <=> kubeSpray version
+## 3 Pre-condition
 
-From Kubespray ** v2.10.0 ** stats to support the k8s 1.14, according to the kubespray release notes v2.10.0
-
-### 3.1 Component versions:
+This section  will continue on the k8s cluster, and assume that is ready for use.
+After ssh into master node of k8s cluster, need to install below dependency and tools.
 
 ```
-**Kubernetes v1.14.1**
-Etcd 3.2.26
-Docker 18.06
-Cri-O 1.11.5
-Calico v3.4.0
-Cilium 1.3.0
-Contiv 1.2.1
-Flannel 0.11.0
-Kube-Router 0.2.5
-Multus 3.1-autoconf
-Weave 2.5.1
-CoreDNS 1.5.0
-Helm 2.13.1
-Kubernetes Dashboard v1.10.1
-Oracle OCI: v0.7.0
+cd /opt
+mkdir /kf-install && cd kf-install
 ```
 
-## 4 Install KF
+### Install Kustomize
+```
+opsys=linux  # or darwin, or windows
+curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+  grep browser_download |\
+  grep $opsys |\
+  cut -d '"' -f 4 |\
+  xargs curl -O -L
+mv kustomize_*_${opsys}_amd64 kustomize
+chmod u+x kustomize
+```
+- Move the binary
+```
+mkdir -p ${HOME}/bin
+mv kustomize_*_${opsys}_amd64 ${HOME}/bin/kustomize
+chmod u+x ${HOME}/bin/kustomize
+```
+
+### Install kubectl 1.16 
+```
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/darwin/amd64/kubectl
+chmod 755 kubectl
+mv kubectl /usr/local/bin
+```
+
+### Install kfctl 1.0.0 
+```
+curl -OL https://github.com/kubeflow/kfctl/releases/download/v1.0.1/kfctl_v1.0.1-0-gf3edb9b_linux.tar.gz
+tar -xzvf kfctl*.tar.gz
+chmod 755 kfctl
+mv kfctl /usr/local/bin
+```
+
+### Install Helm
+Helm version must be greater than 3, or the NFS client cannot be installed propperly.
 
 ```
-delete .cache/ and kustomize/ folders in the kf app folder.
-Change uri field in .yaml file to point to the downloaded tar.gz file.
-uri: file:/path-to-file/manifests-0.7-branch.tar.gz
-Build
-Apply
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+```
+#### update Helm repo
+```
+$ helm repo add stable https://kubernetes-charts.storage.googleapis.com
+$ helm repo update
 ```
 
-## 5 Create the PVCs
-
-### 5.1 Install NFS
+### Install NFS
 
 Refers from https://www.howtoforge.com/nfs-server-and-client-on-centos-7
 
-#### 5.1.1 Install NFS software for server and client
+#### Install NFS software for server and client
 
+Go to ansible machine, and execute below commands:
 ```
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "yum install -y nfs-utils"
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl enable rpcbind && systemctl enable nfs-server && systemctl enable nfs-lock && systemctl enable nfs-idmap"
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl start rpcbind && systemctl start nfs-server && systemctl start nfs-lock && systemctl start nfs-idmap"
 ```
 
-#### 5.1.2 on Server 172.31.51.143, install server config on all client box
+#### Select one VM as NFS Server, install server Config
+
+above commands will install all the dependency tools fro NFS in all VMs, so that any of VM can be used as NFS server.
+we choose 172.31.51.143 as NFS server here.
 
 ```
 vim /etc/exports 
-
+ **put below**
 /var/nfsshare    172.31.51.143(rw,sync,no_root_squash,no_all_squash)
 /home            172.31.51.143(rw,sync,no_root_squash,no_all_squash)
 ```
-```
-ansible -i inventory/mycluster/hosts.yaml all -m raw -a "systemctl restart nfs-server"
-```
-#### 5.1.3 Test Mount on Server/Client
 
+Restart the NFS service
+```
+ssh 172.31.51.143
+systemctl restart nfs-server
+```
+
+#### Test Mount on Server/Client
+
+Select any VMs, try below command to verify the nfs service can be used by clients
 ```
 mkdir -p /mnt/nfs/home
 mkdir -p /mnt/nfs/var/nfsshare
@@ -85,70 +113,36 @@ chmod -R 755 /var/nfsshare
 mount -t nfs 172.31.51.143:/home /mnt/nfs/home/
 mount -t nfs 172.31.51.143:/var/nfsshare /mnt/nfs/var/nfsshare/
 ```
-by Ansible
+
+if by Ansible commands
 ```
+NFS_SERVER="172.31.51.143"
 ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home && mkdir -p /mnt/nfs/var/nfsshare"
-ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mount -t nfs 172.31.51.143:/home /mnt/nfs/home/ && mount -t nfs 172.31.51.143:/var/nfsshare /mnt/nfs/var/nfsshare/"
+ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mount -t nfs $NFS_SERVER:/home /mnt/nfs/home/ && mount -t nfs $NFS_SERVER:/var/nfsshare /mnt/nfs/var/nfsshare/"
 ```
 
-#### 5.1.4 Permanent NFS mounting
-By Default modify the /etc/fstab,
+#### Permanent NFS mounting
+in order to automatically launch the NFS service in client, need to modify the /etc/fstab,
+
 ```
 172.31.51.143:/home    /mnt/nfs/home   nfs defaults 0 0
 172.31.51.143:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
 ```
 
-### 5.2 Instal Helm
+#### Verify the Mount
 
 ```
-$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
-```
-
-### 5.3 Install CLient NFS
-
-```
-$ ansible -i inventory/mycluster/hosts.yaml all -m raw -a "mkdir -p /mnt/nfs/home && mkdir -p /mnt/nfs/var/nfsshare"
-# Verify the mount is correct
 df -kh
-
-# use command:
-mount -t nfs 10.0.0.12:/home /mnt/nfs/home/
 ```
-
-#### 5.3.1 Permernantly Added into Mount system
+#### Install Nfs-client-provisioner
 
 ```
-vim /etc/fstab
-10.0.0.12:/home    /mnt/nfs/home   nfs defaults 0 0
-10.0.0.12:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0
+ NFS_SERVER="10.0.0.12" --> the nfs server ip
+ helm install --set nfs.server=$NFS_SERVER --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
+ helm install nfs-client-provisioner --set nfs.server=$NFS_SERVER --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner
 ```
 
-### 5.4 update Helm repo
-```
-$ helm repo add stable https://kubernetes-charts.storage.googleapis.com
-$ helm repo update
-```
-### 5.5 Install Nfs-client-provisioner
-
-```
- helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
- or 
- helm install --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare stable/nfs-client-provisioner --generate-name
-```
-
-#### 5.5.1 Install nfs-client-provisioner n K8s
-
-10.0.0.12 should be replaced by real IP
-
-```
-helm install nfs-client-provisioner --set nfs.server=10.0.0.12 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner
-or
-helm install nfs-client-provisioner --set nfs.server=172.31.51.143 --set nfs.path=/var/nfsshare --set storageClass.name=nfs --set storageClass.defaultClass=true stable/nfs-client-provisioner --generate-name
-```
-
-#### 5.5.2 Get the list of storageclass
+#### Get the list of storageclass
 
 ```
 [root@node1 ~]# kubectl get storageclass -n kubeflow
@@ -156,8 +150,6 @@ NAME            PROVISIONER                                       AGE
 nfs (default)   cluster.local/nfs-client-provisioner              51s
 nfs-client      cluster.local/nfs-client-provisioner-1578379646   15m
 ```
-
-#### 5.5.3 Change the Deployment settings to use NFS
 
 - Check NFS version
 
@@ -196,6 +188,214 @@ set_ssv      test_stateid want_deleg   destroy_clid reclaim_comp
 0         0% 0         0% 0         0% 1         0% 3         0%
 
 ```
+
+#### Get Source Code of kubeflow Manifest
+Kubeflow uses many docker images stored in "gcr.io", which cannot not avalaibe in China. it need to customize the kubeflow manifest code to replace it with "gcr.azk8s.cn". 
+
+[Kubeflow installation](https://www.kubeflow.org/docs/started/getting-started/) is mainly for "Existing Kubernetes cluster using Dex for authentication". 
+
+## 4 Install KF
+
+### Modify the Kube-apiserver yaml Settings
+
+vim  /etc/kubernetes/manifests/kube-apiserver.yaml
+```
+    - --service-account-issuer=kubernetes.default.svc
+    - --service-account-key-file=/etc/kubernetes/ssl/sa.pub
+    - --service-account-signing-key-file=/etc/kubernetes/ssl/sa.key
+    - --feature-gates=TokenRequest=true
+```
+k8s cluster will update automatically once yaml file is changed
+
+
+### Install Istio 1.13.1 with SDS enabled
+
+_Step 1_
+```
+# Download and unpack Istio
+export ISTIO_VERSION=1.3.1
+curl -L https://git.io/getLatestIstio | sh -
+cd istio-${ISTIO_VERSION}
+```
+if git.io cannot visit, please use browser to download the release of istio 1.13.1 and put it in the folder of /opt/kf-install and then untar it.
+
+_Step 2_
+
+Enter the following command to install the Istio CRDs first:
+```
+for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+```
+
+_Step 3_
+Create istio-system namespace
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+  labels:
+    istio-injection: disabled
+EOF
+```
+_Step-4_
+
+Installing Istio with sidecar injection, SDS enabled **A template with sidecar injection enabled**
+```
+helm template --namespace=istio-system \
+  --set sidecarInjectorWebhook.enabled=true \
+  --set sidecarInjectorWebhook.enableNamespacesByDefault=true \
+  --set global.proxy.autoInject=disabled \
+  --set global.disablePolicyChecks=true \
+  --set prometheus.enabled=false \
+  `# Disable mixer prometheus adapter to remove istio default metrics.` \
+  --set mixer.adapters.prometheus.enabled=false \
+  `# Disable mixer policy check, since in our template we set no policy.` \
+  --set global.disablePolicyChecks=true \
+  --set gateways.istio-ingressgateway.autoscaleMin=1 \
+  --set gateways.istio-ingressgateway.autoscaleMax=2 \
+  --set gateways.istio-ingressgateway.resources.requests.cpu=500m \
+  --set gateways.istio-ingressgateway.resources.requests.memory=256Mi \
+  `# Enable SDS in the gateway to allow dynamically configuring TLS of gateway.` \
+  --set gateways.istio-ingressgateway.sds.enabled=true \
+  `# More pilot replicas for better scale` \
+  --set pilot.autoscaleMin=2 \
+  `# Set pilot trace sampling to 100%` \
+  --set pilot.traceSampling=100 \
+  install/kubernetes/helm/istio \
+  > ./istio.yaml
+
+  kubectl apply -f istio.yaml
+
+```
+
+_Step 5_
+Replace External IP with NodePort
+https://stackoverflow.com/questions/59077975/how-to-assign-an-ip-to-istio-ingressgateway-on-localhost
+```
+INGRESSGATEWAY=istio-ingressgateway
+kubectl patch svc $INGRESSGATEWAY --namespace istio-system --patch '{"spec": { "loadBalancerIP": "<your-reserved-static-ip>" }}'
+```
+
+
+### Download Customized Kubeflow Manifest Code
+
+here not use the offical kubeflow Manifest repo, my "jia57196 repo" is used.
+
+'''
+git clone https://github.com/jia57196/manifests.git
+cd manifests
+git checkout v1.0-cn    ## this is the branch of replace the gcr repo with gcr.azk8s.cn
+git pull -f
+cp kfdef/kfctl_istio_dex.v1.0.1.yaml /opt/kf-install/
+'''
+
+### Remove istio-crds and istio-install section in "kfctl_istio_dex.v1.0.1.yaml"
+
+remove below section from the yaml file
+
+**istio-crds**
+```
+  - kustomizeConfig:
+      parameters:
+      - name: namespace
+        value: istio-system
+      repoRef:
+        name: manifests
+        path: istio-1-3-1/istio-crds-1-3-1
+    name: istio-crds
+```
+**istio-install**
+```
+  - kustomizeConfig:
+      parameters:
+      - name: namespace
+        value: istio-system
+      repoRef:
+        name: manifests
+        path: istio-1-3-1/istio-install-1-3-1
+    name: istio-install
+```
+
+### Remove "Cert-Manager" Namespace in k8s cluster
+
+```
+ssh <k8s master>
+kubectl delete namespace "Cert-Manager" --grace-period=0 --force
+```
+
+#### Force to Clean the "Terminating" Namespace in K8s
+
+if deleting namespace stuck at "Terminating" state, we use below method to force clean the deleted namespace.
+## [Readings](https://success.docker.com/article/kubernetes-namespace-stuck-in-terminating)
+
+
+_Step 1 GET the namespace object_
+```
+$ NAMESPACE=auth
+$ kubectl get ns $NAMESPACE -o json > ${NAMESPACE}.json
+$ cat ${NAMESPACE}.json
+
+```
+
+_Step 2 Put Token into file_
+```
+UCP_URL=ucp.example.com
+USERNAME=admin
+PASSWORD=supersecretadminpassword
+curl -sk -d "{\"username\":\"$USERNAME\",\"password\":\"$PASSWORD\"}" https://${UCP_URL}/auth/login | jq -r .auth_token > auth-token
+```
+            
+_step 3 leaving only an empty array [] such as below example_
+"finalizers": [
+]
+
+```bash
+[root@node1 clean-namespace]# cat auth.json
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"name\":\"auth\"}}\n"
+        },
+        "creationTimestamp": "2020-02-22T03:36:23Z",
+        "deletionTimestamp": "2020-02-26T10:52:22Z",
+        "name": "auth",
+        "resourceVersion": "7397719",
+        "selfLink": "/api/v1/namespaces/auth",
+        "uid": "7fb1b109-5524-11ea-99cb-00163e08ad50"
+    },
+    "spec": {
+       _"finalizers"_: [
+        ]
+    },
+    "status": {
+        "phase": "Terminating"
+    }
+}
+```
+
+_step 4 Reset the Namesapce_
+
+```
+curl -k -H "Content-Type: application/json" -H "authorization: Bearer $(cat ./auth-token)" -X PUT --data-binary @${NAMESPACE}.json https://localhost:6443/api/v1/namespaces/${NAMESPACE}/finalize
+```
+
+### Start Install Kubeflow
+```
+ssh <master ip> of k8s cluster
+cd /opt/kf-install
+delete .cache/ and kustomize/ folders in the kf app folder.
+
+kfctl build -V -f kfctl_istio_dex.v1.0.1.yaml
+kfctl apply -V -f kfctl_istio_dex.v1.0.1.yaml
+```
+
+## Change the Deployment settings to use NFS
+
+By default, those 4 pvc are in Pending status, meaning these storage is not setup properly.
+Need to change them to use "nfs"
 
 - list down the existing pvc, and try to change their Storagaeclass to nfs
 
@@ -241,6 +441,7 @@ kubectl apply -f <PVC-NAME>.yaml
 ```
 
 ### 5.6 Creart PV to PVC of Kubeflow in case of them are not binding automatically
+if Helm version is lower, then the nfs client may cause the problem of binding problem. all of PVC for kubeflow alwasy are pending no matter change the "storageClassName" to "nfs".
 
 https://stackoverflow.com/questions/34282704/can-a-pvc-be-bound-to-a-specific-pv
 
@@ -333,7 +534,7 @@ spec:
     server: 172.31.51.151
 ```
 
-### 5.6.3 Metadata.yaml
+###  Metadata.yaml
 ```
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -421,6 +622,8 @@ spec:
     server: 172.31.51.151
 ```
 
+server: 172.31.51.151, here the IP is the nfs server IP.
+
 ## Get the Dashboard URL
 
 ```
@@ -431,31 +634,277 @@ echo http://$INGRESS_HOST:$INGRESS_PORT
 
 http://10.0.0.17:31380
 ```
+here 10.0.0.17 is the internal IP of the VM (node). if visit it from outside, can use this VMs' Public IP to visit with corresponding ports are enabled.
 
-## KubeFlow On OpenShift
+### Check All Namespace Not Have Failed Depployment 
 
-### OC 3.11
+The "kfctl_istio_dex.v1.0.1.yaml" will create below namespace into k8s cluster
+```
+auth
+knative-kfserving
+kubeflow
 
-Red Hat OpenShift Container Platform 3.11 This release is based on OKD 3.11,
-and it uses Kubernetes 1.11, including CRI-O 1.11 and Docker 1.13.
-It is also supported on Atomic Host 7.5 and later.
+cert-manager
+istio-system
+```
 
-### OC 4.2
 
-This release uses Kubernetes 1.14 with CRI-O runtime.
+## Accessing Kubeflow
 
-### KF 0.6 Main Update
+[Origin Document](https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/) shows the basic steps on how to access Kubeflow. When kubeflow is installed in VMs of public cloud, do not use cloud load balancer to help on the ingress, since the kubeflow/istio does not know how to attach the cloud load balancer.
 
-Multitenancy, Multiuser
+Here, more detail commented steps are shown in below, since orignal web page is too strict to beginer.
 
-### KF 0.7 Main Update
+### Add static users for basic auth
+```
+# Download the dex config
+kubectl get configmap dex -n auth -o jsonpath='{.data.config\.yaml}' > dex-config.yaml
 
-Model serving and management via KFServing
-KFServing enables Serverless Inferencing on Kubernetes and provides performant, high abstraction interfaces for common ML frameworks like Tensorflow, XGBoost, ScikitLearn, PyTorch, and ONNX to solve production model serving use cases.
+# Edit the dex config with extra users.
+# The password must be hashed with bcrypt with an at least 10 difficulty level.
+# You can use an online tool like: https://passwordhashing.com/BCrypt
 
-KFServing:
+# After editing the config, update the ConfigMap
+kubectl create configmap dex --from-file=config.yaml=dex-config.yaml -n auth --dry-run -oyaml | kubectl apply -f -
 
-- Provides a Kubernetes Custom Resource Definition (CRD) for serving ML models on arbitrary frameworks.
-- Encapsulates the complexity of autoscaling, networking, health checking, and server configuration to bring cutting edge serving features like GPU autoscaling, scale to zero, and canary rollouts to your ML deployments
-- Enables a simple, pluggable, and complete story for your production ML inference server by providing prediction, pre-processing, post-processing and explainability out of the box.
-- Is evolving with strong community contributions, and has a Technical Steering Committee driven by Google, IBM, Microsoft, Seldon, and Bloomberg
+# Restart Dex to pick up the changes in the ConfigMap
+kubectl rollout restart deployment dex -n auth
+```
+
+## Expose Kubeflow
+
+### Secure with HTTPS
+Since we are exposing our cluster to the outside world, it’s important to secure it with HTTPS. Here we will configure automatic self-signed certificates.
+
+Edit the Istio Gateway Object and expose port 443 with HTTPS. In addition, make port 80 redirect to 443:
+```
+kubectl edit -n kubeflow gateways.networking.istio.io kubeflow-gateway
+```
+
+The Gateway Spec should look like the following:
+```
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - '*'
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+    # Upgrade HTTP to HTTPS
+    tls:
+      httpsRedirect: true
+  - hosts:
+    - '*'
+    port:
+      name: https
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+```
+
+### Expose with a LoadBalancer
+
+#### Deploy MetalLB:
+
+_step 1 Apply the manifest:_
+```
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.1/manifests/metallb.yaml
+```
+
+_step 2_
+
+Allocate a pool of addresses on your local network for MetalLB to use. You need at least one address for the Istio Gateway. This example assumes addresses 10.0.0.100-10.0.0.110. You must modify these addresses based on your environment.
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 10.0.0.100-10.0.0.110
+EOF
+```
+Notes:
+"10.0.0.100-10.0.0.110" is not real IP range, they will be allocated after load balancer is created. it's CIDR must be same the Node Ip ranges, e.g. 172.31.51.0/24 is your CIDR, please choose, 172.31.51.100~172.31.51.110 for convinient to communicate within a overlay network.
+
+#### Ensure that MetalLB works as expected (optional):
+
+_Step 1_
+Create a dummy service:
+```
+kubectl create service loadbalancer nginx --tcp=80:80
+service/nginx created
+```
+_Step 2_
+
+Ensure that MetalLB has allocated an IP address for the service:
+```
+kubectl describe service nginx
+...
+Events:
+  Type    Reason       Age   From                Message
+  ----    ------       ----  ----                -------
+  Normal  IPAllocated  69s   metallb-controller  Assigned IP "10.0.0.101"
+```
+_Step 3_
+Check the corresponding MetalLB logs:
+```
+kubectl logs -n metallb-system -l component=controller
+...
+{"caller":"service.go:98","event":"ipAllocated","ip":"10.0.0.101","msg":"IP address assigned by controller","service":"default/nginx","ts":"2019-08-09T15:12:09.376779263Z"}
+```
+_Step 4_
+Create a pod that will be exposed with the service:
+```
+kubectl run nginx --image nginx --restart=Never -l app=nginx
+pod/nginx created
+```
+_Step 5_
+Ensure that MetalLB has assigned a node to announce the allocated IP address:
+```
+kubectl describe service nginx
+...
+Events:
+  Type    Reason       Age   From                Message
+  ----    ------       ----  ----                -------
+   Normal  nodeAssigned  4s    metallb-speaker     announcing from node "node-2"
+```
+_Step 6_
+Check the corresponding MetalLB logs:
+```
+kubectl logs -n metallb-system -l component=speaker
+...
+{"caller":"main.go:246","event":"serviceAnnounced","ip":"10.0.0.101","msg":"service has IP, announcing","pool":"default","protocol":"layer2","service":"default/nginx","ts":"2019-08-09T15:14:02.433876894Z"}
+Check that MetalLB responds to ARP requests for the allocated IP address:
+```
+
+_Step 7_
+```
+arping -I eth0 10.0.0.101
+...
+ARPING 10.0.0.101 from 10.0.0.204 eth0
+Unicast reply from 10.0.0.101 [6A:13:5A:D2:65:CB]  2.619ms
+```
+_Step 8_
+Check the corresponding MetalLB logs:
+```
+kubectl logs -n metallb-system -l component=speaker
+...
+{"caller":"arp.go:102","interface":"eth0,"ip":"10.0.0.101","msg":"got ARP request for service IP, sending response","responseMAC":"6a:13:5a:d2:65:cb","senderIP":"10.0.0.204","senderMAC":"9a:1f:7c:95:ca:dc","ts":"2019-08-09T15:14:52.912056021Z"}
+```
+_Step 9_
+Verify that everything works as expected:
+```
+curl http://10.0.0.101
+...
+<p><em>Thank you for using nginx.</em></p>
+...
+```
+
+Notes:
+Clean up
+```
+kubectl delete service nginx
+kubectl delete pod nginx
+```
+
+#### Create Certs for Load Balancer
+
+_Step 1:_
+To expose Kubeflow with a LoadBalancer Service, just change the type of the istio-ingressgateway Service to LoadBalancer.
+```
+kubectl patch service -n istio-system istio-ingressgateway -p '{"spec": {"type": "LoadBalancer"}}'
+```
+_Step 2:_
+After that, get the LoadBalancer’s IP or Hostname from its status and create the necessary certificate.
+```
+kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0]}'
+```
+This command should return 10.0.0.100.
+please note the 10.0.0.100 is the load balancer Ip instead of 10.0.0.101
+
+__If this step does not return anything, something wrong is in Istio-ingressgateway__
+
+_Step 3:_
+Create the Certificate with cert-manager: <LoadBalancer IP> here is 10.0.0.100, dnsNames: leave this blank
+```
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: istio-ingressgateway-certs
+  namespace: istio-system
+spec:
+  commonName: istio-ingressgateway.istio-system.svc
+  # Use ipAddresses if your LoadBalancer issues an IP
+  ipAddresses:
+  - <LoadBalancer IP>
+  # Use dnsNames if your LoadBalancer issues a hostname (eg on AWS)
+  dnsNames:
+  - <LoadBalancer HostName>
+  isCA: true
+  issuerRef:
+    kind: ClusterIssuer
+    name: kubeflow-self-signing-issuer
+  secretName: istio-ingressgateway-certs
+```
+
+If use cloud Load Balancer, please be carefull put the Load Balancer poll on top of istio-ingressgateway host, can get the host by command
+```
+INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+```
+
+#### Verfiy the LB for kubeflow is working
+
+1. the virtual services have been created:
+```
+kubectl get virtualservices -n kubeflow
+kubectl get virtualservices -n kubeflow centraldashboard -o yaml
+```
+If not, then kfctl has aborted for some reason, and not completed successfully.
+
+2. OIDC auth service redirects you to Dex:
+
+```
+curl -k https://<kubeflow address>/ -v
+...
+< HTTP/2 302
+< content-type: text/html; charset=utf-8
+< location:
+/dex/auth?client_id=kubeflow-authservice-oidc&redirect_uri=%2Flogin%2Foidc&response_type=code&scope=openid+profile+email+groups&state=vSCMnJ2D
+< date: Fri, 09 Aug 2019 14:33:21 GMT
+< content-length: 181
+< x-envoy-upstream-service-time: 0
+< server: istio-envoy
+```
+Notes: user 10.0.0.100 as the <kubeflow address>/ in above test.
+
+### Reverse-Proxy by nginx
+
+Install Nginx server in any VM of k8s, to servcer as Ingress redirect to https:/10.0.0.100 LB.
+
+Include the proper proper "ssl.conf" which consists of below location: 
+```html
+    location /kubeflow {
+         proxy_ssl_trusted_certificate */ca.crt;  
+         proxy_ssl_certificate tls.crt;                   
+         proxy_ssl_certificate_key tls.key;
+         proxy_ssl_session_reuse on;
+         proxy_pass  https://10.0.0.100 ;
+    }
+```
+
+"ca.crt, tls.crt, tls.key" Certs can be found from k8s "istio-system" Namespace, go to Namepsace dropdown list->istio-system, open "secrets", click "istio-ingressgateway-certs". Copy crt and keys out.
+
+snapshot is [here]()
