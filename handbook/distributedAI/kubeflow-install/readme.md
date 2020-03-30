@@ -1,11 +1,59 @@
+<!-- TOC -->
+
+- [Overview](#overview)
+- [K8s Version <=> KubeFlow version](#k8s-version--kubeflow-version)
+- [Pre-condition](#pre-condition)
+    - [Install Kustomize](#install-kustomize)
+    - [Install kubectl 1.16](#install-kubectl-116)
+    - [Install kfctl 1.0.0](#install-kfctl-100)
+    - [Install Helm](#install-helm)
+        - [update Helm repo](#update-helm-repo)
+    - [Install NFS](#install-nfs)
+        - [Install NFS software for server and client](#install-nfs-software-for-server-and-client)
+        - [Select one VM as NFS Server, install server Config](#select-one-vm-as-nfs-server-install-server-config)
+        - [Test Mount on Server/Client](#test-mount-on-serverclient)
+        - [Permanent NFS mounting](#permanent-nfs-mounting)
+        - [Verify the Mount](#verify-the-mount)
+        - [Install Nfs-client-provisioner](#install-nfs-client-provisioner)
+        - [Get the list of storageclass](#get-the-list-of-storageclass)
+        - [Get Source Code of kubeflow Manifest](#get-source-code-of-kubeflow-manifest)
+- [Install KF](#install-kf)
+    - [Modify the Kube-apiserver yaml Settings](#modify-the-kube-apiserver-yaml-settings)
+    - [Install Istio 1.13.1 with SDS enabled](#install-istio-1131-with-sds-enabled)
+    - [Download Customized Kubeflow Manifest Code](#download-customized-kubeflow-manifest-code)
+    - [Download the kubeflow manifests Tar Ball](#download-the-kubeflow-manifests-tar-ball)
+    - [Remove istio-crds and istio-install section in "kfctlistiodex.v1.0.1.yaml"](#remove-istio-crds-and-istio-install-section-in-kfctlistiodexv101yaml)
+    - [Modify URI of Manifest in kfctlistiodex.v1.0.1.yaml](#modify-uri-of-manifest-in-kfctlistiodexv101yaml)
+    - [Remove "Cert-Manager" Namespace in k8s cluster](#remove-cert-manager-namespace-in-k8s-cluster)
+        - [Force to Clean the "Terminating" Namespace in K8s](#force-to-clean-the-terminating-namespace-in-k8s)
+    - [Start Install Kubeflow](#start-install-kubeflow)
+- [Change the Deployment settings to use NFS](#change-the-deployment-settings-to-use-nfs)
+    - [Creart PV to PVC of Kubeflow in case of them are not binding automatically](#creart-pv-to-pvc-of-kubeflow-in-case-of-them-are-not-binding-automatically)
+        - [mysql-pv-claim](#mysql-pv-claim)
+        - [minio-pv-claim](#minio-pv-claim)
+        - [Metadata.yaml](#metadatayaml)
+        - [katib-mysql.yaml](#katib-mysqlyaml)
+- [Get the Dashboard URL](#get-the-dashboard-url)
+    - [Check All Namespace Not Have Failed Depployment](#check-all-namespace-not-have-failed-depployment)
+- [Accessing Kubeflow](#accessing-kubeflow)
+    - [Add static users for basic auth](#add-static-users-for-basic-auth)
+- [Expose Kubeflow](#expose-kubeflow)
+    - [Secure with HTTPS](#secure-with-https)
+    - [Expose with a LoadBalancer](#expose-with-a-loadbalancer)
+        - [Deploy MetalLB:](#deploy-metallb)
+        - [Ensure that MetalLB works as expected (optional):](#ensure-that-metallb-works-as-expected-optional)
+        - [Create Certs for Load Balancer](#create-certs-for-load-balancer)
+        - [Verfiy the LB for kubeflow is working](#verfiy-the-lb-for-kubeflow-is-working)
+    - [Reverse-Proxy by nginx](#reverse-proxy-by-nginx)
+
+<!-- /TOC -->
 
 
-
-## 1 Overview
+## Overview
 
 ![Kubeflow](./pic/kf-dashboard.png)
 
-## 2 K8s Version <=> KubeFlow version
+## K8s Version <=> KubeFlow version
 ![Version Matics](./pic/kf-version.png)shows the relatioship between K8s and Kubeflow, detail is from https://www.kubeflow.org/docs/started/k8s/overview/. 
 __But, this matrics has wrongly documented the kubeflow 1.0 over k8s 1.16, which is intercompitale. 
 In fact, the developent of Kubeflow are mainly based on k8s 1.16.
@@ -14,7 +62,7 @@ In order to get kubeflow 1.0.1 version, we must focus on ** k8s 1.16 **
 
 From Kubespray ** v2.12.0 ** starts to support the k8s 1.16;
 
-## 3 Pre-condition
+## Pre-condition
 
 This section  will continue on the k8s cluster, and assume that is ready for use.
 After ssh into master node of k8s cluster, need to install below dependency and tools.
@@ -65,6 +113,7 @@ $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/s
 $ chmod 700 get_helm.sh
 $ ./get_helm.sh
 ```
+
 #### update Helm repo
 ```
 $ helm repo add stable https://kubernetes-charts.storage.googleapis.com
@@ -134,6 +183,7 @@ in order to automatically launch the NFS service in client, need to modify the /
 ```
 df -kh
 ```
+
 #### Install Nfs-client-provisioner
 
 ```
@@ -194,7 +244,7 @@ Kubeflow uses many docker images stored in "gcr.io", which cannot not avalaibe i
 
 [Kubeflow installation](https://www.kubeflow.org/docs/started/getting-started/) is mainly for "Existing Kubernetes cluster using Dex for authentication". 
 
-## 4 Install KF
+## Install KF
 
 ### Modify the Kube-apiserver yaml Settings
 
@@ -280,7 +330,7 @@ kubectl patch svc $INGRESSGATEWAY --namespace istio-system --patch '{"spec": { "
 
 ### Download Customized Kubeflow Manifest Code
 
-here not use the offical kubeflow Manifest repo, my "jia57196 repo" is used.
+here my "jia57196 repo" is used, but the offical kubeflow Manifest repo.
 
 '''
 git clone https://github.com/jia57196/manifests.git
@@ -289,6 +339,12 @@ git checkout v1.0-cn    ## this is the branch of replace the gcr repo with gcr.a
 git pull -f
 cp kfdef/kfctl_istio_dex.v1.0.1.yaml /opt/kf-install/
 '''
+
+### Download the kubeflow manifests Tar Ball
+```
+cd /opt/kf-install
+curl -OL https://github.com/jia57196/manifests/archive/v1.0-azk8s-rc3.tar.gz
+```
 
 ### Remove istio-crds and istio-install section in "kfctl_istio_dex.v1.0.1.yaml"
 
@@ -317,6 +373,18 @@ remove below section from the yaml file
     name: istio-install
 ```
 
+### Modify URI of Manifest in kfctl_istio_dex.v1.0.1.yaml
+
+```
+replace the below 
+"uri: https://github.com/kubeflow/manifests/archive/v1.0.1.tar.gz"
+
+with 
+uri: /opt/kf-install/v1.0-azk8s-rc3.tar.gz
+
+```
+
+
 ### Remove "Cert-Manager" Namespace in k8s cluster
 
 ```
@@ -327,12 +395,13 @@ kubectl delete namespace "Cert-Manager" --grace-period=0 --force
 #### Force to Clean the "Terminating" Namespace in K8s
 
 if deleting namespace stuck at "Terminating" state, we use below method to force clean the deleted namespace.
-## [Readings](https://success.docker.com/article/kubernetes-namespace-stuck-in-terminating)
+
+[Readings](https://success.docker.com/article/kubernetes-namespace-stuck-in-terminating)
 
 
 _Step 1 GET the namespace object_
 ```
-$ NAMESPACE=auth
+$ NAMESPACE=cert-manager
 $ kubectl get ns $NAMESPACE -o json > ${NAMESPACE}.json
 $ cat ${NAMESPACE}.json
 
@@ -440,12 +509,12 @@ kubectl delete -f <PVC-NAME>.yaml
 kubectl apply -f <PVC-NAME>.yaml
 ```
 
-### 5.6 Creart PV to PVC of Kubeflow in case of them are not binding automatically
+### Creart PV to PVC of Kubeflow in case of them are not binding automatically
 if Helm version is lower, then the nfs client may cause the problem of binding problem. all of PVC for kubeflow alwasy are pending no matter change the "storageClassName" to "nfs".
 
 https://stackoverflow.com/questions/34282704/can-a-pvc-be-bound-to-a-specific-pv
 
-#### 5.6.1 mysql-pv-claim
+#### mysql-pv-claim
 ```
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -489,7 +558,7 @@ spec:
     server: 172.31.51.151
 ```
 
-### 5.6.2 minio-pv-claim
+#### minio-pv-claim
 ```
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -534,7 +603,7 @@ spec:
     server: 172.31.51.151
 ```
 
-###  Metadata.yaml
+#### Metadata.yaml
 ```
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -578,7 +647,7 @@ spec:
     server: 172.31.51.151
 ```
 
-### 5.6.4 katib-mysql.yaml
+#### katib-mysql.yaml
 
 ```
 apiVersion: v1
