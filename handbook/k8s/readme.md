@@ -1,6 +1,4 @@
 
-<!-- TOC -->
-
 - [Pre-condition and Assumptions](#pre-condition-and-assumptions)
     - [kubespray on Centos](#kubespray-on-centos)
     - [Before Install](#before-install)
@@ -36,7 +34,6 @@
         - [Cluster variables](#cluster-variables)
         - [Addressing variables](#addressing-variables)
 
-<!-- /TOC -->
 
 # Pre-condition and Assumptions
 

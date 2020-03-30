@@ -1,4 +1,3 @@
-<!-- TOC -->
 
 - [Overview](#overview)
 - [K8s Version <=> KubeFlow version](#k8s-version--kubeflow-version)
@@ -45,8 +44,6 @@
         - [Create Certs for Load Balancer](#create-certs-for-load-balancer)
         - [Verfiy the LB for kubeflow is working](#verfiy-the-lb-for-kubeflow-is-working)
     - [Reverse-Proxy by nginx](#reverse-proxy-by-nginx)
-
-<!-- /TOC -->
 
 
 ## Overview
@@ -240,7 +237,7 @@ set_ssv      test_stateid want_deleg   destroy_clid reclaim_comp
 ```
 
 #### Get Source Code of kubeflow Manifest
-Kubeflow uses many docker images stored in "gcr.io", which cannot not avalaibe in China. it need to customize the kubeflow manifest code to replace it with "gcr.azk8s.cn". 
+Kubeflow uses many docker images stored in "gcr.io", which cannot be avalaibe in China. it needs to customize the kubeflow manifest code to replace it with "gcr.azk8s.cn". 
 
 [Kubeflow installation](https://www.kubeflow.org/docs/started/getting-started/) is mainly for "Existing Kubernetes cluster using Dex for authentication". 
 
