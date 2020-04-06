@@ -17,3 +17,12 @@ coredns is running at https://10.0.0.7:6443/api/v1/namespaces/kube-system/servic
 kubernetes-dashboard is running at https://10.0.0.7:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy
 metrics-server is running at https://10.0.0.7:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
 ```
+
+
+## Get Host of Ingress
+```
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+echo http://$INGRESS_HOST:$INGRESS_PORT
+```
