@@ -18,3 +18,10 @@ $ istio proxy-config routes <pod>
 
 $ istio proxy-config routes <pod> --name 5000 -o json | jq '.[]virtualHosts[]|.name,.domain'
 ```
+
+## Port Forwarding
+
+```
+$ kubectl port-forward -n istio-system deployment/prometheus 9090
+```
+
