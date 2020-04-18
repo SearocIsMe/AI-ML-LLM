@@ -1,12 +1,10 @@
 
-
-master000 10.0.0.12
-master001 10.0.0.13
-
-
-etcd000 10.0.0.14
-etcd001 10.0.0.15
-etcd002 10.0.0.16
-
-nodes000   10.0.0.17
-nodes000   10.0.0.18
+## Test Kits by curl
+```
+curl -H "Host: hellodbin.dev" http://.....
+## This assume the request is from Host: Hellobin.dev
+```
+```
+curl -H "Host: hello.dev" https://........
+## This assume the request is from Host: Hello.dev
+````
