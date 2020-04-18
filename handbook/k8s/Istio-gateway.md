@@ -7,4 +7,13 @@ curl -H "Host: hellodbin.dev" http://.....
 ```
 curl -H "Host: hello.dev" https://........
 ## This assume the request is from Host: Hello.dev
-````
+```
+
+## Istio Command for Debugging
+
+```
+$ istio proxy-status <pod>
+
+$ istio proxy-config <pod>
+
+```
