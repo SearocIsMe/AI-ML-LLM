@@ -43,3 +43,7 @@ spec:
     app: azure-load-balancer  
   
 ```
+
+
+### Reference
+https://www.youtube.com/watch?v=1w7UP2TAaAI
