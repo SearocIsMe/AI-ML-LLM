@@ -16,4 +16,5 @@ $ istio proxy-status <pod>
 
 $ istio proxy-config routes <pod>
 
+$ istio proxy-config routes <pod> --name 5000 -o json | jq '.[]virtualHosts[]|.name,.domain'
 ```
