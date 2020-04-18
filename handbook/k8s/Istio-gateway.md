@@ -14,6 +14,6 @@ curl -H "Host: hello.dev" https://........
 ```
 $ istio proxy-status <pod>
 
-$ istio proxy-config <pod>
+$ istio proxy-config routes <pod>
 
 ```
