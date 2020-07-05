@@ -100,3 +100,6 @@ target/
 # virtualenv
 venv/
 ENV/
+
+.vscode/
+.DS_Store

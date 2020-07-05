@@ -22,4 +22,4 @@ Even with data streaming, splitting the dataset into small job tasks by spark cl
 
 # NYC Tips Prediction According To 2017 Dataset
 
-Detail refers into the [readme](nyc_tips_2017/README.md)
+Detail refers into the [readme](nyc_tips_2017/README.md), this is homework
