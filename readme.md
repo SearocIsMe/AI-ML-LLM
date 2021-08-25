@@ -25,5 +25,5 @@ Even with data streaming, splitting the dataset into small job tasks by spark cl
 Detail refers into the [readme](nyc_tips_2017/README.md), this is homework
 
 # ML Cheatsheet
-![Iframe](https://whimsical.com/embed/SY2QE8FL2oKDPGoms9fbT)
+[![picture](./learning/pic/Machine%20Learning%20Cheatsheet@2x.png)](https://whimsical.com/embed/SY2QE8FL2oKDPGoms9fbT)
 
