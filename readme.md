@@ -2,7 +2,7 @@
 
 ## Author: Searoc Jiang
 
-# Solutions to Wellknown Problems in Python-based AI/ML 
+# 1. Solutions to Wellknown Problems in Python-based AI/ML 
 [Technical Exploration](Solutions/readme.md) depicts the objective of Solving well-known problems in the industry. 
 There are many constraints on Solutioning Architecture in terms of problems below. When the classification data is “too large”, it could mean that one or more of the following is true:
 
@@ -14,16 +14,17 @@ There are many constraints on Solutioning Architecture in terms of problems belo
 This kind of combined complex problems usually happens in some traditional company without Morden and fashional infrastructure, which NOT ALLOW data streaming from "end A" to another "end B" in the company backbone network.
 Even with data streaming, splitting the dataset into small job tasks by spark cluster model, how to train the model written in PyPark by the distributed way and consolidate them together still lack a one-stop solution.
 
-# Handbook
+# 2. Handbook
 [Handbooks](handbook/readme.md) documents the tips/summary during trouble-shooting and technical exploration.
 
-# Innovation to Machine Learning Platform
+# 3. Innovation to Machine Learning Platform
 [The review](innovation/readme.md) has pointed the roadmap of transformation from traditional Big-data Hadoop analytics toolset to Cloud-Native Based Analytics platform.
 
-# NYC Tips Prediction According To 2017 Dataset
+# 4. NYC Tips Prediction According To 2017 Dataset
 
 Detail refers into the [readme](nyc_tips_2017/README.md), this is homework
 
-# ML Cheatsheet
+# 5. ML Cheatsheet
 [![picture](./learning/pic/Machine%20Learning%20Cheatsheet@2x.png)](https://whimsical.com/embed/SY2QE8FL2oKDPGoms9fbT)
 
+# 6. GenAI and LLM models
